@@ -1,11 +1,10 @@
 import './App.css'
-import WelcomePage from './WelcomePage'
+import Header from './components/header/header'
+
 
 function App() {
   return (
-    <>
-   <WelcomePage />
-   </>
+    <Header />
   )
 }
 
