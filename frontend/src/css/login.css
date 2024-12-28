@@ -1,8 +1,39 @@
+.loginFormMainContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    margin-top: 100px;
+}
 .loginForm {
     background-color: skyblue;
     color: black;
     padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
 }
-.userNameContainer {
-
+.loginForm input {
+    height: 40px;
+    width: 300px;
+    padding-left: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+}
+.loginForm label {
+    font-size: 20px;
+}
+.userNameContainer, .passwordContainer {
+    margin-top: 20px;
+}
+.loginButton {
+    margin-top: 20px;
+    border-radius:15px;
+    background-color: white;
+    color: black;
+    height: 35px;
+    width: 120px;
+    font-size: 15px;
+    margin-bottom: 20px;
 }
