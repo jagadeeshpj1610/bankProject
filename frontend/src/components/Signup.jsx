@@ -12,7 +12,7 @@ const Signup = () => {
       <input type="text" placeholder="Enter your username" />
       <p>Password</p>
       <input type="email" placeholder="Enter the password" />
-      <p>confirm Password:</p>
+      <p>Confirm Password:</p>
       <input type="password" placeholder="confirm the password" />
       <br />
       <br />

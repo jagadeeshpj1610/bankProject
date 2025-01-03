@@ -1,4 +1,3 @@
-import LoginPage from "./loginPage";
 import '../css/header.css'
 const Header = () => {
   return(
