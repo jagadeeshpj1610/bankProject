@@ -7,7 +7,7 @@ import Logout from "./Logout";
 import Moneytransfer from "./Moneytransfer";
 import Deposit from "./Deposit";
 import Createaccount from "./Createaccount";
-import AdminLoginPage from "./adminLoginPage";  // Import Admin Login Page
+import AdminLoginPage from "./adminLoginPage";
 
 function App() {
   return (
