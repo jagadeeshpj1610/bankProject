@@ -1,16 +1,26 @@
-import React from 'react'
-import '../css/signup.css'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Header from './header';
 
-
-
-export const Signup = () => {
+const Signup = () => {
   return (
     <>
-    <div>
-      <p> welcome to signup</p>
-  <Link to= '/login'><p>back to login page</p></Link>
+    <Header />
+    <div className="signupForm" style={{ textAlign: "center", marginTop: "20%" }}>
+      <h2>Signup</h2>
+      <p>Username:</p>
+      <input type="text" placeholder="Enter your username" />
+      <p>Email:</p>
+      <input type="email" placeholder="Enter your email" />
+      <p>Password:</p>
+      <input type="password" placeholder="Enter your password" />
+      <br />
+      <button>Create Account</button>
+      <br />
+      <Link to="/login">Already have an account? Login here.</Link>
     </div>
-      </>
-  )
-}
+    </>
+  );
+};
+
+export default Signup;

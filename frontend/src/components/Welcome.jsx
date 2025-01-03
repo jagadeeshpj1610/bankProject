@@ -1,9 +1,23 @@
-import React from 'react'
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Header from "./header";
 
-function Welcome() {
+const Welcome = () => {
+  const navigate = useNavigate();
+
   return (
-    <div>Welcome to our Online Banking Application</div>
-  )
-}
+    <>
+    <Header />
+    <div style={{ textAlign: "center", marginTop: "20%" }}>
+      <h1>Welcome</h1>
+      <p>Please select an option:</p>
+      <div>
+        <button onClick={() => navigate("/login")}>User Login</button>
+        <button onClick={() => navigate("/adminlogin")}>Admin Login</button>
+      </div>
+    </div>
+    </>
+  );
+};
 
-export default Welcome
+export default Welcome;
