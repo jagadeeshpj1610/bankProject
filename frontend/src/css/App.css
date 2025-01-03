@@ -1,8 +1,41 @@
-*{
-  margin: 0px;
-  padding: 0px;
+.userLoginDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: black;
+  color: white;
+  width: 350px;
+  height: 270px;
+  border-radius: 5px;
+  margin: auto;
+  padding: 8px;
+  margin-top: 5%;
 }
 
-body{
-  margin: 0;
+button {
+  background-color: white;
+  color: black;
+  padding: 10px 20px;
+  gap: 9px;
+  font-size: 1.2rem;
+  border: none;
+  cursor: pointer;
+  margin: 5px;
+  border-radius: 4px;
+}
+
+button:hover {
+  /* background-color: #45a049; */
+  background-color: chartreuse;
+}
+
+h1 {
+  font-size: 2.3rem;
+}
+
+p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
 }
