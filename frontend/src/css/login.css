@@ -104,3 +104,9 @@ p {
     margin-bottom: 5px;
     align-self: flex-start;
 }
+
+.loginForm label {
+    font-size: 1rem;
+    margin-bottom: 5px;
+    align-self: flex-start;
+}

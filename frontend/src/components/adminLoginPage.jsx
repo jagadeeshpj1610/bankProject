@@ -6,11 +6,10 @@ const AdminLoginPage = () => {
   <Header />
     <div className="loginForm">
       <h2>Admin Login</h2>
-      <p>Username:</p>
+      <label>Username:</label>
       <input type="text" placeholder="Enter your username" />
-      <p>Password:</p>
+      <label>Password:</label>
       <input type="password" placeholder="Enter your password" />
-      <br />
       <button>Login</button>
     </div>
     </>
