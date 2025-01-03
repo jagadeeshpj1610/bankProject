@@ -1,21 +1,23 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Header from "./header";
 
 const Welcome = () => {
-  const navigate = useNavigate();
-
   return (
     <>
-    <Header />
-    <div>
-      <h1>Welcome</h1>
-      <p>Please select an option:</p>
+      <Header />
       <div>
-        <button onClick={() => navigate("/login")}>User Login</button>
-        <button onClick={() => navigate("/adminlogin")}>Admin Login</button>
+        <h1>Welcome</h1>
+        <p>Please select an option:</p>
+        <div>
+          <Link to="/login">
+            <button>User Login</button>
+          </Link>
+          <Link to="/adminlogin">
+            <button>Admin Login</button>
+          </Link>
+        </div>
       </div>
-    </div>
     </>
   );
 };

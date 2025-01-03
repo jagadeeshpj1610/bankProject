@@ -10,12 +10,14 @@ const Signup = () => {
       <h2>Signup</h2>
       <p>Username:</p>
       <input type="text" placeholder="Enter your username" />
-      <p>Email:</p>
-      <input type="email" placeholder="Enter your email" />
-      <p>Password:</p>
-      <input type="password" placeholder="Enter your password" />
+      <p>Password</p>
+      <input type="email" placeholder="Enter the password" />
+      <p>confirm Password:</p>
+      <input type="password" placeholder="confirm the password" />
+      <br />
       <br />
       <button>Create Account</button>
+      <br />
       <br />
       <Link to="/login">Already have an account? Login here.</Link>
     </div>
