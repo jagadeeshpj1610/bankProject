@@ -4,7 +4,7 @@ const AdminLoginPage = () => {
   return (
     <>
   <Header />
-    <div className="loginForm" style={{ textAlign: "center", marginTop: "20%" }}>
+    <div className="loginForm">
       <h2>Admin Login</h2>
       <p>Username:</p>
       <input type="text" placeholder="Enter your username" />

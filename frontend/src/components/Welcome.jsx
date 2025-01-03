@@ -8,7 +8,7 @@ const Welcome = () => {
   return (
     <>
     <Header />
-    <div style={{ textAlign: "center", marginTop: "20%" }}>
+    <div>
       <h1>Welcome</h1>
       <p>Please select an option:</p>
       <div>

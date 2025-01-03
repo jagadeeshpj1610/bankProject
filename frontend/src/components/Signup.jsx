@@ -6,7 +6,7 @@ const Signup = () => {
   return (
     <>
     <Header />
-    <div className="signupForm" style={{ textAlign: "center", marginTop: "20%" }}>
+    <div className="signupForm">
       <h2>Signup</h2>
       <p>Username:</p>
       <input type="text" placeholder="Enter your username" />

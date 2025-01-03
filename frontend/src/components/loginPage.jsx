@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
   return (
-    <div className="loginForm" style={{ textAlign: "center", marginTop: "20%" }}>
+    <div className="loginForm">
       <h2>User Login</h2>
       <p>Username:</p>
       <input type="text" placeholder="Enter your username" />
