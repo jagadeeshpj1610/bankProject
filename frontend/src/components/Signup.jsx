@@ -16,7 +16,7 @@ const Signup = () => {
       <label>Confirm Password:</label>
       <input type="password" placeholder="confirm the password" />
       <button>Create Account</button>
-      <Link to="/login">Already have an account? Login here.</Link>
+      <Link to="/userlogin">Already have an account? Login here.</Link>
     </div>
     </>
   );

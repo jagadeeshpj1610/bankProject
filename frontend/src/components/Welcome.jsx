@@ -11,7 +11,7 @@ const Welcome = () => {
         <h1>Welcome</h1>
         <p>Please select an option:</p>
         <div>
-          <Link to="/login">
+          <Link to="/userlogin">
             <button>User</button>
           </Link>
           <Link to="/adminlogin">
