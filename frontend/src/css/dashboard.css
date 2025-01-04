@@ -1,0 +1,29 @@
+.welcomeToOnlineBankingApplication {
+    color: black;
+    text-align: center;
+    font-size: 25px;
+    padding: 0px;
+    margin: 0px;
+    margin-top: 10px;;
+}
+main {
+    width: 100%;
+    display: flex;
+}
+.navigationsContainer {
+    background-color: red;
+    width: 20%;
+}
+nav {
+    display: flex;
+    flex-direction: column;
+}
+.contentShowingPage {
+    width: 80%;
+    background-color: green;
+}
+.active {
+    background-color: black;
+    color: white;
+    padding: 5px;
+}

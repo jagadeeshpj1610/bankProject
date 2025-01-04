@@ -1,24 +1,34 @@
+import '../css/dashboard.css'
 import React from 'react'
 import Logout from "./Logout"
 import Welcome from './Welcome'
 import Deposit from './Deposit'
 import Createaccount from './Createaccount'
-import { Link } from 'react-router-dom'
+import { Link,NavLink, Outlet } from 'react-router-dom'
+import Header from './header'
 
 
 export const Dashboard = () => {
   return (
     <>
-    <div>Welcome to Online Banking system 
-      <p>You are now in our banking application website</p>
+    <div>
+      <Header />
+    <p className='welcomeToOnlineBankingApplication'>Welcome to Online Banking Application</p>
     </div>
+   <main >
+    <div className='navigationsContainer' >
     <nav>
-      <Link to = '/home' >Home</Link>
-      <Link to = '/moneytransfer' > MoneyTransfer</Link>
-      <Link to= '/deposit' >Deposit</Link>
-      <Link to= '/createaccount' >Create Account</Link>
-      <Link  to= '/'>logout</Link>
+      <NavLink className = {(e) => {return e.isActive ? "active" : ''}} to = '/home' >Home</NavLink>
+      <NavLink className = {(e) => {return e.isActive ? "active" : ''}}  to = 'moneytransfer' > MoneyTransfer</NavLink>
+      <NavLink className = {(e) => {return e.isActive ? "active" : ''}}  to= 'deposit' >Deposit</NavLink>
+      <NavLink className = {(e) => {return e.isActive ? "active" : ''}}  to= 'createaccount' >Create Account</NavLink>
+      <NavLink className = {(e) => {return e.isActive ? "active" : ''}}  to= '/'>logout</NavLink>
     </nav>
+    </div>
+    <div className='contentShowingPage' >
+      <Outlet />  
+    </div>
+   </main>
     </>
   )
 }

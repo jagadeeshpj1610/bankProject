@@ -13,19 +13,18 @@ function App() {
   return (
     <Router>
       <Routes>
-
         <Route path="/" element={<Welcome />} />
-
         <Route path="/userlogin" element={<LoginPage />} />
+        <Route path="/adminlogin" element={<AdminLoginPage />} />
         <Route path="/signup" element={<Signup />} />
 
-        <Route path="/adminlogin" element={<AdminLoginPage />} />
-
-        <Route path="/home" element={<Dashboard />} />
+        <Route path="/home" element={<Dashboard />}>
+          <Route path="moneytransfer" element={<Moneytransfer />} />
+          <Route path="deposit" element={<Deposit />} />
+          <Route path="createaccount" element={<Createaccount />} />
+        </Route>
+        
         <Route path="/logout" element={<Logout />} />
-        <Route path="/moneytransfer" element={<Moneytransfer />} />
-        <Route path="/deposit" element={<Deposit />} />
-        <Route path="/createaccount" element={<Createaccount />} />
       </Routes>
     </Router>
   );
