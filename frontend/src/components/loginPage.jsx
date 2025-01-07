@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Header from './header';
 import '../css/login.css';
 
@@ -40,6 +41,7 @@ const LoginPage = () => {
         <label>Password:</label>
         <input type="password" placeholder="Enter your password" onChange={getPassword} />
         <button onClick={checking}>Login</button>
+        <Link to="/signup">Create a new account</Link>
       </div>
     </>
   );
