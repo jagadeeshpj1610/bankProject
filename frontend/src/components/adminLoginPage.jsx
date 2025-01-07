@@ -9,7 +9,7 @@ const AdminLoginPage = () => {
 
   const handleAdminLogin = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/admin/login", {
+      const response = await fetch("http://localhost:8000/api/admin/login", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ email, password }),
