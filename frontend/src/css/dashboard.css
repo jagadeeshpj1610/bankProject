@@ -11,7 +11,7 @@ main {
     display: flex;
 }
 .navigationsContainer {
-    background-color: red;
+    background-color: re;
     width: 20%;
 }
 nav {
@@ -20,7 +20,7 @@ nav {
 }
 .contentShowingPage {
     width: 80%;
-    background-color: green;
+    /* background-color: green; */
 }
 .active {
     background-color: black;
