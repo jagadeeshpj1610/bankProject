@@ -8,10 +8,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Jagadeesh@1610',
-  database: 'bank_app',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE
 });
 
 db.connect(() => {
@@ -21,13 +21,20 @@ db.connect(() => {
 app.post('/api/admin/login', (req, res) => {
   const { email, password } = req.body;
   const query = 'SELECT * FROM admins WHERE email = ? AND password = ?';
-  db.query(query, [email, password], ( result) => {
+  db.query(query, [email, password], (err, result) => {
+    if (err) {
+      console.error('Database query error: ', err);
+      return res.status(500).json({ success: false, message: 'Database query error' });
+    }
 
-    if (result.length > 0) return res.json({ success: true, admin: result[0] });
+    if (result && result.length > 0) return res.json({ success: true, admin: result[0] });
     res.status(401).json({ success: false, message: 'Invalid login details' });
   });
 });
 
 app.listen(8000, () => {
   console.log('Server running at http://localhost:8000');
+
 });
+
+
