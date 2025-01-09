@@ -7,7 +7,8 @@ import Logout from "./Logout";
 import Moneytransfer from "./Moneytransfer";
 import Deposit from "./Deposit";
 import Createaccount from "./Createaccount";
-import AdminLoginPage from "./adminLoginPage";
+import AdminLoginPage from "./AdminLoginPage";
+import Adminhome from "./Adminhome";
 
 function App() {
   return (
@@ -18,13 +19,14 @@ function App() {
         <Route path="/adminlogin" element={<AdminLoginPage />} />
         <Route path="/signup" element={<Signup />} />
 
-        <Route path="/home" element={<Dashboard />}>
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="adminhome" element = {<Adminhome/>} />
           <Route path="moneytransfer" element={<Moneytransfer />} />
           <Route path="deposit" element={<Deposit />} />
           <Route path="createaccount" element={<Createaccount />} />
+          <Route path="logout" element={<Logout />} />
         </Route>
         
-        <Route path="/logout" element={<Logout />} />
       </Routes>
     </Router>
   );

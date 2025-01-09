@@ -1,29 +1,51 @@
-.welcomeToOnlineBankingApplication {
-    color: black;
-    text-align: center;
-    font-size: 25px;
+* {
     padding: 0px;
     margin: 0px;
-    margin-top: 10px;;
+    box-sizing: border-box;
 }
 main {
+    height: 100vh;
     width: 100%;
     display: flex;
 }
 .navigationsContainer {
+<<<<<<< HEAD
     background-color: re;
+=======
+    background-color: #f9f9f9;
+>>>>>>> 66a25be (pulling the code)
     width: 20%;
+    border-right: 2px solid grey;
 }
 nav {
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+nav a {
+    margin-top:20px ;
+    color: black;
+    font-size: 20px;
+    padding-left: 10px;
+    margin-right: 2px;
+}
+nav a:hover {
+    color: grey;
 }
 .contentShowingPage {
     width: 80%;
+<<<<<<< HEAD
     /* background-color: green; */
+=======
+    background-color: #f9f9f9;
+    border: black 20px;
+    border: 2px solid red;
+    overflow: hidden;
+>>>>>>> 66a25be (pulling the code)
 }
 .active {
     background-color: black;
     color: white;
-    padding: 5px;
+    padding: 15px;
 }
