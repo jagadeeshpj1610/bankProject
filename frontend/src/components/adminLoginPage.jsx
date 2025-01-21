@@ -17,7 +17,7 @@ const AdminLoginPage = () => {
       const data = await response.json();
       response.status === 200 ? navigate('/home') : setErrMessage(data.message)
     } catch (error) {
-      setErrMessage("Server Error...please wait")
+      setErrMessage(data.message)
     }
   }
   return (

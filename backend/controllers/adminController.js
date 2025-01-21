@@ -7,7 +7,7 @@ const login = ('/api/admin/login', (req, res) => {
   db.query(query, [email, password], (err, result) => {
     if (err) {
       console.error('Database query error: ', err);
-      return res.status(500).json({ success: false, message: 'Database query error' });
+      return res.status(500).json({ success: false, message: 'Database  error' });
     }
 
     if (result && result.length > 0) return res.json({ success: true, admin: result[0] });
