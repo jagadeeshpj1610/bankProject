@@ -29,26 +29,7 @@ const createAccount = async (req, res) => {
 };
 
 
-const adminSignup = async (req, res) => {
-  const { email, password } = req.body;
 
-  const signupQuery = `
-    INSERT INTO admins (email, password) VALUES (?, ?)
-  `;
-
-  try {
-    const [result] = await db.execute(signupQuery, [email, password]);
-
-    if (result.affectedRows > 0) {
-      return res.status(201).json({ message: 'Account created successfully' });
-    } else {
-      return res.status(400).json({ message: 'Failed to create account' });
-    }
-  } catch (err) {
-    console.error("Error inserting account:", err);
-    return res.status(500).json({ message: 'Signup error' });
-  }
-};
 
 
 
@@ -76,6 +57,71 @@ const fetchUserDetails = async (req, res) => {
 };
 
 
+const deposit = async (req, res) => {
+  const { accountNumber, amount } = req.body;
+
+  if (!accountNumber || !amount) {
+      return res.status(400).json({ error: "Account number and amount are required" });
+  }
+
+  try {
+      const depositQuery = "UPDATE users SET balance = balance + ? WHERE account_number = ?";
+      const [result] = await db.query(depositQuery, [amount, accountNumber]);
+
+      if (result.affectedRows > 0) {
+          await db.query("INSERT INTO transactions (account_number, type, amount, timestamp, details) VALUES (?, ?, ?, NOW(), ?)",
+              [accountNumber, "deposit", amount, "Deposit"]);
+
+          return res.json({ message: "Deposit successful" });
+      } else {
+          return res.status(400).json({ error: "Failed to deposit" });
+      }
+  } catch (error) {
+      console.error("Error depositing amount:", error);
+      return res.status(500).json({ error: "Failed to deposit amount" });
+  }
+};
+
+const withdraw = async (req, res) => {
+  const { accountNumber, amount } = req.body;
+
+  if (!accountNumber || !amount) {
+      return res.status(400).json({ error: "Account number and amount are required" });
+  }
+
+  try {
+      const [user] = await db.query("SELECT * FROM users WHERE account_number = ?", [accountNumber]);
+      if (user.length === 0) {
+          return res.status(404).json({ error: "Account not found" });
+      }
+
+      const withdrawalAmount = parseFloat(amount);
+      if (user[0].balance < withdrawalAmount) {
+          return res.status(400).json({ error: "Insufficient balance" });
+      }
+
+      const withdrawQuery = "UPDATE users SET balance = balance - ? WHERE account_number = ?";
+      const [result] = await db.query(withdrawQuery, [withdrawalAmount, accountNumber]);
+
+      if (result.affectedRows > 0) {
+          const transactionQuery = "INSERT INTO transactions (account_number, type, amount, timestamp, details) VALUES (?, ?, ?, NOW(), ?)";
+          await db.query(transactionQuery, [accountNumber, "withdraw", withdrawalAmount, "Withdraw"]);
+          return res.json({ message: "Withdrawal successful" });
+      } else {
+          return res.status(400).json({ error: "Failed to withdraw" });
+      }
+  } catch (error) {
+      console.error("Error withdrawing amount:", error);
+      return res.status(500).json({ error: "Failed to withdraw amount" });
+  }
+};
+
+
+
+
+
+
+
 
 
 const login = async (req, res) => {
@@ -97,6 +143,27 @@ const login = async (req, res) => {
   }
 };
 
+const adminSignup = async (req, res) => {
+  const { email, password } = req.body;
+
+  const signupQuery = `
+    INSERT INTO admins (email, password) VALUES (?, ?)
+  `;
+
+  try {
+    const [result] = await db.execute(signupQuery, [email, password]);
+
+    if (result.affectedRows > 0) {
+      return res.status(201).json({ message: 'Account created successfully' });
+    } else {
+      return res.status(400).json({ message: 'Failed to create account' });
+    }
+  } catch (err) {
+    console.error("Error inserting account:", err);
+    return res.status(500).json({ message: 'Signup error' });
+  }
+};
 
 
-module.exports = { login, createAccount, adminSignup, fetchUserDetails };
+
+module.exports = { login, createAccount, adminSignup, fetchUserDetails, deposit, withdraw };

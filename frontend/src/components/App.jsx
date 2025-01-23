@@ -10,6 +10,7 @@ import Createaccount from "./Createaccount";
 import AdminLoginPage from "./adminLoginPage";
 import Adminhome from "./Adminhome";
 import AdminSignup from "./adminSignup";
+import Withdraw from "./withdraw";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="adminhome" element = {<Adminhome/>} />
           <Route path="moneytransfer" element={<Moneytransfer />} />
           <Route path="deposit" element={<Deposit />} />
+          <Route path="withdraw" element={<Withdraw />} />
           <Route path="createaccount" element={<Createaccount />} />
           <Route path="logout" element={<Logout />} />
         </Route>

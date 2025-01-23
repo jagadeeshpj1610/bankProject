@@ -7,17 +7,17 @@ const Withdraw = () => {
 
   const handleWithdraw = async (event) => {
     event.preventDefault();
-
     if (!accountNumber || !amount) {
-      setMessage("Account number and amount are required");
-      return;
+      return console.log("Account number and amount are required");
     }
 
     try {
       const response = await fetch("http://localhost:8000/api/admin/withdraw", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ accountNumber, amount })
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ accountNumber, amount }),
       });
 
       const result = await response.json();
@@ -28,6 +28,7 @@ const Withdraw = () => {
         setMessage(result.error || "Failed to withdraw");
       }
     } catch (error) {
+      console.error("Network error, please try again later.");
       setMessage("Network error, please try again later.");
     }
   };
@@ -36,9 +37,9 @@ const Withdraw = () => {
     <div>
       <h1>Withdraw</h1>
       <form onSubmit={handleWithdraw}>
-        <input type="text" placeholder="Account Number" value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} required />
-        <input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} required />
-        <button type="submit">Withdraw</button>
+        <input type="text" placeholder="Account Number" value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} required style={{ display: 'inline-block', width: '200px', marginRight: '10px' }} />
+        <input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} required style={{ display: 'inline-block', width: '200px' }} />
+        <button type="submit" style={{ marginLeft: '10px' }}>Withdraw</button>
       </form>
       {message && <p>{message}</p>}
     </div>
