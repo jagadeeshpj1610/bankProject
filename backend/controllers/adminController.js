@@ -1,6 +1,47 @@
 const db = require('../models/db');
 
 
+const createAccount = (req, res) => {
+  const { name, dob, balance, email } = req.body;
+
+  if (!name || !dob || !balance || !email) {
+    return res.status(400).json({ message: 'All fields are required.' });
+  }
+
+  const checkQuery = 'SELECT * FROM users WHERE email = ?';
+  db.query(checkQuery, [email], (err, results) => {
+    if (err) {
+      console.error('Error checking account:', err);
+      return res.status(500).json({ message: 'Internal server error.' });
+    }
+
+    if (results.length > 0) {
+      return res.status(400).json({ message: 'Account with this email already exists.' });
+    }
+
+    const accountNumber = `12340000${Math.floor(Math.random() * 10000)}`;
+
+    const createQuery = 'INSERT INTO users (account_number, name, dob, balance, email) VALUES (?, ?, ?, ?, ?)';
+    db.query(createQuery, [accountNumber, name, dob, balance, email], (err, result) => {
+      if (err) {
+        console.error('Error creating account:', err);
+        return res.status(500).json({ message: 'Internal server error.' });
+      }
+
+      const transactionQuery = 'INSERT INTO transactions (account_number, type, amount, timestamp, details) VALUES (?, ?, ?, NOW(), ?)';
+      db.query(transactionQuery, [accountNumber, 'deposit', balance, 'Initial deposit'], (err, result) => {
+        if (err) {
+          console.error('Error recording transaction:', err);
+          return res.status(500).json({ message: 'Transaction error' });
+        }
+        res.status(201).json({ message: 'Account created successfully!', accountNumber });
+      });
+    });
+  });
+};
+
+
+
 const login = ('/api/admin/login', (req, res) => {
   const { email, password } = req.body;
   const query = 'SELECT * FROM admins WHERE email = ? AND password = ?';
@@ -15,4 +56,7 @@ const login = ('/api/admin/login', (req, res) => {
   });
 });
 
-module.exports = { login };
+
+
+
+module.exports = { login, createAccount };

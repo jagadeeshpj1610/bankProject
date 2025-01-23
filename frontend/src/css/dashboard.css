@@ -8,15 +8,7 @@ main {
     width: 100%;
     display: flex;
 }
-.navigationsContainer {
-<<<<<<< HEAD
-    background-color: re;
-=======
-    background-color: #f9f9f9;
->>>>>>> 66a25be (pulling the code)
-    width: 20%;
-    border-right: 2px solid grey;
-}
+
 nav {
     display: flex;
     flex-direction: column;
@@ -35,14 +27,7 @@ nav a:hover {
 }
 .contentShowingPage {
     width: 80%;
-<<<<<<< HEAD
-    /* background-color: green; */
-=======
-    background-color: #f9f9f9;
-    border: black 20px;
-    border: 2px solid red;
-    overflow: hidden;
->>>>>>> 66a25be (pulling the code)
+
 }
 .active {
     background-color: black;

@@ -30,7 +30,7 @@
     box-sizing: border-box;
 }
 
-button {
+.loginForm button {
     background-color: #4CAF50;
     color: white;
     padding: 10px 20px;
@@ -43,9 +43,7 @@ button {
     max-width: 300px;
 }
 
-button:hover {
-    background-color: #45a049;
-}
+
 
 
 a {
