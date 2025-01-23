@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../css/CreateAccount.css'
+// import '../css/CreateAccount.css'
 
 const CreateAccount = () => {
   const [formData, setFormData] = useState({ name: '', dob: '', balance: '', email: '', });
@@ -56,7 +56,7 @@ const CreateAccount = () => {
         <label className="form-label">Email:</label>
         <input type="email" name="email" value={formData.email} onChange={handleChange} className="form-input" required />
 
-        <button type="submit" className="form-button">Create Account</button>
+        <button type="submit" className="form-button" style={{backgroundColor:"black",color:"white"}}>Create Account</button>
       </form>
       {message && <p className={`form-message ${success ? 'success' : 'error'}`}>{message}</p>}
     </div>
