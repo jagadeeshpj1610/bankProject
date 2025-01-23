@@ -1,26 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Header from "./header";
-import '../css/App.css'
 
-const Welcome = () => {
+function Welcome() {
+  <Header />
   return (
-    <>
-      <Header />
-      <div className="userLoginDiv">
-        <h1>Welcome</h1>
-        <p>Please select an option:</p>
-        <div>
-          <Link to="/userlogin">
-            <button className="optionBtns">User</button>
-          </Link>
-          <Link to="/adminlogin">
-            <button className="optionBtns">Admin</button>
-          </Link>
-        </div>
-      </div>
-    </>
+    <div className="welcome-container">
+      <h1>Welcome to the Bank Application</h1>
+      <p>
+        <Link to="/signup">Sign Up</Link> | <Link to="/login">Login</Link>
+      </p>
+    </div>
   );
-};
+}
 
 export default Welcome;

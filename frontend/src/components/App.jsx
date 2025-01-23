@@ -1,8 +1,9 @@
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Dashboard } from "./Dashboard";
 import LoginPage from "./loginPage";
 import Signup from "./Signup";
 import Welcome from "./Welcome";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Logout from "./Logout";
 import Moneytransfer from "./Moneytransfer";
 import Deposit from "./Deposit";
@@ -12,18 +13,21 @@ import Adminhome from "./Adminhome";
 import AdminSignup from "./adminSignup";
 import Withdraw from "./withdraw";
 
+
 function App() {
+
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Welcome />} />
-        <Route path="/userlogin" element={<LoginPage />} />
+
+        <Route path="/login" element={<LoginPage handleLoginSuccess={handleLoginSuccess} />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/adminlogin" element={<AdminLoginPage />} />
         <Route path="/adminsignup" element={<AdminSignup />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/adminhome" element={<Adminhome />} />
 
         <Route path="/home" element={<Dashboard />}>
-          <Route path="adminhome" element = {<Adminhome/>} />
           <Route path="moneytransfer" element={<Moneytransfer />} />
           <Route path="deposit" element={<Deposit />} />
           <Route path="withdraw" element={<Withdraw />} />
@@ -37,3 +41,4 @@ function App() {
 }
 
 export default App;
+

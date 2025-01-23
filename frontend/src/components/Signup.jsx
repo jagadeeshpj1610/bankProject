@@ -1,25 +1,69 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Header from './header';
-import '../css/login.css'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Signup = () => {
+function SignupForm() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      setError('Email and password are required');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:8000/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        navigate('/login');
+      } else {
+        setError(result.error || 'Signup failed');
+      }
+    } catch (error) {
+      setError('An error occurred. Please try again.');
+      console.error('Error during signup:', error);
+    }
+  };
+
   return (
-    <>
-    <Header />
-    <div className="signupForm">
-      <h2>Signup</h2>
-      <label>Username:</label>
-      <input type="text" placeholder="Enter your username" />
-      <label>Password</label>
-      <input type="email" placeholder="Enter the password" />
-      <label>Confirm Password:</label>
-      <input type="password" placeholder="confirm the password" />
-      <button>Create Account</button>
-      <Link to="/userlogin">Already have an account? Login here.</Link>
+    <div className="signup-container">
+      <h2>Sign Up</h2>
+      {error && <div className="error">{error}</div>}
+      <form onSubmit={handleSignup}>
+        <div>
+          <label>Email:</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit">Sign Up</button>
+      </form>
     </div>
-    </>
   );
-};
+}
 
-export default Signup;
+export default SignupForm;
