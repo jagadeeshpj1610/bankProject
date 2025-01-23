@@ -9,6 +9,7 @@ import Deposit from "./Deposit";
 import Createaccount from "./Createaccount";
 import AdminLoginPage from "./adminLoginPage";
 import Adminhome from "./Adminhome";
+import AdminSignup from "./adminSignup";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<Welcome />} />
         <Route path="/userlogin" element={<LoginPage />} />
         <Route path="/adminlogin" element={<AdminLoginPage />} />
+        <Route path="/adminsignup" element={<AdminSignup />} />
         <Route path="/signup" element={<Signup />} />
 
         <Route path="/home" element={<Dashboard />}>

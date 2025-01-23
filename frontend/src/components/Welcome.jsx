@@ -12,10 +12,10 @@ const Welcome = () => {
         <p>Please select an option:</p>
         <div>
           <Link to="/userlogin">
-            <button>User</button>
+            <button className="optionBtns">User</button>
           </Link>
           <Link to="/adminlogin">
-            <button>Admin</button>
+            <button className="optionBtns">Admin</button>
           </Link>
         </div>
       </div>

@@ -28,6 +28,11 @@ button {
 }
 
 
+.optionBtns{
+  background-color: black;
+  color: white;
+}
+
 h1 {
   font-size: 2.3rem;
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from './header';
+import AdminSignup from './adminSignup';
 const AdminLoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,6 +33,7 @@ const AdminLoginPage = () => {
           <label>Password:</label>
           <input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} />
           <button type='button' onClick={handleAdminLogin}>Login</button>
+          <h4><Link to={'/adminsignup'}>signup</Link></h4>
         </form>
       </div>
     </>

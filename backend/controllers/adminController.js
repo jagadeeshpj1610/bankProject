@@ -1,104 +1,102 @@
 const db = require('../models/db');
 
 
-const createAccount = (req, res) => {
+const createAccount = async (req, res) => {
   const { name, dob, balance, email, pan, aadhaar, phone, address, accountType } = req.body;
 
-  if (!name || !dob || !balance || !email || !pan || !aadhaar || !phone || !address || !accountType) {
+  if (!name || !dob || !balance || !email || !aadhaar || !phone || !address || !accountType)
     return res.status(400).json({ message: 'All fields are required.' });
-  }
 
-  const checkQuery = 'SELECT * FROM users WHERE email = ? OR phone = ?';
-  db.query(checkQuery, [email, phone], (err, results) => {
-    if (err) {
-      console.error('Error checking account:', err);
-      return res.status(500).json({ message: 'Internal server error.' });
-    }
+  try {
+    const [results] = await db.execute('SELECT * FROM users WHERE email = ? OR phone = ?', [email, phone]);
 
-    if (results.length > 0) {
+    if (results.length > 0)
       return res.status(400).json({ message: 'Account with this email or phone number already exists.' });
-    }
 
     const accountNumber = `12340000${Math.floor(Math.random() * 10000)}`;
 
-    const createQuery = `
-      INSERT INTO users
-      (account_number, name, dob, balance, email, pan, aadhaar, phone, address, account_type)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    db.query(
-      createQuery,
-      [accountNumber, name, dob, balance, email, pan, aadhaar, phone, address, accountType],
-      (err, result) => {
-        if (err) {
-          console.error('Error creating account:', err);
-          return res.status(500).json({ message: 'Internal server error.' });
-        }
+    await db.execute('INSERT INTO users (account_number, name, dob, balance, email, aadhaar, phone, address, account_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [accountNumber, name, dob, balance, email, aadhaar, phone, address, accountType]);
 
-        const transactionQuery = `
-          INSERT INTO transactions
-          (account_number, type, amount, timestamp, details)
-          VALUES (?, ?, ?, NOW(), ?)`;
-        db.query(transactionQuery, [accountNumber, 'deposit', balance, 'Initial deposit'], (err, result) => {
-          if (err) {
-            console.error('Error recording transaction:', err);
-            return res.status(500).json({ message: 'Transaction error.' });
-          }
-          res.status(201).json({ message: 'Account created successfully!', accountNumber });
-        });
-      }
-    );
-  });
+    await db.execute('INSERT INTO transactions (account_number, type, amount, timestamp, details) VALUES (?, ?, ?, NOW(), ?)',
+      [accountNumber, 'deposit', balance, 'Initial deposit']);
+
+    res.status(201).json({ message: 'Account created successfully!', accountNumber });
+  } catch (err) {
+    console.error('Error creating account or transaction:', err);
+    res.status(500).json({ message: 'Internal server error.' });
+  }
 };
 
 
-// const fetchUserDetails = async (req, res) => {
-//   const accountNumber = req.query.accountNumber;
-
-//   if (!accountNumber) {
-//       return res.status(400).json({ error: "Account number is required" });
-//   }
-
-//   try {
-//       console.log("Received account number:", accountNumber);
-
-//       const userQuery = "SELECT * FROM users WHERE account_number = ?";
-//       const [userDetails] = await db.query(userQuery, [accountNumber]);
-//       console.log("User details:", userDetails);
-
-//       const transactionQuery = "SELECT * FROM transactions WHERE account_number = ?";
-//       const [transactions] = await db.query(transactionQuery, [accountNumber]);
-//       console.log("Transactions:", transactions);
-
-//       const transferQuery = "SELECT * FROM money_transfers WHERE sender_account = ? OR receiver_account = ?";
-//       const [moneyTransfers] = await db.query(transferQuery, [accountNumber, accountNumber]);
-//       console.log("Money transfers:", moneyTransfers);
-
-//       return res.json({ userDetails, transactions, moneyTransfers });
-//   } catch (error) {
-//       console.error("Error fetching account details:", error); // Log the exact error
-//       return res.status(500).json({ error: "Failed to fetch account details" });
-//   }
-// };
-
-
-
-
-
-const login = ('/api/admin/login', (req, res) => {
+const adminSignup = async (req, res) => {
   const { email, password } = req.body;
-  const query = 'SELECT * FROM admins WHERE email = ? AND password = ?';
-  db.query(query, [email, password], (err, result) => {
-    if (err) {
-      console.error('Database query error: ', err);
-      return res.status(500).json({ success: false, message: 'Database  error' });
+
+  const signupQuery = `
+    INSERT INTO admins (email, password) VALUES (?, ?)
+  `;
+
+  try {
+    const [result] = await db.execute(signupQuery, [email, password]);
+
+    if (result.affectedRows > 0) {
+      return res.status(201).json({ message: 'Account created successfully' });
+    } else {
+      return res.status(400).json({ message: 'Failed to create account' });
     }
-
-    if (result && result.length > 0) return res.json({ success: true, admin: result[0] });
-    res.status(401).json({ success: false, message: 'Invalid login details' });
-  });
-});
-
-
+  } catch (err) {
+    console.error("Error inserting account:", err);
+    return res.status(500).json({ message: 'Signup error' });
+  }
+};
 
 
-module.exports = { login, createAccount };
+
+const fetchUserDetails = async (req, res) => {
+  const accountNumber = req.query.accountNumber;
+
+  if (!accountNumber) {
+      return res.status(400).json({ error: "Account number is required" });
+  }
+
+  try {
+      const userQuery = "SELECT * FROM users WHERE account_number = ?";
+      const [userDetails] = await db.query(userQuery, [accountNumber]);
+
+      const transactionQuery = "SELECT * FROM transactions WHERE account_number = ?";
+      const [transactions] = await db.query(transactionQuery, [accountNumber]);
+
+      const transferQuery = "SELECT * FROM money_transfers WHERE sender_account = ? OR receiver_account = ?";
+      const [moneyTransfers] = await db.query(transferQuery, [accountNumber, accountNumber]);
+
+      return res.json({ userDetails, transactions, moneyTransfers });
+  } catch (error) {
+      return res.status(500).json({ error: "Failed to fetch account details" });
+  }
+};
+
+
+
+
+const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  const query = 'SELECT * FROM admins WHERE email = ? AND password = ?';
+
+  try {
+    const [rows] = await db.execute(query, [email, password]);
+
+    if (rows.length > 0) {
+      return res.json({ success: true, admin: rows[0] });
+    } else {
+      return res.status(401).json({ success: false, message: 'Invalid login details' });
+    }
+  } catch (err) {
+    console.error('Database query error: ', err);
+    return res.status(500).json({ success: false, message: 'Database error' });
+  }
+};
+
+
+
+module.exports = { login, createAccount, adminSignup, fetchUserDetails };

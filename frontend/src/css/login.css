@@ -31,7 +31,7 @@
 }
 
 .loginForm button {
-    background-color: #4CAF50;
+    background-color: black;
     color: white;
     padding: 10px 20px;
     font-size: 1.2rem;
@@ -41,6 +41,10 @@
     border-radius: 5px;
     width: 100%;
     max-width: 300px;
+}
+
+.loginForm h4{
+    text-align: center;
 }
 
 

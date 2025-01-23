@@ -6,11 +6,10 @@ const CreateAccount = () => {
     dob: '',
     balance: '',
     email: '',
-    pan: '',
     aadhaar: '',
     phone: '',
     address: '',
-    accountType: 'Savings', // Default to "Savings"
+    accountType: 'Savings',
   });
   const [message, setMessage] = useState('');
   const [success, setSuccess] = useState(false);
@@ -28,7 +27,6 @@ const CreateAccount = () => {
       !formData.dob ||
       !formData.balance ||
       !formData.email ||
-      !formData.pan ||
       !formData.aadhaar ||
       !formData.phone ||
       !formData.address ||
@@ -74,9 +72,6 @@ const CreateAccount = () => {
 
         <label>Email:</label>
         <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-
-        <label>PAN Number:</label>
-        <input type="text" name="pan" value={formData.pan} onChange={handleChange} required />
 
         <label>Aadhaar Number:</label>
         <input type="text" name="aadhaar" value={formData.aadhaar} onChange={handleChange} required />
