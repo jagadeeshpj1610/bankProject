@@ -8,6 +8,7 @@ router.post('/signup', adminController.adminSignup);
 router.get('/search', adminController.fetchUserDetails);
 router.post('/deposit', adminController.deposit);
 router.post('/withdraw', adminController.withdraw);
+router.post('/money_tranfer', adminController.money_transfer);
 
 
 module.exports = router;

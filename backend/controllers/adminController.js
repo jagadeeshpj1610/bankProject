@@ -82,46 +82,69 @@ const deposit = async (req, res) => {
   }
 };
 
+
 const withdraw = async (req, res) => {
   const { accountNumber, amount } = req.body;
 
   if (!accountNumber || !amount) {
-      return res.status(400).json({ error: "Account number and amount are required" });
+    return res.status(400).json({ error: "Account number and amount are required" });
   }
 
   try {
-      const [user] = await db.query("SELECT * FROM users WHERE account_number = ?", [accountNumber]);
-      if (user.length === 0) {
-          return res.status(404).json({ error: "Account not found" });
-      }
+    const [user] = await db.query("SELECT * FROM users WHERE account_number = ?", [accountNumber]);
+    if (user.length === 0) {
+      return res.status(404).json({ error: "Account not found" });
+    }
 
-      const withdrawalAmount = parseFloat(amount);
-      if (user[0].balance < withdrawalAmount) {
-          return res.status(400).json({ error: "Insufficient balance" });
-      }
+    const withdrawalAmount = parseFloat(amount);
+    if (user[0].balance < withdrawalAmount) {
+      return res.status(400).json({ error: "Insufficient balance" });
+    }
 
-      const withdrawQuery = "UPDATE users SET balance = balance - ? WHERE account_number = ?";
-      const [result] = await db.query(withdrawQuery, [withdrawalAmount, accountNumber]);
+    const withdrawQuery = "UPDATE users SET balance = balance - ? WHERE account_number = ?";
+    const [result] = await db.query(withdrawQuery, [withdrawalAmount, accountNumber]);
 
-      if (result.affectedRows > 0) {
-          const transactionQuery = "INSERT INTO transactions (account_number, type, amount, timestamp, details) VALUES (?, ?, ?, NOW(), ?)";
-          await db.query(transactionQuery, [accountNumber, "withdraw", withdrawalAmount, "Withdraw"]);
-          return res.json({ message: "Withdrawal successful" });
-      } else {
-          return res.status(400).json({ error: "Failed to withdraw" });
-      }
+    if (result.affectedRows > 0) {
+      const transactionQuery = "INSERT INTO transactions (account_number, type, amount, timestamp, details) VALUES (?, ?, ?, NOW(), ?)";
+      await db.query(transactionQuery, [accountNumber, "withdraw", withdrawalAmount, "Withdraw"]);
+      return res.json({ message: "Withdrawal successful" });
+    } else {
+      return res.status(400).json({ error: "Failed to withdraw" });
+    }
   } catch (error) {
-      console.error("Error withdrawing amount:", error);
-      return res.status(500).json({ error: "Failed to withdraw amount" });
+    console.error("Error withdrawing amount:", error);
+    return res.status(500).json({ error: "Failed to withdraw amount" });
   }
 };
 
 
-
-
-
-
-
+const money_transfer = async (req, res) => {
+  const { sender_account, receiver_account, amount } = req.body;
+  if (!sender_account || !receiver_account || !amount) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+  try {
+    const [sender] = await db.query("SELECT * FROM users WHERE account_number = ?", [sender_account]);
+    const [receiver] = await db.query("SELECT * FROM users WHERE account_number = ?", [receiver_account]);
+    if (sender.length === 0 || receiver.length === 0) {
+      return res.status(404).json({ error: "Account not found" });
+    }
+    const transferAmount = parseFloat(amount);
+    if (sender[0].balance < transferAmount) {
+      return res.status(400).json({ error: "Insufficient balance" });
+    }
+    const transferQuery = "INSERT INTO money_transfers (sender_account, receiver_account, amount, timestamp) VALUES (?, ?, ?, NOW())";
+    await db.query(transferQuery, [sender_account, receiver_account, transferAmount]);
+    const senderQuery = "UPDATE users SET balance = balance - ? WHERE account_number = ?";
+    await db.query(senderQuery, [transferAmount, sender_account]);
+    const receiverQuery = "UPDATE users SET balance = balance + ? WHERE account_number = ?";
+    await db.query(receiverQuery, [transferAmount, receiver_account]);
+    return res.json({ message: "Transfer successful" });
+  } catch (error) {
+    console.error("Error transferring amount:", error);
+    return res.status(500).json({ error: "Failed to transfer amount" });
+  }
+};
 
 
 const login = async (req, res) => {
@@ -166,4 +189,4 @@ const adminSignup = async (req, res) => {
 
 
 
-module.exports = { login, createAccount, adminSignup, fetchUserDetails, deposit, withdraw };
+module.exports = { login, createAccount, adminSignup, fetchUserDetails, deposit, withdraw, money_transfer };
