@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
-// import '../css/CreateAccount.css'
 
 const CreateAccount = () => {
-  const [formData, setFormData] = useState({ name: '', dob: '', balance: '', email: '', });
+  const [formData, setFormData] = useState({
+    name: '',
+    dob: '',
+    balance: '',
+    email: '',
+    pan: '',
+    aadhaar: '',
+    phone: '',
+    address: '',
+    accountType: 'Savings', // Default to "Savings"
+  });
   const [message, setMessage] = useState('');
   const [success, setSuccess] = useState(false);
 
@@ -14,7 +23,17 @@ const CreateAccount = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.dob || !formData.balance || !formData.email) {
+    if (
+      !formData.name ||
+      !formData.dob ||
+      !formData.balance ||
+      !formData.email ||
+      !formData.pan ||
+      !formData.aadhaar ||
+      !formData.phone ||
+      !formData.address ||
+      !formData.accountType
+    ) {
       setMessage('All fields are required.');
       setSuccess(false);
       return;
@@ -42,23 +61,43 @@ const CreateAccount = () => {
 
   return (
     <div className="create-account">
-      <h2 className="form-title">Create New Account</h2>
-      <form onSubmit={handleSubmit} className="form-container">
-        <label className="form-label">Name:</label>
-        <input type="text" name="name" value={formData.name} onChange={handleChange} className="form-input" required />
+      <h2>Create New Account</h2>
+      <form onSubmit={handleSubmit}>
+        <label>Name:</label>
+        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
 
-        <label className="form-label">Date of Birth:</label>
-        <input type="date" name="dob" value={formData.dob} onChange={handleChange} className="form-input" required />
+        <label>Date of Birth:</label>
+        <input type="date" name="dob" value={formData.dob} onChange={handleChange} required />
 
-        <label className="form-label">Initial Balance:</label>
-        <input type="number" name="balance" value={formData.balance} onChange={handleChange} className="form-input" required />
+        <label>Initial Balance:</label>
+        <input type="number" name="balance" value={formData.balance} onChange={handleChange} required />
 
-        <label className="form-label">Email:</label>
-        <input type="email" name="email" value={formData.email} onChange={handleChange} className="form-input" required />
+        <label>Email:</label>
+        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
 
-        <button type="submit" className="form-button" style={{backgroundColor:"black",color:"white"}}>Create Account</button>
+        <label>PAN Number:</label>
+        <input type="text" name="pan" value={formData.pan} onChange={handleChange} required />
+
+        <label>Aadhaar Number:</label>
+        <input type="text" name="aadhaar" value={formData.aadhaar} onChange={handleChange} required />
+
+        <label>Phone Number:</label>
+        <input type="text" name="phone" value={formData.phone} onChange={handleChange} required />
+
+        <label>Address:</label>
+        <textarea name="address" value={formData.address} onChange={handleChange} required />
+
+        <label>Account Type:</label>
+        <select name="accountType" value={formData.accountType} onChange={handleChange} required>
+          <option value="Savings">Savings</option>
+          <option value="Current">Current</option>
+        </select>
+
+        <button type="submit" style={{ backgroundColor: 'black', color: 'white' }}>
+          Create Account
+        </button>
       </form>
-      {message && <p className={`form-message ${success ? 'success' : 'error'}`}>{message}</p>}
+      {message && <p style={{ color: success ? 'green' : 'red' }}>{message}</p>}
     </div>
   );
 };
