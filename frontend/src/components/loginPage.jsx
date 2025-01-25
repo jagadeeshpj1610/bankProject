@@ -1,4 +1,3 @@
-// LoginPage.jsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -7,6 +6,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [msg, setMsg] = useState('');
   const navigate = useNavigate();
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -19,10 +19,9 @@ const LoginPage = () => {
 
     if (response.ok) {
       const user = await response.json();
-      localStorage.setItem('user', JSON.stringify(user));
       console.log(user);
 
-      navigate('/userhome');
+      navigate("/userhome", { state: { email: email } });
     } else {
       setMsg('Invalid Username or Password');
     }

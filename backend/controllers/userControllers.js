@@ -42,7 +42,10 @@ const login = async (req, res) => {
 
     return res.json({
       message: "Login successful",
-      user: adminUser[0],
+      user: {
+        email: adminUser[0].email,
+        name: adminUser[0].name,
+      },
     });
   } catch (error) {
     console.error("Login Error:", error);
@@ -50,9 +53,9 @@ const login = async (req, res) => {
   }
 };
 
-
 const getUserDetailsAndTransactions = async (req, res) => {
-  const { email } = req.body;
+  const { email } = req.query;
+  console.log("Received email:", email);
 
   if (!email) {
     return res.status(400).json({ error: "Email is required" });
@@ -78,13 +81,7 @@ const getUserDetailsAndTransactions = async (req, res) => {
 
     const transactionsWithType = transactions.map(transaction => {
       const updatedTransaction = { ...transaction };
-
-      if (transaction.sender_account === userDetails.account_number) {
-        updatedTransaction.type = 'Debited';
-      } else {
-        updatedTransaction.type = 'Credited';
-      }
-
+      updatedTransaction.type = transaction.sender_account === userDetails.account_number ? 'Debited' : 'Credited';
       return updatedTransaction;
     });
 
@@ -98,7 +95,6 @@ const getUserDetailsAndTransactions = async (req, res) => {
     return res.status(500).json({ error: "Failed to retrieve data" });
   }
 };
-
 
 
 module.exports = { userSignup, login, getUserDetailsAndTransactions };
