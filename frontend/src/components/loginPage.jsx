@@ -1,9 +1,12 @@
+// LoginPage.jsx
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const  LoginPage = ()  => {
+const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [msg, setMsg] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -16,15 +19,19 @@ const  LoginPage = ()  => {
 
     if (response.ok) {
       const user = await response.json();
+      localStorage.setItem('user', JSON.stringify(user));
+      console.log(user);
 
+      navigate('/userhome');
     } else {
-      alert('Login failed');
+      setMsg('Invalid Username or Password');
     }
   };
 
   return (
     <div>
       <h2>Login</h2>
+      <p>{msg}</p>
       <form onSubmit={handleLogin}>
         <input
           type="email"
@@ -41,10 +48,10 @@ const  LoginPage = ()  => {
           required
         />
         <button type="submit">Login</button>
-        <Link to = '/signup'>signup</Link>
+        <Link to='/signup'>Sign Up</Link>
       </form>
     </div>
   );
-}
+};
 
 export default LoginPage;

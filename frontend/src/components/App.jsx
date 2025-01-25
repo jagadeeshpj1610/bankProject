@@ -12,6 +12,7 @@ import AdminLoginPage from "./adminLoginPage";
 import Adminhome from "./Adminhome";
 import AdminSignup from "./adminSignup";
 import Withdraw from "./withdraw";
+import UserHome from "./userDashboard";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
 
         <Route path="/login" element={<LoginPage/>} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/userhome" element={<UserHome />} />
         <Route path="/adminlogin" element={<AdminLoginPage />} />
         <Route path="/adminsignup" element={<AdminSignup />} />
 

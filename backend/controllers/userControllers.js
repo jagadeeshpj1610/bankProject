@@ -50,4 +50,55 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { userSignup, login };
+
+const getUserDetailsAndTransactions = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: "Email is required" });
+  }
+
+  try {
+    const [user] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
+
+    if (user.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const userDetails = user[0];
+
+    const [transactions] = await db.query(
+      'SELECT * FROM money_transfers WHERE sender_account = ? OR receiver_account = ?',
+      [userDetails.account_number, userDetails.account_number]
+    );
+
+    if (transactions.length === 0) {
+      return res.status(404).json({ message: "No transactions found for this account" });
+    }
+
+    const transactionsWithType = transactions.map(transaction => {
+      const updatedTransaction = { ...transaction };
+
+      if (transaction.sender_account === userDetails.account_number) {
+        updatedTransaction.type = 'Debited';
+      } else {
+        updatedTransaction.type = 'Credited';
+      }
+
+      return updatedTransaction;
+    });
+
+    return res.json({
+      userDetails,
+      transactions: transactionsWithType
+    });
+
+  } catch (error) {
+    console.error("Error fetching user details or transactions:", error);
+    return res.status(500).json({ error: "Failed to retrieve data" });
+  }
+};
+
+
+
+module.exports = { userSignup, login, getUserDetailsAndTransactions };
