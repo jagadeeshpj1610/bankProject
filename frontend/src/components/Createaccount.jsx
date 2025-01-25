@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../css/createAccount.css';
+import { data } from 'react-router-dom';
 
 const CreateAccount = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ const CreateAccount = () => {
   });
   const [message, setMessage] = useState('');
   const [success, setSuccess] = useState(false);
+  const [result, setResult] = useState("")
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,6 +47,9 @@ const CreateAccount = () => {
         body: JSON.stringify(formData),
       });
       const data = await response.json();
+      setResult(data)
+      console.log(data);
+
       if (response.ok) {
         setMessage(data.message);
         setSuccess(true);
@@ -143,12 +148,12 @@ const CreateAccount = () => {
           <option value="Savings">Savings</option>
           <option value="Current">Current</option>
         </select>
-
         <button className="create-account-button" type="submit">
           Create Account
         </button>
       </form>
       {message && <p className={`create-account-message ${success ? 'success' : 'error'}`}>{message}</p>}
+      <p style={{color:"green"}}>Account Number:{result.accountNumber}</p>
     </div>
     </div>
   );

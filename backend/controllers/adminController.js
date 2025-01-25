@@ -21,7 +21,7 @@ const createAccount = async (req, res) => {
     await db.execute('INSERT INTO transactions (account_number, type, amount, timestamp, details) VALUES (?, ?, ?, NOW(), ?)',
       [accountNumber, 'deposit', balance, 'Initial deposit']);
 
-    res.status(201).json({ message: 'Account created successfully!', accountNumber });
+    res.status(201).json({ message: 'Account created successfully!', accountNumber, "accountNumber":accountNumber });
   } catch (err) {
     console.error('Error creating account or transaction:', err);
     res.status(500).json({ message: 'Internal server error.' });
@@ -65,15 +65,14 @@ const deposit = async (req, res) => {
   }
 
   try {
-    const prevBalance = await db.query("SELECT balance FROM users WHERE account_number = ?", [accountNumber]);
+    const prevBalance = await db.query("SELECT balance, name FROM users WHERE account_number = ?", [accountNumber]);
     const depositQuery = "UPDATE users SET balance = balance + ? WHERE account_number = ?";
     const [result] = await db.query(depositQuery, [amount, accountNumber]);
     if (result.affectedRows > 0) {
       await db.query("INSERT INTO transactions (account_number, type, amount, timestamp, details) VALUES (?, ?, ?, NOW(), ?)", [accountNumber, "deposit", amount, "Deposit"]);
       const mainBalance = await db.query("SELECT balance FROM users WHERE account_number = ?", [accountNumber]);
-      console.log(mainBalance)
 
-      return res.json({ message: "Deposit successful", 'amount': amount, 'accountNumber': accountNumber, 'timestamp': new Date(), 'details': "Deposit", 'type': "deposit", "mainBalance": mainBalance, "prevBalance": prevBalance });
+      return res.json({ message: "Deposit successful", 'amount': amount, 'accountNumber': accountNumber, 'timestamp': new Date(), 'details': "Deposit", 'type': "deposit", "mainBalance": mainBalance, "prevBalance": prevBalance, "name": prevBalance[0][0].name });
     } else {
       return res.status(400).json({ error: "Failed to deposit" });
     }
@@ -83,6 +82,74 @@ const deposit = async (req, res) => {
   }
 };
 
+
+
+
+const withdraw = async (req, res) => {
+  const { accountNumber, amount } = req.body;
+
+  if (!accountNumber || !amount) {
+    return res.status(400).json({ error: "Account number and amount are required" });
+  }
+
+  try {
+    const prevBalance = await db.query("SELECT balance, name FROM users WHERE account_number = ?", [accountNumber]);
+    const [user] = await db.query("SELECT * FROM users WHERE account_number = ?", [accountNumber]);
+    if (user.length === 0) {
+      return res.status(404).json({ error: "Account not found" });
+    }
+
+    const withdrawalAmount = parseFloat(amount);
+    if (user[0].balance < withdrawalAmount) {
+      return res.status(400).json({ error: "Insufficient balance" });
+    }
+
+    const withdrawQuery = "UPDATE users SET balance = balance - ? WHERE account_number = ?";
+    const [result] = await db.query(withdrawQuery, [withdrawalAmount, accountNumber]);
+
+    if (result.affectedRows > 0) {
+      const transactionQuery = "INSERT INTO transactions (account_number, type, amount, timestamp, details) VALUES (?, ?, ?, NOW(), ?)";
+      await db.query(transactionQuery, [accountNumber, "withdraw", withdrawalAmount, "Withdraw"]);
+      const mainBalance = await db.query("SELECT balance FROM users WHERE account_number = ?", [accountNumber]);
+
+      return res.json({ message: "Withdrawal successful" , 'amount': amount, 'accountNumber': accountNumber, 'timestamp': new Date(), "details": "Withdraw", "type": "withdraw", "mainBalance": mainBalance, "prevBalance": prevBalance, "name": prevBalance[0][0].name });
+    } else {
+      return res.status(400).json({ error: "Failed to withdraw" });
+    }
+  } catch (error) {
+    console.error("Error withdrawing amount:", error);
+    return res.status(500).json({ error: "Failed to withdraw amount" });
+  }
+};
+
+
+const money_transfer = async (req, res) => {
+  const { sender_account, receiver_account, amount } = req.body;
+  if (!sender_account || !receiver_account || !amount) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+  try {
+    const [sender] = await db.query("SELECT name FROM users WHERE account_number = ?", [sender_account]);
+    const [receiver] = await db.query("SELECT name FROM users WHERE account_number = ?", [receiver_account]);
+    if (sender.length === 0 || receiver.length === 0) {
+      return res.status(404).json({ error: "Account not found" });
+    }
+    const transferAmount = parseFloat(amount);
+    if (sender[0].balance < transferAmount) {
+      return res.status(400).json({ error: "Insufficient balance" });
+    }
+    const transferQuery = "INSERT INTO money_transfers (sender_account, receiver_account, amount, timestamp) VALUES (?, ?, ?, NOW())";
+    await db.query(transferQuery, [sender_account, receiver_account, transferAmount]);
+    const senderQuery = "UPDATE users SET balance = balance - ? WHERE account_number = ?";
+    await db.query(senderQuery, [transferAmount, sender_account]);
+    const receiverQuery = "UPDATE users SET balance = balance + ? WHERE account_number = ?";
+    await db.query(receiverQuery, [transferAmount, receiver_account]);
+    return res.json({ message: "Transfer successful", "senderName":sender.name, "sender_account": sender_account, "receiverName":receiver.name, "receiver_account":receiver_account, "tranferAmount":transferAmount, 'timestamp': new Date() , "details":"money tranfer", "type":"money_transfer", "senderDetails":sender, "receiverDetails":receiver });
+  } catch (error) {
+    console.error("Error transferring amount:", error);
+    return res.status(500).json({ error: "Failed to transfer amount" });
+  }
+};
 
 
 
@@ -128,4 +195,4 @@ const adminSignup = async (req, res) => {
 
 
 
-module.exports = { login, createAccount, adminSignup, fetchUserDetails, deposit };
+module.exports = { login, createAccount, adminSignup, fetchUserDetails, deposit, withdraw, money_transfer };
