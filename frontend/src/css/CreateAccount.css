@@ -1,64 +1,87 @@
-/* .create-account {
-  width: 100%;
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-}
-
-.form-title {
-  text-align: center;
-  margin-bottom: 20px;
+.create-account-container {
   font-family: Arial, sans-serif;
-}
-
-.form-container {
+  padding: 20px;
+  background-color: #f8f8f8;
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.form-label {
-  display: block;
-  margin: 10px 0 5px;
-  font-size: 14px;
-  font-family: Arial, sans-serif;
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.form-input {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-  box-sizing: border-box;
-}
-
-
-.form-button {
-  width: 100%;
-  padding: 10px;
-  background-color: black;
-  color: white;
-
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.form-message {
+.create-account-title {
   text-align: center;
-  margin-top: 20px;
-  font-size: 14px;
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
 }
 
-.form-message.success {
+.create-account-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.create-account-label {
+  font-size: 16px;
+  color: #333;
+}
+
+.create-account-input,
+.create-account-textarea,
+.create-account-select {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.create-account-textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+.create-account-button {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.create-account-button:hover {
+  background-color: #0056b3;
+}
+
+.create-account-button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.create-account-message {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.success {
   color: green;
 }
 
-.form-message.error {
+.error {
   color: red;
-} */
+}

@@ -1,17 +1,19 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import '../css/logout.css';
 
 function Logout() {
   return (
-  <>
-  <div className='logoutPopup' >
-    <p> Do you want to exit ?</p>
-    <div className='logoutbuttons' >
-      <button className='cancel'>Cancel</button>
-      <button className='logout'>Logout</button>
+    <div className="logout-popup">
+      <p className="logout-message">Do you want to exit?</p>
+      <div className="logout-buttons">
+        <button className="logout-cancel">Cancel</button>
+        <button className="logout-button">
+          Logout
+        </button>
+      </div>
     </div>
-  </div>
-  </>
-  )
+  );
 }
 
-export default Logout
+export default Logout;

@@ -45,3 +45,129 @@ p {
 .error{
   color: red;
 }
+
+
+.welcome-container {
+  text-align: center;
+  margin-top: 50px;
+  font-family: Arial, sans-serif;
+}
+
+.welcome-container h1 {
+  font-size: 32px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.welcome-container p {
+  font-size: 18px;
+  color: #555;
+}
+
+.welcome-container a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.welcome-container a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+
+.loginForm {
+  width: 300px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.loginForm h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.loginForm label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+.loginForm input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.loginForm button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+
+}
+
+.loginForm h5{
+  text-align: center;
+}
+
+
+.signup-container {
+  width: 300px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.signup-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.signup-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.signup-container input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.signup-container button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.signup-container button:hover {
+  background-color: #0056b3;
+}
+
+.signup-container p {
+  text-align: center;
+  font-size: 14px;
+}

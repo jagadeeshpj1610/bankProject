@@ -1,0 +1,102 @@
+.adminHome {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.adminTitle {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #0056b3;
+}
+
+.searchContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.searchInput {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 250px;
+  margin-right: 10px;
+}
+
+.searchButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #0056b3;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.searchButton:hover {
+  background-color: #004494;
+}
+
+.errorMessage {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.resultsContainer {
+  margin-top: 20px;
+}
+
+section {
+  margin-bottom: 30px;
+}
+
+section h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #0056b3;
+}
+
+.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.dataTable th,
+.dataTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.dataTable th {
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: bold;
+}
+
+.dataTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.dataTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+.dataTable td {
+  color: #555;
+  font-size: 14px;
+}
+
+.noDataMessage {
+  text-align: center;
+  font-size: 16px;
+  color: #888;
+  margin-top: 10px;
+}

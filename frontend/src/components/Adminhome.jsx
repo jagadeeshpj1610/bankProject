@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import '../css/Adminhome.css';
 
-const Adminhome = () => {
+const AdminHome = () => {
     const [accountNumber, setAccountNumber] = useState("");
     const [data, setData] = useState(null);
     const [error, setError] = useState("");
@@ -27,101 +28,118 @@ const Adminhome = () => {
     };
 
     return (
-        <div>
-            <h1>Admin Dashboard</h1>
-            <div>
+        <div className="adminHome">
+            <h1 className="adminTitle">Admin Dashboard</h1>
+            <div className="searchContainer">
                 <input
+                    className="searchInput"
                     type="text"
                     placeholder="Enter Account Number"
                     value={accountNumber}
                     onChange={(e) => setAccountNumber(e.target.value)}
                 />
-                <button onClick={handleSearch}>Search</button>
+                <button className="searchButton" onClick={handleSearch}>
+                    Search
+                </button>
             </div>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <p className="errorMessage">{error}</p>}
             {data && (
-                <div>
-                    <h2>User Details</h2>
-                    {data.userDetails.length ? (
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Account Number</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Balance</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {data.userDetails.map((user) => (
-                                    <tr key={user.id}>
-                                        <td>{user.account_number}</td>
-                                        <td>{user.name}</td>
-                                        <td>{user.email}</td>
-                                        <td>{user.balance}</td>
+                <div className="resultsContainer">
+                    <section className="userDetailsSection">
+                        <h2>User Details</h2>
+                        {data.userDetails.length ? (
+                            <table className="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>Account Number</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone Number</th>
+                                        <th>Address</th>
+                                        <th>Balance</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    ) : (
-                        <p>No user details found.</p>
-                    )}
+                                </thead>
+                                <tbody>
+                                    {data.userDetails.map((user) => (
+                                        <tr key={user.id}>
+                                            <td>{accountNumber}</td>
+                                            <td>{user.name}</td>
+                                            <td>{user.email}</td>
+                                            <td>{user.phone}</td>
+                                            <td>{user.address}</td>
+                                            <td>{user.balance}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        ) : (
+                            <p>No user details found.</p>
+                        )}
+                    </section>
 
-                    <h2>Transaction History</h2>
-                    {data.transactions.length ? (
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Amount</th>
-                                    <th>Description</th>
-                                    <th>Type</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {data.transactions.map((txn) => (
-                                    <tr key={txn.id}>
-                                        <td>{new Date(txn.timestamp).toLocaleString()}</td>
-                                        <td>{txn.amount}</td>
-                                        <td>{txn.details}</td>
-                                        <td>{txn.type}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    ) : (
-                        <p>No transactions found.</p>
-                    )}
+                    <section className="transactionHistorySection">
+                        <h2>Transaction History</h2>
+                        {data.transactions.length ? (
+                            <table className="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Description</th>
+                                        <th>Type</th>
 
-                    <h2>Money Transfers</h2>
-                    {data.moneyTransfers.length ? (
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Sender</th>
-                                    <th>Receiver</th>
-                                    <th>Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {data.moneyTransfers.map((transfer) => (
-                                    <tr key={transfer.id}>
-                                        <td>{new Date(transfer.timestamp).toLocaleString()}</td>
-                                        <td>{transfer.sender_account}</td>
-                                        <td>{transfer.receiver_account}</td>
-                                        <td>{transfer.amount}</td>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    ) : (
-                        <p>No money transfers found.</p>
-                    )}
+                                </thead>
+                                <tbody>
+                                    {data.transactions.map((txn) => (
+                                        <tr key={txn.id}>
+                                            <td>{new Date(txn.timestamp).toLocaleString()}</td>
+                                            <td>{txn.amount}</td>
+                                            <td>{txn.details}</td>
+                                            <td>{txn.type}</td>
+
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        ) : (
+                            <p>No transactions found.</p>
+                        )}
+                    </section>
+
+                    <section className="moneyTransfersSection">
+                        <h2>Money Transfers</h2>
+                        {data.moneyTransfers.length ? (
+                            <table className="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Sender</th>
+                                        <th>Receiver</th>
+                                        <th>Amount</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {data.moneyTransfers.map((transfer) => (
+                                        <tr key={transfer.id}>
+                                            <td>{new Date(transfer.timestamp).toLocaleString()}</td>
+                                            <td>{transfer.sender_account}</td>
+                                            <td>{transfer.receiver_account}</td>
+                                            <td>{transfer.amount}</td>
+
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        ) : (
+                            <p>No money transfers found.</p>
+                        )}
+                    </section>
                 </div>
             )}
         </div>
     );
 };
 
-export default Adminhome;
+export default AdminHome;
