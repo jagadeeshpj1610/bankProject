@@ -15,6 +15,7 @@ import Logout from "./Logout";
 import Welcome from "./Welcome";
 import UserSignup from "./Signup";
 import Header from "./header";
+import Checkbalance from "./checkBalance";
 
 const App = () => {
   const [role, setRole] = useState(localStorage.getItem('role') || '');
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="/adminlogin" element={<AdminLoginPage />} />
           <Route path="/userhome" element={<><UserSidebar /><div className="mainContent"><UserHome /></div></>} />
           <Route path="/moneytransfer" element={<><UserSidebar /><div className="mainContent"><UserMoneyTransfer /></div></>} />
+          <Route path="/checkbalance" element={<><UserSidebar /><div className="mainContent"><Checkbalance /></div></>} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/home/adminhome" element={<><AdminSidebar /><div className="mainContent"><AdminHome /></div></>} />
           <Route path="/home/createaccount" element={<><AdminSidebar /><div className="mainContent"><CreateAccount /></div></>} />
