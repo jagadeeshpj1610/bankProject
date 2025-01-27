@@ -86,10 +86,6 @@ const UserHome = () => {
                 <td>{userDetails.account_number}</td>
               </tr>
               <tr>
-                <td>Balance</td>
-                <td>{userDetails.balance}</td>
-              </tr>
-              <tr>
                 <td>Account Type</td>
                 <td>{userDetails.account_type}</td>
               </tr>
