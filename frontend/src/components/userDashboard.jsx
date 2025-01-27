@@ -35,8 +35,6 @@ const UserHome = () => {
         );
 
         const data = await response.json();
-        console.log(data);
-        console.log(data);
 
         if (response.ok) {
           setUserDetails(data.userDetails);

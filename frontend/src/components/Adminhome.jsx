@@ -35,7 +35,7 @@ const AdminHome = () => {
             setData(result);
             setError("");
         } catch (err) {
-            // console.error(err);
+
             setError(err.message || "An error occurred.");
         }
     };

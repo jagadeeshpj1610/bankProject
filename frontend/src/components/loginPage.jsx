@@ -20,7 +20,7 @@ const LoginPage = () => {
 
       if (response.ok) {
         const user = await response.json();
-        console.log(user);
+
 
         localStorage.setItem('token', user.token);
         localStorage.setItem('role', user.user.role);

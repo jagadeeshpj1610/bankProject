@@ -28,7 +28,6 @@ const jwt = require('jsonwebtoken');
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email, password);
 
 
   if (!email || !password) {
@@ -68,7 +67,6 @@ const login = async (req, res) => {
 
 const getUserDetailsAndTransactions = async (req, res) => {
   const { email } = req.query;
-  console.log("Received email:", email);
 
   if (!email) {
     return res.status(400).json({ error: "Email is required" });
@@ -82,7 +80,6 @@ const getUserDetailsAndTransactions = async (req, res) => {
     }
 
     const userDetails = user[0];
-    console.log(userDetails);
 
     const [transactions] = await db.query(
       'SELECT * FROM money_transfers WHERE sender_account = ? OR receiver_account = ?',
@@ -148,10 +145,8 @@ const money_transfer = async (req, res) => {
       return res.status(404).json({ error: "Sender or receiver account not found" });
     }
 
-    console.log(senderDetails);
 
     const senderBalance = parseFloat(senderDetails[0].balance);
-    console.log(senderBalance);
 
 
     const transferAmount = parseFloat(amount);

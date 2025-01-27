@@ -55,7 +55,7 @@ const CreateAccount = () => {
       });
       const data = await response.json();
       setResult(data)
-      console.log(data);
+
 
       if (response.ok) {
         setMessage(data.message);
