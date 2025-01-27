@@ -6,13 +6,20 @@ const UserSignup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordMatchError, setPasswordMatchError] = useState('');
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      setError('Email and password are required.');
+    if (!email || !password || !confirmPassword) {
+      setError('Email, password, and confirm password are required.');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setPasswordMatchError('Passwords do not match.');
       return;
     }
 
@@ -40,10 +47,10 @@ const UserSignup = () => {
 
   return (
     <div className="signupContainer">
-      <h2 className="signupHeading">User Sign Up</h2>
       {error && <div className="errorMessage">{error}</div>}
       <form onSubmit={handleSignup} className="signupForm">
         <div className="formGroup">
+          <h2 className="signupHeading">User SignUp</h2>
           <label className="formLabel">Email:</label>
           <input
             type="email"
@@ -63,10 +70,27 @@ const UserSignup = () => {
             required
           />
         </div>
+        <div className="formGroup">
+          <label className="formLabel">Confirm Password:</label>
+          <input
+            type="password"
+            className="formInput"
+            value={confirmPassword}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+              if (e.target.value !== password) {
+                setPasswordMatchError('Passwords do not match.');
+              } else {
+                setPasswordMatchError('');
+              }
+            }}
+            required
+          />
+          {passwordMatchError && <div className="errorMessage" style={{textAlign:"left"}}>{passwordMatchError}</div>}
+        </div>
         <button type="submit" className="signupButton">Sign Up</button>
-        <h5>Already have an Account   <Link to = "/adminlogin">Login</Link></h5>
+        <h5>Already have an Account? <Link to="/adminlogin">Login</Link></h5>
       </form>
-
     </div>
   );
 };

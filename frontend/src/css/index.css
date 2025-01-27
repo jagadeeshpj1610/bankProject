@@ -4,11 +4,18 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-
   margin: 0;
   font-family: Arial, sans-serif;
 }
 
+
+.userLoginForm label {
+  display: block;
+  text-align: left;
+  margin: 10px 40px 5px;
+  font-size: 14px;
+  color: black;
+}
 
 .loginContainer {
   max-width: 400px;
@@ -24,12 +31,12 @@
 .loginHeading {
   margin-bottom: 20px;
   font-size: 24px;
-  color: #1e40af;
+  color: black;
 }
 
 
 .loginInput {
-  width: 100%;
+  width: 80%;
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #ddd;
@@ -40,20 +47,19 @@
 
 
 .loginButton {
-  width: 100%;
+  width: 50%;
   padding: 10px;
-  background-color: #1e40af;
+  margin: 10px;
+  background-color: black;
   color: white;
   font-size: 16px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+
 }
 
-.loginButton:hover {
-  background-color: #1d4ed8;
-}
+
 
 
 .signupLink {
@@ -63,12 +69,13 @@
 }
 
 .signupLink a {
-  color: #1e40af;
+  color: black;
   text-decoration: none;
 }
 
 .signupLink a:hover {
   text-decoration: underline;
+  color:blue;
 }
 
 
@@ -82,21 +89,20 @@
 
 .signupContainer {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
   background-color: #f3f4f6;
   font-family: Arial, sans-serif;
   margin: 0;
-  color: #333;
+  color: black;
 }
 
 
 .signupHeading {
   margin-bottom: 20px;
   font-size: 24px;
-  color: #1e40af;
+  color: black;
   text-align: center;
 }
 
@@ -112,6 +118,8 @@
 .signupForm {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   max-width: 400px;
   padding: 20px;
@@ -123,7 +131,11 @@
 
 
 .formGroup {
-  margin-bottom: 15px;
+  margin: 15px;
+}
+
+.formGroup1{
+  margin-top: 15px;;
 }
 
 
@@ -131,12 +143,12 @@
   font-size: 14px;
   margin-bottom: 5px;
   display: block;
-  color: #555;
+  color: black;
 }
 
 
 .formInput {
-  width: 100%;
+  width: 290px;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -146,21 +158,18 @@
 
 
 .signupButton {
-  width: 100%;
+  width: 175px;
   padding: 10px;
-  background-color: #1e40af;
+  background-color: black;
   color: white;
   font-size: 16px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
   margin-top: 10px;
 }
 
-.signupButton:hover {
-  background-color: #1d4ed8;
-}
+
 
 
 .signupContainer h5{
@@ -170,5 +179,5 @@
 
 .signupContainer Link{
   text-decoration: none;
-  color: blue;
+  color: black;
 }

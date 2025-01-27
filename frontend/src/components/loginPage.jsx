@@ -42,9 +42,10 @@ const LoginPage = () => {
   return (
     <div className="loginPage">
       <div className="loginContainer">
-        <h2 className="loginHeading">Login</h2>
+        <h2 className="loginHeading">User Login</h2>
         {msg && <p className="errorMessage">{msg}</p>}
-        <form onSubmit={handleLogin} className="loginForm">
+        <form onSubmit={handleLogin} className="userLoginForm">
+          <label htmlFor="loginInput">Email:</label>
           <input
             type="email"
             className="loginInput"
@@ -53,6 +54,7 @@ const LoginPage = () => {
             placeholder="Email"
             required
           />
+          <label htmlFor="loginInput">Password</label>
           <input
             type="password"
             className="loginInput"
@@ -62,9 +64,7 @@ const LoginPage = () => {
             required
           />
           <button type="submit" className="loginButton">Login</button>
-          <div className="signupLink">
-            <Link to="/usersignup">Sign Up</Link>
-          </div>
+          <h5 className="signupLink">   If you are new to applicaton?   <Link to="/usersignup">Sign Up</Link> </h5>
         </form>
       </div>
     </div>
