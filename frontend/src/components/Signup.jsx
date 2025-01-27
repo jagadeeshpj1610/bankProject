@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import '../css/index.css';
 
-function SignupForm() {
+const UserSignup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -11,7 +12,7 @@ function SignupForm() {
     e.preventDefault();
 
     if (!email || !password) {
-      setError('Email and password are required');
+      setError('Email and password are required.');
       return;
     }
 
@@ -29,7 +30,7 @@ function SignupForm() {
       if (response.ok) {
         navigate('/login');
       } else {
-        setError(result.error || 'Signup failed');
+        setError(result.error || 'Signup failed.');
       }
     } catch (error) {
       setError('An error occurred. Please try again.');
@@ -38,32 +39,36 @@ function SignupForm() {
   };
 
   return (
-    <div className="signup-container">
-      <h2>Sign Up</h2>
-      {error && <div className="error">{error}</div>}
-      <form onSubmit={handleSignup}>
-        <div>
-          <label>Email:</label>
+    <div className="signupContainer">
+      <h2 className="signupHeading">User Sign Up</h2>
+      {error && <div className="errorMessage">{error}</div>}
+      <form onSubmit={handleSignup} className="signupForm">
+        <div className="formGroup">
+          <label className="formLabel">Email:</label>
           <input
             type="email"
+            className="formInput"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label>Password:</label>
+        <div className="formGroup">
+          <label className="formLabel">Password:</label>
           <input
             type="password"
+            className="formInput"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        <button type="submit">Sign Up</button>
+        <button type="submit" className="signupButton">Sign Up</button>
+        <h5>Already have an Account   <Link to = "/adminlogin">Login</Link></h5>
       </form>
+
     </div>
   );
-}
+};
 
-export default SignupForm;
+export default UserSignup;

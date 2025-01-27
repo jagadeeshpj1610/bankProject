@@ -1,19 +1,42 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import '../css/logout.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../css/Logout.css";
+const Logout = () => {
+  const [showPopup, setShowPopup] = useState(true);
+  const navigate = useNavigate();
 
-function Logout() {
+  const handleConfirm = () => {
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("email");
+    sessionStorage.clear();
+
+    navigate("/", { replace: true });
+  };
+
+  const handleCancel = () => {
+
+    setShowPopup(false);
+    navigate(-1);
+  };
+
   return (
-    <div className="logout-popup">
-      <p className="logout-message">Do you want to exit?</p>
-      <div className="logout-buttons">
-        <button className="logout-cancel">Cancel</button>
-        <button className="logout-button">
-          Logout
-        </button>
-      </div>
-    </div>
+    <>
+      {showPopup && (
+        <div className="logoutPopup">
+          <div className="popupContent">
+            <h2>Confirm Logout</h2>
+            <p>Are you sure you want to log out?</p>
+            <div className="popupButtons">
+              <button className="confirmButton" onClick={handleConfirm}>Yes, Logout</button>
+              <button className="cancelButton" onClick={handleCancel}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
-}
+};
 
 export default Logout;

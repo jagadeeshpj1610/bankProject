@@ -40,10 +40,17 @@ const CreateAccount = () => {
       return;
     }
 
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        setError("You are not authenticated. Please log in.");
+        return;
+    }
+
     try {
       const response = await fetch('http://localhost:8000/api/admin/account/create', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json',"Authorization": `Bearer ${token}`, },
         body: JSON.stringify(formData),
       });
       const data = await response.json();
@@ -153,7 +160,7 @@ const CreateAccount = () => {
         </button>
       </form>
       {message && <p className={`create-account-message ${success ? 'success' : 'error'}`}>{message}</p>}
-      <p style={{color:"green"}}>Account Number:{result.accountNumber}</p>
+      <p style={{color:"green"}}>{result.accountNumber}</p>
     </div>
     </div>
   );

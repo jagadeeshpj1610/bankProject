@@ -1,18 +1,21 @@
+
 .withdrawContainer {
-  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
   padding: 20px;
   background-color: #f9f9f9;
-  color: #333;
-  max-width: 500px;
-  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 
 .withdrawTitle {
   text-align: center;
-  font-size: 24px;
-  color: #0056b3;
+  font-size: 2rem;
+  color: #333;
   margin-bottom: 20px;
 }
+
 
 .withdrawForm {
   display: flex;
@@ -22,42 +25,96 @@
 
 .inputField {
   padding: 10px;
-  font-size: 16px;
+  font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 100%;
 }
 
+.inputField:focus {
+  outline-color: #007bff;
+  border-color: #007bff;
+}
+
+
 .withdrawButton {
   padding: 10px;
-  font-size: 16px;
-  background-color: #0056b3;
-  color: #fff;
+  font-size: 1.1rem;
+  background-color: #007bff;
+  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.withdrawButton:hover {
-  background-color: #004494;
 }
 
 .withdrawButton:disabled {
-  background-color: #b0c4de;
+  background-color: #ddd;
   cursor: not-allowed;
 }
 
+.withdrawButton:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+
 .message {
   text-align: center;
-  font-size: 18px;
+  font-size: 1.1rem;
   margin-top: 20px;
 }
 
-.success {
+.message.success {
   color: green;
 }
 
-.error {
+.message.error {
   color: red;
+}
+
+
+.withdrawalDetails {
+  margin-top: 30px;
+}
+
+.withdrawalTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+}
+
+.withdrawalTable th, .withdrawalTable td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.withdrawalTable th {
+  background-color: #007bff;
+  color: white;
+}
+
+.withdrawalTable td {
+  font-size: 1rem;
+}
+
+.withdrawalTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.withdrawalTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+
+.accountDetails {
+  font-size: 1rem;
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #f0f8ff;
+  border-radius: 5px;
+}
+
+.accountDetails p {
+  margin: 5px 0;
 }

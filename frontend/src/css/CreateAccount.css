@@ -1,50 +1,49 @@
-.create-account-container {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  background-color: #f8f8f8;
-  max-width: 600px;
-  margin: 0 auto;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+.container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
 }
 
-.container{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+
+.create-account-container {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
 }
 
 .create-account-title {
   text-align: center;
-  font-size: 24px;
+  font-size: 2rem;
   color: #333;
   margin-bottom: 20px;
 }
 
-.create-account-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
 
 .create-account-label {
-  font-size: 16px;
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 8px;
   color: #333;
 }
 
+
 .create-account-input,
-.create-account-textarea,
-.create-account-select {
-  padding: 8px;
-  font-size: 14px;
+.create-account-select,
+.create-account-textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 100%;
+  font-size: 1rem;
+  box-sizing: border-box;
 }
 
 .create-account-textarea {
@@ -52,13 +51,15 @@
   height: 100px;
 }
 
+
 .create-account-button {
-  padding: 10px;
-  font-size: 16px;
-  background-color: #0056b3;
+  width: 100%;
+  padding: 14px;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
+  font-size: 1.1rem;
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -67,21 +68,34 @@
   background-color: #0056b3;
 }
 
-.create-account-button:disabled {
-  background-color: #ddd;
-  cursor: not-allowed;
-}
 
 .create-account-message {
   text-align: center;
-  font-size: 18px;
   margin-top: 20px;
+  font-size: 1.2rem;
 }
 
-.success {
+.create-account-message.success {
   color: green;
 }
 
-.error {
+.create-account-message.error {
   color: red;
+}
+
+.create-account-button:focus {
+  outline: none;
+}
+
+.create-account-input:focus,
+.create-account-select:focus,
+.create-account-textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+p {
+  text-align: center;
+  font-size: 1rem;
+  color: #333;
 }

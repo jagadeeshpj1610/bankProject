@@ -125,26 +125,49 @@ const withdraw = async (req, res) => {
 
 const money_transfer = async (req, res) => {
   const { sender_account, receiver_account, amount } = req.body;
+
   if (!sender_account || !receiver_account || !amount) {
     return res.status(400).json({ error: "All fields are required" });
   }
+
   try {
-    const [sender] = await db.query("SELECT name FROM users WHERE account_number = ?", [sender_account]);
-    const [receiver] = await db.query("SELECT name FROM users WHERE account_number = ?", [receiver_account]);
+    const [sender] = await db.query("SELECT * FROM users WHERE account_number = ?", [sender_account]);
+    const [receiver] = await db.query("SELECT * FROM users WHERE account_number = ?", [receiver_account]);
+
     if (sender.length === 0 || receiver.length === 0) {
       return res.status(404).json({ error: "Account not found" });
     }
+
+    const senderBalance = parseFloat(sender[0].balance);
     const transferAmount = parseFloat(amount);
-    if (sender[0].balance < transferAmount) {
+
+    if (senderBalance <= 0) {
+      return res.status(400).json({ error: "Sender account has insufficient balance for any transaction" });
+    }
+
+    if (senderBalance < transferAmount) {
       return res.status(400).json({ error: "Insufficient balance" });
     }
+
     const transferQuery = "INSERT INTO money_transfers (sender_account, receiver_account, amount, timestamp) VALUES (?, ?, ?, NOW())";
     await db.query(transferQuery, [sender_account, receiver_account, transferAmount]);
+
     const senderQuery = "UPDATE users SET balance = balance - ? WHERE account_number = ?";
     await db.query(senderQuery, [transferAmount, sender_account]);
+
     const receiverQuery = "UPDATE users SET balance = balance + ? WHERE account_number = ?";
     await db.query(receiverQuery, [transferAmount, receiver_account]);
-    return res.json({ message: "Transfer successful", "senderName":sender.name, "sender_account": sender_account, "receiverName":receiver.name, "receiver_account":receiver_account, "tranferAmount":transferAmount, 'timestamp': new Date() , "details":"money tranfer", "type":"money_transfer", "senderDetails":sender, "receiverDetails":receiver });
+
+    return res.json({
+      message: "Transfer successful",
+      sender_account,
+      senderDetails: sender[0],
+      receiver_account,
+      receiverDetails: receiver[0],
+      transferAmount,
+      timestamp: new Date(),
+      type: "money_transfer",
+    });
   } catch (error) {
     console.error("Error transferring amount:", error);
     return res.status(500).json({ error: "Failed to transfer amount" });
@@ -153,24 +176,49 @@ const money_transfer = async (req, res) => {
 
 
 
+const jwt = require('jsonwebtoken');
+
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  const query = 'SELECT * FROM admins WHERE email = ? AND password = ?';
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required" });
+  }
 
   try {
-    const [rows] = await db.execute(query, [email, password]);
+    const [rows] = await db.execute("SELECT * FROM admins WHERE email = ? AND password = ?", [email, password]);
 
     if (rows.length > 0) {
-      return res.json({ success: true, admin: rows[0] });
+      const token = jwt.sign(
+        { id: rows[0].id, email: rows[0].email, role: "admin" },
+        process.env.JWT_SECRET,
+        { expiresIn: '10h' }
+      );
+
+
+
+      return res.json({
+        success: true,
+        token,
+        user: {
+          email: rows[0].email,
+          name: rows[0].name,
+          role: "admin",
+        },
+      });
     } else {
-      return res.status(401).json({ success: false, message: 'Invalid login details' });
+      return res.status(401).json({ success: false, message: 'Invalid admin login details' });
     }
   } catch (err) {
     console.error('Database query error: ', err);
     return res.status(500).json({ success: false, message: 'Database error' });
   }
 };
+
+
+
+
+
 
 const adminSignup = async (req, res) => {
   const { email, password } = req.body;

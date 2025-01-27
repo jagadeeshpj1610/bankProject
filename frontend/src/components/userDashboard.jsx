@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import '../css/userHome.css'
+import { data } from 'react-router-dom';
 
 const UserHome = () => {
-  const location = useLocation();
-  const email = location.state?.email;
+  const email = localStorage.getItem('email');
+  const token = localStorage.getItem('token');
+
   const [userDetails, setUserDetails] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [error, setError] = useState('');
@@ -15,14 +17,32 @@ const UserHome = () => {
         return;
       }
 
+      if (!token) {
+        setError('No token found. Please login.');
+        return;
+      }
+
       try {
-        const response = await fetch(`http://localhost:8000/api/userDetails?email=${email}`);
+        const response = await fetch(
+          `http://localhost:8000/api/userDetails?email=${email}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
         const data = await response.json();
-        // console.log(data);
+        console.log(data);
+        console.log(data);
 
         if (response.ok) {
           setUserDetails(data.userDetails);
           setTransactions(data.transactions);
+
+
         } else {
           setError(data.error || 'Failed to fetch data');
         }
@@ -32,83 +52,94 @@ const UserHome = () => {
     };
 
     fetchUserData();
-  }, [email]);
+  }, [email, token]);
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className="errorMessage">{error}</div>;
   }
 
   return (
-    <div>
-      <h1>Welcome, {userDetails.name}</h1>
+    <div className="userHomeContainer">
+      <h1 className="welcomeMessage">
+        Welcome, {userDetails ? userDetails.name : ''}
+      </h1>
 
-      <h2>User Details</h2>
-      {userDetails ? (
-        <table>
-          <thead>
-            <tr>
-              <th>Field</th>
-              <th>Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Name</td>
-              <td>{userDetails.name}</td>
-            </tr>
-            <tr>
-              <td>Email</td>
-              <td>{userDetails.email}</td>
-            </tr>
-            <tr>
-              <td>Account Number</td>
-              <td>{userDetails.account_number}</td>
-            </tr>
-            <tr>
-              <td>Balance</td>
-              <td>{userDetails.balance}</td>
-            </tr>
-            <tr>
-              <td>Account Type</td>
-              <td>{userDetails.account_type}</td>
-            </tr>
-            <tr>
-              <td>Created At</td>
-              <td>{userDetails.created_at}</td>
-            </tr>
-          </tbody>
-        </table>
-      ) : (
-        <p>Loading user details...</p>
-      )}
-
-      <h2>Transaction History</h2>
-      {transactions.length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Amount</th>
-              <th>Receiver Account</th>
-              <th>Sender Account</th>
-              <th>Date & Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.map((transaction, index) => (
-              <tr key={index}>
-                <td>{transaction.type}</td>
-                <td>{transaction.amount}</td>
-                <td>{transaction.receiver_account}</td>
-                <td>{transaction.sender_account}</td>
-                <td>{new Date(transaction.timestamp).toLocaleString()}</td>
+      <section className="userDetailsSection">
+        <h2>User Details</h2>
+        {userDetails ? (
+          <table className="detailsTable">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Details</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p>No transactions found</p>
-      )}
+            </thead>
+            <tbody>
+              <tr>
+                <td>Name</td>
+                <td>{userDetails.name}</td>
+              </tr>
+              <tr>
+                <td>Email</td>
+                <td>{userDetails.email}</td>
+              </tr>
+              <tr>
+                <td>Account Number</td>
+                <td>{userDetails.account_number}</td>
+              </tr>
+              <tr>
+                <td>Balance</td>
+                <td>{userDetails.balance}</td>
+              </tr>
+              <tr>
+                <td>Account Type</td>
+                <td>{userDetails.account_type}</td>
+              </tr>
+              <tr>
+                <td>Created At</td>
+                <td>{new Date(userDetails.created_at).toLocaleString()}</td>
+              </tr>
+            </tbody>
+          </table>
+        ) : (
+          <p>Loading user details...</p>
+        )}
+      </section>
+
+      <section className="transactionHistorySection">
+        <h2>Transaction History</h2>
+        {transactions.length > 0 ? (
+          <table className="transactionsTable">
+            <thead>
+              <tr>
+                <th>Sender Account</th>
+                <th>Sender Name</th>
+                <th>Receiver Account</th>
+                <th>Sender Name</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Date & Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              {transactions.map((transaction, index) => (
+                <tr key={index}>
+                  <td>{transaction.sender_account}</td>
+                  <td>{userDetails.name}</td>
+                  <td>{transaction.receiver_account}</td>
+                  <td>{transaction.receiver_name}</td>
+                  <td>{transaction.amount}</td>
+                  <td>{transaction.type}</td>
+                  <td>{new Date(transaction.timestamp).toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+
+          </table>
+        ) : (
+          <p>No transactions found</p>
+        )}
+      </section>
     </div>
   );
 };

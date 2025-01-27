@@ -11,7 +11,20 @@ const Deposit = () => {
 
   const fetchAccountDetails = async (accountNumber) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/admin/search?accountNumber=${accountNumber}`);
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        setError("You are not authenticated. Please log in.");
+        return;
+      }
+
+      const response = await fetch(`http://localhost:8000/api/admin/search?accountNumber=${accountNumber}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      });
       const data = await response.json();
       setAccountDetails(data?.userDetails?.[0] || null);
     } catch {
@@ -25,9 +38,13 @@ const Deposit = () => {
 
     setIsProcessing(true);
     try {
+      const token = localStorage.getItem("token");
       const response = await fetch("http://localhost:8000/api/admin/deposit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
         body: JSON.stringify({ accountNumber, amount }),
       });
 
@@ -79,13 +96,30 @@ const Deposit = () => {
       {depositDetails && (
         <div className="depositDetails">
           <h2>Deposit Details</h2>
-          <p>Account Number: {depositDetails.accountNumber}</p>
-          <p>Account Name: {depositDetails.prevBalance?.[0]?.[0]?.name || "N/A"}</p>
-          <p>Previous Balance: {depositDetails.prevBalance?.[0]?.[0]?.balance || "N/A"}</p>
-          <p>Amount Deposited: {depositDetails.amount}</p>
-          <p>Type: {depositDetails.type}</p>
-          <p>Total Balance after Deposit: {depositDetails.mainBalance?.[0]?.[0]?.balance || "N/A"}</p>
-          <p>Date & Time: {new Date(depositDetails.timestamp).toLocaleString()}</p>
+          <table className="depositTable">
+            <thead>
+              <tr>
+                <th>Account Number</th>
+                <th>Account Name</th>
+                <th>Previous Balance</th>
+                <th>Amount Deposited</th>
+                <th>Type</th>
+                <th>Total Balance</th>
+                <th>Date & Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{depositDetails.accountNumber}</td>
+                <td>{depositDetails.prevBalance?.[0]?.[0]?.name || "N/A"}</td>
+                <td>{depositDetails.prevBalance?.[0]?.[0]?.balance || "N/A"}</td>
+                <td>{depositDetails.amount}</td>
+                <td>{depositDetails.type}</td>
+                <td>{depositDetails.mainBalance?.[0]?.[0]?.balance || "N/A"}</td>
+                <td>{new Date(depositDetails.timestamp).toLocaleString()}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       )}
     </>

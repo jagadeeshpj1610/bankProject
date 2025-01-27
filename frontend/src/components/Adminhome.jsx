@@ -12,8 +12,21 @@ const AdminHome = () => {
             return;
         }
 
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            setError("You are not authenticated. Please log in.");
+            return;
+        }
+
         try {
-            const response = await fetch(`http://localhost:8000/api/admin/search?accountNumber=${accountNumber}`);
+            const response = await fetch(`http://localhost:8000/api/admin/search?accountNumber=${accountNumber}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                },
+            });
             if (!response.ok) {
                 throw new Error("Failed to fetch account details.");
             }
@@ -22,7 +35,7 @@ const AdminHome = () => {
             setData(result);
             setError("");
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             setError(err.message || "An error occurred.");
         }
     };

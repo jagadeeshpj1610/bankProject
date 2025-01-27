@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Header from './header';
-import '../css/App.css'
+
+import '../css/login.css'
 
 const AdminLoginPage = () => {
   const [email, setEmail] = useState("");
@@ -18,9 +18,13 @@ const AdminLoginPage = () => {
       });
 
       const data = await response.json();
+      console.log(data);
 
       if (response.ok) {
-        navigate('/home');
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("role", "admin");
+
+        navigate('/home/adminhome');
       } else {
         setErrMessage(data.message || "Login failed. Please try again.");
       }
@@ -31,7 +35,7 @@ const AdminLoginPage = () => {
 
   return (
     <>
-      <Header />
+
       <div className="loginForm">
         <h2>Admin Login</h2>
         {errMessage && <p style={{ color: "red" }}>{errMessage}</p>}
@@ -55,9 +59,9 @@ const AdminLoginPage = () => {
           <button type="button" onClick={handleAdminLogin}>
             Login
           </button>
-          <h5>
+          {/* <h5>
             Don't have an account? <Link to="/adminsignup">Sign Up</Link>
-          </h5>
+          </h5> */}
         </form>
       </div>
     </>

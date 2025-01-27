@@ -1,49 +1,134 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { Dashboard } from "./Dashboard";
-import LoginPage from "./loginPage";
-import Signup from "./Signup";
-import Welcome from "./Welcome";
-import Logout from "./Logout";
-import Moneytransfer from "./Moneytransfer";
-import Deposit from "./Deposit";
-import Createaccount from "./Createaccount";
-import AdminLoginPage from "./adminLoginPage";
-import Adminhome from "./Adminhome";
-import AdminSignup from "./adminSignup";
-import Withdraw from "./withdraw";
+import AdminSidebar from "./AdminSisebar";
+import UserSidebar from "./userSidebar";
 import UserHome from "./userDashboard";
+import AdminHome from "./AdminHome";
+import LoginPage from "./LoginPage";
+import AdminLoginPage from "./adminLoginPage";
+
+import MoneyTransfer from "./MoneyTransfer";
+import CreateAccount from "./CreateAccount";
+import UserMoneyTransfer from "../components/userMoneyTransfer"
+import Deposit from "./Deposit";
+import Withdraw from "./Withdraw";
+import Logout from "./Logout";
+import Welcome from "./Welcome";
+import UserSignup from "./Signup";
+import Header from "./header";
 
 
-function App() {
+const App = () => {
+  const [role, setRole] = useState(localStorage.getItem('role') || '');
+
+  useEffect(() => {
+    const userRole = localStorage.getItem('role');
+    if (userRole) {
+      setRole(userRole);
+    }
+  }, []);
 
   return (
+    <>
+    <Header />
     <Router>
+
       <Routes>
+        {}
         <Route path="/" element={<Welcome />} />
-
-        <Route path="/login" element={<LoginPage/>} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/userhome" element={<UserHome />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/usersignup" element={<UserSignup />} />
         <Route path="/adminlogin" element={<AdminLoginPage />} />
-        <Route path="/adminsignup" element={<AdminSignup />} />
+        {}
 
+        {}
+        <Route path="/userhome" element={ <> <UserSidebar /> <div className="mainContent">  <UserHome /> </div> </>}
+        />
+        <Route
+          path="/moneytransfer"
+          element={
+            <>
+              <UserSidebar />
+              <div className="mainContent">
+                <UserMoneyTransfer />
+              </div>
+            </>
+          }
+        />
 
-        <Route path="/home" element={<Dashboard />}>
-        <Route index element={<Navigate to="adminhome" />} />
+        {}
+        <Route
+          path="/logout"
+          element={
+            <>
+              <Logout />
+            </>
+          }
+        />
 
-          <Route path="adminhome" element={<Adminhome />} />
-          <Route path="moneytransfer" element={<Moneytransfer />} />
-          <Route path="deposit" element={<Deposit />} />
-          <Route path="withdraw" element={<Withdraw />} />
-          <Route path="createaccount" element={<Createaccount />} />
-          <Route path="logout" element={<Logout />} />
-        </Route>
+        {}
+        <Route
+          path="/home/adminhome"
+          element={
+            <>
+              <AdminSidebar />
+              <div className="mainContent">
+                <AdminHome />
+              </div>
+            </>
+          }
+        />
+        <Route
+          path="/home/createaccount"
+          element={
+            <>
+              <AdminSidebar />
+              <div className="mainContent">
+                <CreateAccount />
+              </div>
+            </>
+          }
+        />
+        <Route
+          path="/home/deposit"
+          element={
+            <>
+              <AdminSidebar />
+              <div className="mainContent">
+                <Deposit />
+              </div>
+            </>
+          }
+        />
+        <Route
+          path="/home/withdraw"
+          element={
+            <>
+              <AdminSidebar />
+              <div className="mainContent">
+                <Withdraw />
+              </div>
+            </>
+          }
+        />
+        <Route
+          path="/home/moneytransfer"
+          element={
+            <>
+              <AdminSidebar />
+              <div className="mainContent">
+                <MoneyTransfer />
+              </div>
+            </>
+          }
+        />
 
+        {}
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
+    </>
   );
-}
+};
 
 export default App;
-

@@ -1,63 +1,118 @@
+
 .depositContainer {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  background-color: #f9f9f9;
-  color: #333;
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
+  padding: 30px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 
 .depositTitle {
   text-align: center;
-  font-size: 24px;
-  color: #0056b3;
+  font-size: 2rem;
+  color: #333;
   margin-bottom: 20px;
 }
+
 
 .depositForm {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
 }
 
+
 .inputField {
-  padding: 10px;
-  font-size: 16px;
+  padding: 12px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  font-size: 1rem;
   width: 100%;
 }
 
+.inputField:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+
 .depositButton {
-  padding: 10px;
-  font-size: 16px;
-  background-color: #0056b3;
-  color: #fff;
+  padding: 14px;
+  background-color: #007bff;
+  color: white;
   border: none;
   border-radius: 5px;
+  font-size: 1.1rem;
   cursor: pointer;
   transition: background-color 0.3s;
+  width: 100%;
 }
 
 .depositButton:hover {
-  background-color: #004494;
+  background-color: #0056b3;
 }
 
 .depositButton:disabled {
-  background-color: #b0c4de;
+  background-color: #ddd;
   cursor: not-allowed;
 }
 
-.message {
+
+p {
   text-align: center;
-  font-size: 18px;
+  font-size: 1rem;
+  color: #333;
   margin-top: 20px;
 }
 
-.success {
-  color: green;
+.depositDetails {
+  margin-top: 40px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
 }
 
-.error {
-  color: red;
+.depositDetails h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.depositDetails p {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+
+.depositTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+}
+
+.depositTable th, .depositTable td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.depositTable th {
+  background-color: #007bff;
+  color: white;
+}
+
+.depositTable td {
+  font-size: 1rem;
+}
+
+.depositTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.depositTable tr:hover {
+  background-color: #f1f1f1;
 }
