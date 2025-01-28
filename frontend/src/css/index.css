@@ -73,10 +73,6 @@
   text-decoration: none;
 }
 
-.signupLink a:hover {
-  text-decoration: underline;
-  color:blue;
-}
 
 
 .errorMessage {
