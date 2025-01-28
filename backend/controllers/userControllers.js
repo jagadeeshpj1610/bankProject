@@ -4,7 +4,7 @@ const userSignup = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ error: "Email, password, and name are required" });
+    return res.status(400).json({ error: "Email and password are required" });
   }
 
   try {
@@ -14,54 +14,67 @@ const userSignup = async (req, res) => {
       return res.status(404).json({ error: "User does not exist in the bank system. Please contact admin." });
     }
 
+    const [existingSignup] = await db.query("SELECT * FROM admins WHERE email = ?", [email]);
+
+    if (existingSignup.length > 0) {
+      return res.status(400).json({ error: "You have already signed up. Please log in." });
+    }
+
     await db.query("INSERT INTO admins (email, password) VALUES (?, ?)", [email, password]);
 
     return res.json({ message: "Signup successful. You can now log in with your credentials." });
   } catch (error) {
-    console.error('Signup Error:', error);
     return res.status(500).json({ error: "Failed to sign up" });
   }
 };
 
+
 const jwt = require('jsonwebtoken');
+
+
 
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-
 
   if (!email || !password) {
     return res.status(400).json({ error: "Email and password are required" });
   }
 
   try {
-    const [rows] = await db.execute("SELECT * FROM admins WHERE email = ? AND password = ?", [email, password]);
+    const [rows] = await db.execute("SELECT * FROM admins WHERE email = ?", [email]);
 
-    if (rows.length > 0) {
-      const user = rows[0];
-      const token = jwt.sign(
-        { id: user.id, email: user.email },
-        process.env.JWT_SECRET,
-        { expiresIn: '1h' }
-      );
-
-      return res.json({
-        success: true,
-        token,
-        user: {
-          email: user.email,
-          name: user.name,
-          role: "user",
-        },
-      });
-    } else {
-      return res.status(401).json({ success: false, message: 'Invalid user login details' });
+    if (rows.length === 0) {
+      return res.status(401).json({ success: false, message: "Email not found" });
     }
+
+    const user = rows[0];
+
+    if (user.password !== password) {
+      return res.status(401).json({ success: false, message: "Invalid password" });
+    }
+
+    const token = jwt.sign(
+      { id: user.id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    return res.json({
+      success: true,
+      token,
+      user: {
+        email: user.email,
+        name: user.name,
+        role: "user",
+      },
+    });
   } catch (err) {
-    console.error('Database query error: ', err);
-    return res.status(500).json({ success: false, message: 'Database error' });
+    console.error("Database query error: ", err);
+    return res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
+
 
 
 

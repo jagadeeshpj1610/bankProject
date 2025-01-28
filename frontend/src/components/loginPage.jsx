@@ -21,7 +21,6 @@ const LoginPage = () => {
       if (response.ok) {
         const user = await response.json();
 
-
         localStorage.setItem('token', user.token);
         localStorage.setItem('role', user.user.role);
         localStorage.setItem('email', email);
@@ -32,19 +31,22 @@ const LoginPage = () => {
           navigate('/userHome');
         }
       } else {
-        setMsg('Invalid credentials. Please try again.');
+        const errorData = await response.json();
+        setMsg(errorData.message || 'Invalid credentials. Please try again.');
       }
     } catch (error) {
       setMsg('An error occurred, please try again later.');
     }
   };
 
+
   return (
     <div className="loginPage">
       <div className="loginContainer">
         <h2 className="loginHeading">User Login</h2>
-        {msg && <p className="errorMessage">{msg}</p>}
+
         <form onSubmit={handleLogin} className="userLoginForm">
+        {msg && <p className="errorMessage">{msg}</p>}
           <label htmlFor="loginInput">Email:</label>
           <input
             type="email"

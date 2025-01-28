@@ -47,10 +47,11 @@ const UserSignup = () => {
 
   return (
     <div className="signupContainer">
-      {error && <div className="errorMessage">{error}</div>}
+
       <form onSubmit={handleSignup} className="signupForm">
         <div className="formGroup">
           <h2 className="signupHeading">User SignUp</h2>
+          {error && <p className="errorMessage">{error}</p>}
           <label className="formLabel">Email:</label>
           <input
             type="email"

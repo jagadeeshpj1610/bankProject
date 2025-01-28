@@ -1,0 +1,7 @@
+
+ $env: DB_HOST="localhost" 
+ $env:DB_USER="root"
+$env:DB_PASSWORD="Jagadeesh@1610"
+$env:DB_DATABASE="bank_app"
+$JWT_SECRET="developer"
+npm start
