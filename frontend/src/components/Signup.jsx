@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import '../css/index.css';
 
 const UserSignup = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -13,8 +14,8 @@ const UserSignup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
 
-    if (!email || !password || !confirmPassword) {
-      setError('Email, password, and confirm password are required.');
+    if (!name, !email || !password || !confirmPassword) {
+      setError('name, Email, password, and confirm password are required.');
       return;
     }
 
@@ -29,7 +30,7 @@ const UserSignup = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ name, email, password }),
       });
 
       const result = await response.json();
@@ -52,6 +53,14 @@ const UserSignup = () => {
         <div className="formGroup">
           <h2 className="signupHeading">User SignUp</h2>
           {error && <p className="errorMessage">{error}</p>}
+          <label className="formLabel">Name:</label>
+          <input
+            type='text'
+            className="formInput"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
           <label className="formLabel">Email:</label>
           <input
             type="email"

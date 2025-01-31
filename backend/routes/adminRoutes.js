@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 
-const {createAccount, fetchUserDetails, deposit, withdraw, money_transfer, adminSignup} = require('../controllers/adminController');
+const {editUser, createAccount, fetchUserDetails, deposit, withdraw, money_transfer, adminSignup} = require('../controllers/adminController');
 const {login} = require('../controllers/adminController');
 const verifyToken = require('../middleware/authMiddleware');
 
@@ -14,5 +14,6 @@ router.get('/search', verifyToken, fetchUserDetails);
 router.post('/deposit', verifyToken, deposit);
 router.post('/withdraw', verifyToken, withdraw);
 router.post('/moneyTransfer', verifyToken, money_transfer);
+router.put('/edituserprofile/:account_number', verifyToken, editUser)
 
 module.exports = router;

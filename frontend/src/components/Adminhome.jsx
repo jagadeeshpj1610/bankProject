@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import '../css/Adminhome.css';
+import EditUser from "./editUse";
+import "../css/AdminHome.css";
 
 const AdminHome = () => {
     const [accountNumber, setAccountNumber] = useState("");
     const [data, setData] = useState(null);
     const [error, setError] = useState("");
+    const [isEditModalOpen, setEditModalOpen] = useState(false);
+    const [userToEdit, setUserToEdit] = useState(null);
 
     const handleSearch = async () => {
         if (!accountNumber) {
@@ -20,13 +23,16 @@ const AdminHome = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:8000/api/admin/search?accountNumber=${accountNumber}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`,
-                },
-            });
+            const response = await fetch(
+                `http://localhost:8000/api/admin/search?accountNumber=${accountNumber}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             if (!response.ok) {
                 throw new Error("Failed to fetch account details.");
             }
@@ -35,14 +41,23 @@ const AdminHome = () => {
             setData(result);
             setError("");
         } catch (err) {
-
             setError(err.message || "An error occurred.");
         }
     };
 
+    const handleEditUser = (user) => {
+        setUserToEdit(user);
+        setEditModalOpen(true);
+    };
+
+    const closeEditModal = () => {
+        setEditModalOpen(false);
+        setUserToEdit(null);
+    };
+
     return (
         <div className="adminHome">
-            <h1 className="adminTitle">Admin Dashboard</h1>
+            <h1 className="adminTitle">Account Enquiry</h1>
             <div className="searchContainer">
                 <input
                     className="searchInput"
@@ -59,32 +74,42 @@ const AdminHome = () => {
             {data && (
                 <div className="resultsContainer">
                     <section className="userDetailsSection">
-                        <h2>User Details</h2>
+                        <h2>Personal Information</h2>
                         {data.userDetails.length ? (
-                            <table className="dataTable">
-                                <thead>
-                                    <tr>
-                                        <th>Account Number</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone Number</th>
-                                        <th>Address</th>
-                                        <th>Balance</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {data.userDetails.map((user) => (
-                                        <tr key={user.id}>
-                                            <td>{accountNumber}</td>
-                                            <td>{user.name}</td>
-                                            <td>{user.email}</td>
-                                            <td>{user.phone}</td>
-                                            <td>{user.address}</td>
-                                            <td>{user.balance}</td>
+                            <div>
+                                <table className="dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Account Number</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Aadhar Number</th>
+                                            <th>Phone Number</th>
+                                            <th>Address</th>
+                                            <th>Balance</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {data.userDetails.map((user) => (
+                                            <tr key={user.id}>
+                                                <td>{accountNumber}</td>
+                                                <td>{user.name}</td>
+                                                <td>{user.email}</td>
+                                                <td>{user.aadhaar}</td>
+                                                <td>{user.phone}</td>
+                                                <td>{user.address}</td>
+                                                <td>{user.balance}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                                <button
+                                    className="editButton"
+                                    onClick={() => handleEditUser(data.userDetails[0])}
+                                >
+                                    Edit User profile
+                                </button>
+                            </div>
                         ) : (
                             <p>No user details found.</p>
                         )}
@@ -100,7 +125,6 @@ const AdminHome = () => {
                                         <th>Amount</th>
                                         <th>Description</th>
                                         <th>Type</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -110,7 +134,6 @@ const AdminHome = () => {
                                             <td>{txn.amount}</td>
                                             <td>{txn.details}</td>
                                             <td>{txn.type}</td>
-
                                         </tr>
                                     ))}
                                 </tbody>
@@ -130,7 +153,6 @@ const AdminHome = () => {
                                         <th>Sender</th>
                                         <th>Receiver</th>
                                         <th>Amount</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -140,7 +162,6 @@ const AdminHome = () => {
                                             <td>{transfer.sender_account}</td>
                                             <td>{transfer.receiver_account}</td>
                                             <td>{transfer.amount}</td>
-
                                         </tr>
                                     ))}
                                 </tbody>
@@ -151,8 +172,15 @@ const AdminHome = () => {
                     </section>
                 </div>
             )}
+
+            {isEditModalOpen && (
+                <EditUser userData={userToEdit} onClose={closeEditModal} />
+            )}
         </div>
     );
 };
 
 export default AdminHome;
+
+
+

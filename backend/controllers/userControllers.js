@@ -1,14 +1,16 @@
 const db = require('../models/db');
 
 const userSignup = async (req, res) => {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
 
-  if (!email || !password) {
+  if (!name, !email || !password) {
     return res.status(400).json({ error: "Email and password are required" });
   }
 
   try {
     const [existingUser] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
+    console.log(existingUser.length);
+
 
     if (existingUser.length === 0) {
       return res.status(404).json({ error: "User does not exist in the bank system. Please contact admin." });
@@ -16,11 +18,15 @@ const userSignup = async (req, res) => {
 
     const [existingSignup] = await db.query("SELECT * FROM admins WHERE email = ?", [email]);
 
+    console.log(existingSignup.length);
+
     if (existingSignup.length > 0) {
       return res.status(400).json({ error: "You have already signed up. Please log in." });
     }
 
-    await db.query("INSERT INTO admins (email, password) VALUES (?, ?)", [email, password]);
+    await db.query("INSERT INTO admins (name, email, password) VALUES (?, ?, ?)", [name, email, password]);
+    console.log("hello");
+
 
     return res.json({ message: "Signup successful. You can now log in with your credentials." });
   } catch (error) {

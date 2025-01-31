@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../css/userHome.css'
-import { data } from 'react-router-dom';
+
 
 const UserHome = () => {
   const email = localStorage.getItem('email');
@@ -88,6 +88,10 @@ const UserHome = () => {
               <tr>
                 <td>Account Type</td>
                 <td>{userDetails.account_type}</td>
+              </tr>
+              <tr>
+                <td>Aadhar Number</td>
+                <td>{userDetails.aadhaar}</td>
               </tr>
               <tr>
                 <td>Created At</td>

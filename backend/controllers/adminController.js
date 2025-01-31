@@ -1,8 +1,39 @@
 const db = require('../models/db');
 
 
+const editUser = async (req, res) => {
+  const { account_number } = req.params;
+  const { name, email, phone, address, aadhaar } = req.body;
+
+
+  const [existingPhone] = await db.execute(
+      'SELECT * FROM users WHERE phone = ? AND account_number != ?',
+      [phone, account_number]
+  );
+
+  if (existingPhone.length > 0) {
+      return res.status(400).json({ error: "Phone number already exists." });
+  }
+
+  try {
+      const [result] = await db.execute(
+          'UPDATE users SET name = ?, email = ?, phone = ?, address = ?, aadhaar = ? WHERE account_number = ?',
+          [name, email, phone, address, aadhaar, account_number]
+      );
+
+      res.json({ message: 'User details updated successfully!' });
+  } catch (err) {
+      console.error('Error updating user:', err);
+      res.status(500).json({ error: 'Failed to update user details.' });
+  }
+};
+
+
+
+
+
 const createAccount = async (req, res) => {
-  const { name, dob, balance, email, pan, aadhaar, phone, address, accountType } = req.body;
+  const { name, dob, balance, email, aadhaar, phone, address, accountType } = req.body;
 
   if (!name || !dob || !balance || !email || !aadhaar || !phone || !address || !accountType)
     return res.status(400).json({ message: 'All fields are required.' });
@@ -21,7 +52,7 @@ const createAccount = async (req, res) => {
     await db.execute('INSERT INTO transactions (account_number, type, amount, timestamp, details) VALUES (?, ?, ?, NOW(), ?)',
       [accountNumber, 'deposit', balance, 'Initial deposit']);
 
-    res.status(201).json({ message: 'Account created successfully!', accountNumber, "accountNumber":accountNumber });
+    res.status(201).json({ message: 'Account created successfully!', accountNumber, "accountNumber": accountNumber });
   } catch (err) {
     console.error('Error creating account or transaction:', err);
     res.status(500).json({ message: 'Internal server error.' });
@@ -112,7 +143,7 @@ const withdraw = async (req, res) => {
       await db.query(transactionQuery, [accountNumber, "withdraw", withdrawalAmount, "Withdraw"]);
       const mainBalance = await db.query("SELECT balance FROM users WHERE account_number = ?", [accountNumber]);
 
-      return res.json({ message: "Withdrawal successful" , 'amount': amount, 'accountNumber': accountNumber, 'timestamp': new Date(), "details": "Withdraw", "type": "withdraw", "mainBalance": mainBalance, "prevBalance": prevBalance, "name": prevBalance[0][0].name });
+      return res.json({ message: "Withdrawal successful", 'amount': amount, 'accountNumber': accountNumber, 'timestamp': new Date(), "details": "Withdraw", "type": "withdraw", "mainBalance": mainBalance, "prevBalance": prevBalance, "name": prevBalance[0][0].name });
     } else {
       return res.status(400).json({ error: "Failed to withdraw" });
     }
@@ -243,4 +274,4 @@ const adminSignup = async (req, res) => {
 
 
 
-module.exports = { login, createAccount, adminSignup, fetchUserDetails, deposit, withdraw, money_transfer };
+module.exports = { editUser, login, createAccount, adminSignup, fetchUserDetails, deposit, withdraw, money_transfer };

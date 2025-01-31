@@ -64,7 +64,7 @@ const CheckBalance = () => {
       ) : (
         <div className="balanceDetails">
           {balance !== null ? (
-            <p className="balanceText">Balance: {balance}</p>
+            <p className="balanceText">Balance: ₹{balance}</p>
           ) : (
             <p className="errorText">Failed to load balance.</p>
           )}
