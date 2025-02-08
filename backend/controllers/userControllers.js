@@ -161,7 +161,7 @@ const money_transfer = async (req, res) => {
 
 
     if (senderDetails.length === 0 || receiverDetails.length === 0) {
-      return res.status(404).json({ error: "Sender or receiver account not found" });
+      return res.status(404).json({ error: "receiver account is not valid or not found" });
     }
 
 

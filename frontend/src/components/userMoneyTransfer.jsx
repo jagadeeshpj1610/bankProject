@@ -205,25 +205,31 @@ const UserMoneyTransfer = () => {
     }
   }, []);
 
-  const handleTransfer = async (e) => {
-    e.preventDefault();
-
+  // Separate Validation Function
+  const validateTransfer = () => {
     if (!senderAccount || !receiverAccount || !amount || amount <= 0) {
       setMessage("Sender account, receiver account, and a valid amount are required.");
       setTimeout(() => setMessage(""), 2000);
-      return;
+      return false;
     }
 
     if (senderAccount === receiverAccount) {
       setMessage("Sender and receiver accounts cannot be the same.");
       setTimeout(() => setMessage(""), 2000);
-      return;
+      return false;
     }
+
+    return true;
+  };
+
+  const handleTransfer = async (e) => {
+    e.preventDefault();
+
+    if (!validateTransfer()) return;
 
     setIsProcessing(true);
     try {
       const token = localStorage.getItem("token");
-
       const transferAmount = parseFloat(amount);
 
       const response = await fetch("http://localhost:8000/api/money_transfer", {
@@ -244,16 +250,14 @@ const UserMoneyTransfer = () => {
         setResult(resultData);
         setMessage("Transfer successful");
 
-
         setTimeout(() => {
           setReceiverAccount("");
           setAmount("");
           setMessage("");
-          setAccountDetails("")
-
+          setAccountDetails("");
         }, 2000);
         setTimeout(() => {
-          setResult(null)
+          setResult(null);
         }, 10000);
       } else {
         const errorData = await response.json();
@@ -287,7 +291,6 @@ const UserMoneyTransfer = () => {
 
   const TransferResult = () => (
     <div className="user-transfer-result">
-      {message && <p className={`user-transfer-message ${message === "Transfer successful" ? "success" : "error"}`}>{message}</p>}
       {result && (
         <table className="user-transfer-table">
           <thead>
@@ -319,6 +322,7 @@ const UserMoneyTransfer = () => {
     <>
       <div className="user-transfer-container">
         <h1 className="user-transfer-title">Money Transfer</h1>
+        {message && <p className={`user-transfer-message ${message === "Transfer successful" ? "success" : "error"}`}>{message}</p>}
         <form onSubmit={handleTransfer} className="user-transfer-form">
           <div className="user-transfer-group">
             <label className="user-transfer-label">Sender Account Number:</label>
@@ -355,4 +359,3 @@ const UserMoneyTransfer = () => {
 };
 
 export default UserMoneyTransfer;
-
