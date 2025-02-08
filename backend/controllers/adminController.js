@@ -5,37 +5,59 @@ const jwt = require('jsonwebtoken');
 const { adminAccountCreationTemplate, depositTemplate, withdrawalTemplate, moneyTransferReceiverTemplate, moneyTransferSenderTemplate } = require('../utils/emailtemplates')
 
 
-
-
-
-
 const editUser = async (req, res) => {
   const { account_number } = req.params;
   const { name, email, phone, address, aadhaar } = req.body;
 
-
-  const [existingPhone] = await db.execute(
-    'SELECT * FROM users WHERE phone = ? AND account_number != ?',
-    [phone, account_number]
-  );
-
-  if (existingPhone.length > 0) {
-    return res.status(400).json({ error: "Phone number already exists." });
-  }
-
   try {
+    const [existingPhone] = await db.execute(
+      'SELECT * FROM users WHERE phone = ? AND account_number != ?',
+      [phone, account_number]
+    );
+
+    if (existingPhone.length > 0) {
+      return res.status(400).json({ error: "Phone number already exists." });
+    }
+
+    const [currentUser] = await db.execute('SELECT * FROM users WHERE account_number = ?', [account_number]);
+
+    if (currentUser.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
     const [result] = await db.execute(
       'UPDATE users SET name = ?, email = ?, phone = ?, address = ?, aadhaar = ? WHERE account_number = ?',
       [name, email, phone, address, aadhaar, account_number]
     );
 
-    res.json({ message: 'User details updated successfully!' });
+    if (result.affectedRows > 0) {
+      const emailContent = `
+        Hello ${currentUser[0].name},
+
+        Your account profile has been updated by the admin based on your request.
+
+        ${name ? `Your name has been updated to: ${name}` : ""}
+        ${email ? `Your email has been updated to: ${email}` : ""}
+        ${phone ? `Your phone has been updated to: ${phone}` : ""}
+        ${address ? `Your address has been updated to: ${address}` : ""}
+        ${aadhaar ? `Your Aadhaar has been updated to: ${aadhaar}` : ""}
+
+        If you did not authorize this change, please contact support immediately.
+
+        Thank you for using our service.
+      `;
+
+      await sendEmail(currentUser[0].email, "Profile Updated", emailContent);
+
+      return res.json({ message: 'User details updated successfully!' });
+    } else {
+      return res.status(400).json({ error: 'Failed to update user details.' });
+    }
   } catch (err) {
     console.error('Error updating user:', err);
     res.status(500).json({ error: 'Failed to update user details.' });
   }
 };
-
 
 
 

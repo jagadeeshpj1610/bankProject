@@ -1,4 +1,5 @@
 const db = require('../models/db');
+const jwt = require('jsonwebtoken');
 const { moneyTransferSenderTemplate, moneyTransferReceiverTemplate } = require('../utils/emailtemplates')
 const sendEmail = require('../utils/emailService');
 
@@ -27,19 +28,15 @@ const userSignup = async (req, res) => {
     }
 
     await db.query("INSERT INTO admins (name, email, password) VALUES (?, ?, ?)", [name, email, password]);
-    console.log("hello");
 
+    const emailContent = `Hello ${name},\n\nYour account has been successfully created in Magadha bank.\n\nYou can now log in using your credentials.\n\nThank you for choosing our services.`;
+    await sendEmail(email, "Account Created Successfully", emailContent);
 
     return res.json({ message: "Signup successful. You can now log in with your credentials." });
   } catch (error) {
     return res.status(500).json({ error: "Failed to sign up" });
   }
 };
-
-
-const jwt = require('jsonwebtoken');
-
-
 
 
 const login = async (req, res) => {
