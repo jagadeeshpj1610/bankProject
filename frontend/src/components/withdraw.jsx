@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import '../css/withdraw.css';
 
@@ -158,11 +159,11 @@ const Withdraw = () => {
             <tbody>
               <tr>
                 <td>{withdrawalDetails.accountNumber}</td>
-                <td>{withdrawalDetails.prevBalance?.[0]?.[0]?.name || "N/A"}</td>
-                <td>{withdrawalDetails.prevBalance?.[0]?.[0]?.balance || "N/A"}</td>
+                <td>{withdrawalDetails.userName || "N/A"}</td>
+                <td>{withdrawalDetails.prevbalance || "N/A"}</td>
                 <td>{withdrawalDetails.amount}</td>
                 <td>{withdrawalDetails.type}</td>
-                <td>{withdrawalDetails.mainBalance?.[0]?.[0]?.balance || "N/A"}</td>
+                <td>{withdrawalDetails.newBalance || "N/A"}</td>
                 <td>{new Date(withdrawalDetails.timestamp).toLocaleString()}</td>
               </tr>
             </tbody>

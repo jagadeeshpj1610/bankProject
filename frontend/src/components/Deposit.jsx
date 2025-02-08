@@ -72,6 +72,8 @@ const Deposit = () => {
       });
 
       const result = await response.json();
+      console.log(result);
+
       if (response.ok) {
         setMessage("Deposit successful");
         setDepositDetails(result);
@@ -90,7 +92,7 @@ const Deposit = () => {
 
         setTimeout(() => {
           setDepositDetails(null);
-        }, 5000);
+        }, 10000);
       } else {
         setMessage(result.error || "Failed to deposit");
       }
@@ -164,11 +166,11 @@ const Deposit = () => {
             <tbody>
               <tr>
                 <td>{depositDetails.accountNumber}</td>
-                <td>{depositDetails.prevBalance?.[0]?.[0]?.name || "N/A"}</td>
-                <td>{depositDetails.prevBalance?.[0]?.[0]?.balance || "N/A"}</td>
+                <td>{depositDetails.userName || "N/A"}</td>
+                <td>{depositDetails.prevbalance || "N/A"}</td>
                 <td>{depositDetails.amount}</td>
                 <td>{depositDetails.type}</td>
-                <td>{depositDetails.mainBalance?.[0]?.[0]?.balance || "N/A"}</td>
+                <td>{depositDetails.newBalance || "N/A"}</td>
                 <td>{new Date(depositDetails.timestamp).toLocaleString()}</td>
               </tr>
             </tbody>
