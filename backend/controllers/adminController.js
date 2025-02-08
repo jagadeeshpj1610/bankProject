@@ -63,31 +63,6 @@ const createAccount = async (req, res) => {
 
 
 
-
-// const fetchUserDetails = async (req, res) => {
-//   const accountNumber = req.query.accountNumber;
-
-//   if (!accountNumber) {
-//     return res.status(400).json({ error: "Account number is required" });
-//   }
-
-//   try {
-//     const userQuery = "SELECT * FROM users WHERE account_number = ?";
-//     const [userDetails] = await db.query(userQuery, [accountNumber]);
-
-//     const transactionQuery = "SELECT * FROM transactions WHERE account_number = ?";
-//     const [transactions] = await db.query(transactionQuery, [accountNumber]);
-
-//     const transferQuery = "SELECT * FROM money_transfers WHERE sender_account = ? OR receiver_account = ?";
-//     const [moneyTransfers] = await db.query(transferQuery, [accountNumber, accountNumber]);
-
-//     return res.json({ userDetails, transactions, moneyTransfers });
-//   } catch (error) {
-//     return res.status(500).json({ error: "Failed to fetch account details" });
-//   }
-// };
-
-
 const fetchUserDetails = async (req, res) => {
   const accountNumber = req.query.accountNumber;
 
@@ -96,7 +71,7 @@ const fetchUserDetails = async (req, res) => {
   }
 
   try {
-    // Fetch user details
+
     const userQuery = "SELECT * FROM users WHERE account_number = ?";
     const [userDetails] = await db.query(userQuery, [accountNumber]);
 
