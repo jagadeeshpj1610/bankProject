@@ -1,4 +1,5 @@
 const db = require('../models/db');
+const sendEmail = require('../utils/emailService');
 
 
 const editUser = async (req, res) => {
@@ -51,6 +52,10 @@ const createAccount = async (req, res) => {
 
     await db.execute('INSERT INTO transactions (account_number, type, amount, timestamp, details) VALUES (?, ?, ?, NOW(), ?)',
       [accountNumber, 'deposit', balance, 'Initial deposit']);
+
+    const emailText = `Hello ${name},\n\nYour bank account has been successfully created!\n\nAccount Number: ${accountNumber}\nBalance: ${balance}\n\nThank you for choosing Magadha bank.`;
+
+    await sendEmail(email, "Your New Bank Account Details", emailText);
 
     res.status(201).json({ message: 'Account created successfully!', accountNumber, "accountNumber": accountNumber });
   } catch (err) {
