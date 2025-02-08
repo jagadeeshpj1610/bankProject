@@ -64,6 +64,11 @@ const MoneyTransfer = () => {
         setAmount("");
         setSenderName("");
         setReceiverName("");
+
+        setTimeout(() => {
+          setMessage("");
+          setResult(null);
+        }, 10000);
       } else {
         setMessage(resultData.error || "Transfer failed");
         setResult(null);
@@ -73,12 +78,13 @@ const MoneyTransfer = () => {
       setResult(null);
     } finally {
       setIsProcessing(false);
+      setTimeout(() => setMessage(""), 2000);
     }
   };
 
   const TransferResult = () => (
     <div className="transferResult">
-      {message && <p className={`message ${message === "Transfer successful" ? "success" : "error"}`}>{message}</p>}
+
       {result && (
         <table className="transferDetails">
           <thead>
@@ -110,49 +116,51 @@ const MoneyTransfer = () => {
 
   return (
     <>
-    <div className="moneyTransfer">
-      <h1 className="moneyTransferTitle">Money Transfer</h1>
-      <form className="transferForm" onSubmit={handleTransfer}>
-        <label htmlFor="">Sender Account Number</label>
-        <input
-          className="inputField"
-          type="text"
-          placeholder="Sender Account"
-          value={senderAccount}
-          onChange={(e) => setSenderAccount(e.target.value)}
-          onBlur={() => fetchAccountDetails(senderAccount, setSenderName)}
-          required
-        />
-        {senderName && <p>Sender Name: {senderName}</p>}
-        <label htmlFor="">Recevier Account Nuber</label>
-        <input
-          className="inputField"
-          type="text"
-          placeholder="Receiver Account"
-          value={receiverAccount}
-          onChange={(e) => setReceiverAccount(e.target.value)}
-          onBlur={() => fetchAccountDetails(receiverAccount, setReceiverName)}
-          required
-        />
-        {receiverName && <p>Receiver Name: {receiverName}</p>}
-        <label htmlFor="">Amount</label>
-        <input
-          className="inputField"
-          type="number"
-          placeholder="Amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          required
-        />
+      <div className="moneyTransfer">
+        <h1 className="moneyTransferTitle">Money Transfer</h1>
 
-        <button className="transferButton" type="submit" disabled={isProcessing}>
-          {isProcessing ? "Processing..." : "Transfer"}
-        </button>
-      </form>
+        {message && <p className={`message ${message === "Transfer successful" ? "success" : "error"}`}>{message}</p>}
 
-    </div>
-     <TransferResult />
-     </>
+        <form className="transferForm" onSubmit={handleTransfer}>
+          <label htmlFor="">Sender Account Number</label>
+          <input
+            className="inputField"
+            type="text"
+            placeholder="Sender Account"
+            value={senderAccount}
+            onChange={(e) => setSenderAccount(e.target.value)}
+            onBlur={() => fetchAccountDetails(senderAccount, setSenderName)}
+            required
+          />
+          {senderName && <p>Sender Name: {senderName}</p>}
+          <label htmlFor="">Receiver Account Number</label>
+          <input
+            className="inputField"
+            type="text"
+            placeholder="Receiver Account"
+            value={receiverAccount}
+            onChange={(e) => setReceiverAccount(e.target.value)}
+            onBlur={() => fetchAccountDetails(receiverAccount, setReceiverName)}
+            required
+          />
+          {receiverName && <p>Receiver Name: {receiverName}</p>}
+          <label htmlFor="">Amount</label>
+          <input
+            className="inputField"
+            type="number"
+            placeholder="Amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            required
+          />
+          <button className="transferButton" type="submit" disabled={isProcessing}>
+            {isProcessing ? "Processing..." : "Transfer"}
+          </button>
+        </form>
+      </div>
+
+      <TransferResult />
+    </>
   );
 };
 
