@@ -5,6 +5,7 @@ const Deposit = () => {
   const [accountNumber, setAccountNumber] = useState("");
   const [amount, setAmount] = useState("");
   const [message, setMessage] = useState("");
+  const [err, setErr] = useState({ accountNumber: "", amount: "" });
   const [isProcessing, setIsProcessing] = useState(false);
   const [accountDetails, setAccountDetails] = useState(null);
   const [depositDetails, setDepositDetails] = useState(null);
@@ -14,7 +15,7 @@ const Deposit = () => {
       const token = localStorage.getItem("token");
 
       if (!token) {
-        setError("You are not authenticated. Please log in.");
+        setMessage("You are not authenticated. Please log in.");
         return;
       }
 
@@ -25,16 +26,38 @@ const Deposit = () => {
           "Authorization": `Bearer ${token}`,
         },
       });
+
       const data = await response.json();
       setAccountDetails(data?.userDetails?.[0] || null);
-    } catch {
+    } catch (error) {
+      setMessage("Error fetching account details.");
       setAccountDetails(null);
     }
   };
 
+  const validateAccountNumber = (value) => {
+    if (isNaN(value) || value.length < 12) {
+      setErr((prevErr) => ({ ...prevErr, accountNumber: "Account number must be numeric and at least 12 digits long." }));
+      return false;
+    }
+    setErr((prevErr) => ({ ...prevErr, accountNumber: "" }));
+    return true;
+  };
+
+  const validateAmount = (value) => {
+    if (isNaN(value) || parseFloat(value) <= 0) {
+      setErr((prevErr) => ({ ...prevErr, amount: "Amount must be a positive number." }));
+      return false;
+    }
+    setErr((prevErr) => ({ ...prevErr, amount: "" }));
+    return true;
+  };
+
   const handleDeposit = async (event) => {
     event.preventDefault();
-    if (!accountNumber || !amount) return setMessage("Account number and amount are required");
+
+
+    if (!validateAccountNumber(accountNumber) || !validateAmount(amount)) return;
 
     setIsProcessing(true);
     try {
@@ -52,10 +75,26 @@ const Deposit = () => {
       if (response.ok) {
         setMessage("Deposit successful");
         setDepositDetails(result);
+
+        setTimeout(() => {
+          setAccountNumber("");
+          setAmount("");
+          setAccountDetails(null);
+          setMessage("")
+        }, 2000);
+
+        setTimeout(() => {
+          setErr({ accountNumber: "", amount: "" });
+          setMessage("")
+        }, 2000);
+
+        setTimeout(() => {
+          setDepositDetails(null);
+        }, 5000);
       } else {
         setMessage(result.error || "Failed to deposit");
       }
-    } catch {
+    } catch (error) {
       setMessage("Network error, please try again later.");
     } finally {
       setIsProcessing(false);
@@ -66,6 +105,9 @@ const Deposit = () => {
     <>
       <div className="depositContainer">
         <h1 className="depositTitle">Deposit</h1>
+
+        {message && <p style={{ color: "green" }}>{message}</p>}
+
         <form className="depositForm" onSubmit={handleDeposit}>
           <label htmlFor="">Account Number</label>
           <input
@@ -73,27 +115,36 @@ const Deposit = () => {
             type="text"
             placeholder="Account Number"
             value={accountNumber}
-            onChange={(e) => setAccountNumber(e.target.value)}
+            onChange={(e) => {
+              setAccountNumber(e.target.value);
+              validateAccountNumber(e.target.value);
+            }}
             onBlur={() => fetchAccountDetails(accountNumber)}
             required
           />
+          {err.accountNumber && <p style={{ color: "red" }}>{err.accountNumber}</p>}
+
           {accountDetails && <p className="confirmName">Account Name: {accountDetails.name}</p>}
+
           <label htmlFor="">Amount</label>
           <input
             className="inputField"
             type="number"
             placeholder="Amount"
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            onChange={(e) => {
+              setAmount(e.target.value);
+              validateAmount(e.target.value);
+            }}
             required
           />
+          {err.amount && <p style={{ color: "red" }}>{err.amount}</p>}
+
           <button className="depositButton" type="submit" disabled={isProcessing}>
             {isProcessing ? "Processing..." : "Deposit"}
           </button>
         </form>
       </div>
-
-      {message && <p>{message}</p>}
 
       {depositDetails && (
         <div className="depositDetails">
