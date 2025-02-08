@@ -52,10 +52,16 @@ const AdminHome = () => {
         setEditModalOpen(true);
     };
 
-    const closeEditModal = () => {
+    // const closeEditModal = () => {
+    //     setEditModalOpen(false);
+    //     setUserToEdit(null);
+    // };
+    const closeEditModal = async () => {
         setEditModalOpen(false);
         setUserToEdit(null);
+        await handleSearch();
     };
+
 
     return (
         <div className="adminHome">
@@ -109,7 +115,7 @@ const AdminHome = () => {
                                         </tr>
                                         <tr>
                                             <td>dob</td>
-                                            <td>{data.userDetails[0].dob}</td>
+                                            <td>{new Date(data.userDetails[0].dob).toDateString()}</td>
                                         </tr>
                                         <tr>
                                             <td>Type</td>
@@ -147,7 +153,6 @@ const AdminHome = () => {
                             <table className="dataTable">
                                 <thead>
                                     <tr>
-
                                         <th>Account Number</th>
                                         <th>Amount</th>
                                         <th>Description</th>
@@ -158,7 +163,6 @@ const AdminHome = () => {
                                 <tbody>
                                     {data.transactions.map((txn) => (
                                         <tr key={txn.id}>
-
                                             <td>{txn.account_number}</td>
                                             <td>{txn.amount}</td>
                                             <td>{txn.details}</td>

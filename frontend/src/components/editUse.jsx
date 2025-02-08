@@ -22,7 +22,7 @@ const EditUser = ({ userData, onClose }) => {
         setError("");
         setSuccess("");
 
-        const token = localStorage.getItem("token"); // Fetch the auth token
+        const token = localStorage.getItem("token");
 
         if (!token) {
             setError("Unauthorized. Please log in.");
@@ -44,7 +44,10 @@ const EditUser = ({ userData, onClose }) => {
             }
 
             setSuccess("User details updated successfully!");
-            setTimeout(() => onClose(), 1500);
+            setTimeout(() => {
+                onClose();
+            }, 1000);
+
         } catch (err) {
             setError(err.message || "An error occurred.");
         }
