@@ -9,13 +9,57 @@ const UserSignup = () => {
   const [error, setError] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordMatchError, setPasswordMatchError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const navigate = useNavigate();
+
+  const validateEmail = (email) => {
+    return email.includes('@gmail.com');
+  };
+
+  const validatePassword = (password) => {
+    return password.length >= 6;
+  };
+
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setEmail(value);
+    if (!value) {
+      setEmailError('Email is required.');
+    } else if (!validateEmail(value)) {
+      setEmailError('Please enter a valid Gmail address.');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+    if (!value) {
+      setPasswordError('Password is required.');
+    } else if (!validatePassword(value)) {
+      setPasswordError('Password must be at least 6 characters.');
+    } else {
+      setPasswordError('');
+    }
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const value = e.target.value;
+    setConfirmPassword(value);
+    if (value !== password) {
+      setPasswordMatchError('Passwords do not match.');
+    } else {
+      setPasswordMatchError('');
+    }
+  };
 
   const handleSignup = async (e) => {
     e.preventDefault();
 
-    if (!name, !email || !password || !confirmPassword) {
-      setError('name, Email, password, and confirm password are required.');
+    if (!name || !email || !password || !confirmPassword) {
+      setError('Name, email, password, and confirm password are required.');
       return;
     }
 
@@ -48,7 +92,6 @@ const UserSignup = () => {
 
   return (
     <div className="signupContainer">
-
       <form onSubmit={handleSignup} className="signupForm">
         <div className="formGroup">
           <h2 className="signupHeading">User SignUp</h2>
@@ -66,9 +109,10 @@ const UserSignup = () => {
             type="email"
             className="formInput"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
             required
           />
+          {emailError && <div className="errorMessage">{emailError}</div>}
         </div>
         <div className="formGroup">
           <label className="formLabel">Password:</label>
@@ -76,9 +120,10 @@ const UserSignup = () => {
             type="password"
             className="formInput"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePasswordChange}
             required
           />
+          {passwordError && <div className="errorMessage">{passwordError}</div>}
         </div>
         <div className="formGroup">
           <label className="formLabel">Confirm Password:</label>
@@ -86,20 +131,13 @@ const UserSignup = () => {
             type="password"
             className="formInput"
             value={confirmPassword}
-            onChange={(e) => {
-              setConfirmPassword(e.target.value);
-              if (e.target.value !== password) {
-                setPasswordMatchError('Passwords do not match.');
-              } else {
-                setPasswordMatchError('');
-              }
-            }}
+            onChange={handleConfirmPasswordChange}
             required
           />
-          {passwordMatchError && <div className="errorMessage" style={{textAlign:"left"}}>{passwordMatchError}</div>}
+          {passwordMatchError && <div className="errorMessage" style={{ textAlign: "left" }}>{passwordMatchError}</div>}
         </div>
         <button type="submit" className="signupButton">Sign Up</button>
-        <h5>Already have an Account? <Link to="/adminlogin">Login</Link></h5>
+        <h5>Already have an account? <Link to="/adminlogin">Login</Link></h5>
       </form>
     </div>
   );
