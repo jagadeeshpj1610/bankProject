@@ -64,6 +64,30 @@ const createAccount = async (req, res) => {
 
 
 
+// const fetchUserDetails = async (req, res) => {
+//   const accountNumber = req.query.accountNumber;
+
+//   if (!accountNumber) {
+//     return res.status(400).json({ error: "Account number is required" });
+//   }
+
+//   try {
+//     const userQuery = "SELECT * FROM users WHERE account_number = ?";
+//     const [userDetails] = await db.query(userQuery, [accountNumber]);
+
+//     const transactionQuery = "SELECT * FROM transactions WHERE account_number = ?";
+//     const [transactions] = await db.query(transactionQuery, [accountNumber]);
+
+//     const transferQuery = "SELECT * FROM money_transfers WHERE sender_account = ? OR receiver_account = ?";
+//     const [moneyTransfers] = await db.query(transferQuery, [accountNumber, accountNumber]);
+
+//     return res.json({ userDetails, transactions, moneyTransfers });
+//   } catch (error) {
+//     return res.status(500).json({ error: "Failed to fetch account details" });
+//   }
+// };
+
+
 const fetchUserDetails = async (req, res) => {
   const accountNumber = req.query.accountNumber;
 
@@ -72,17 +96,33 @@ const fetchUserDetails = async (req, res) => {
   }
 
   try {
+    // Fetch user details
     const userQuery = "SELECT * FROM users WHERE account_number = ?";
     const [userDetails] = await db.query(userQuery, [accountNumber]);
+
 
     const transactionQuery = "SELECT * FROM transactions WHERE account_number = ?";
     const [transactions] = await db.query(transactionQuery, [accountNumber]);
 
+
     const transferQuery = "SELECT * FROM money_transfers WHERE sender_account = ? OR receiver_account = ?";
     const [moneyTransfers] = await db.query(transferQuery, [accountNumber, accountNumber]);
 
+
+    for (let transfer of moneyTransfers) {
+
+      const senderQuery = "SELECT name FROM users WHERE account_number = ?";
+      const [senderResult] = await db.query(senderQuery, [transfer.sender_account]);
+      transfer.sender_name = senderResult.length > 0 ? senderResult[0].name : "Unknown";
+
+      const receiverQuery = "SELECT name FROM users WHERE account_number = ?";
+      const [receiverResult] = await db.query(receiverQuery, [transfer.receiver_account]);
+      transfer.receiver_name = receiverResult.length > 0 ? receiverResult[0].name : "Unknown";
+    }
+
     return res.json({ userDetails, transactions, moneyTransfers });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({ error: "Failed to fetch account details" });
   }
 };

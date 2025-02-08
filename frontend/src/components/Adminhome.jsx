@@ -38,6 +38,8 @@ const AdminHome = () => {
             }
 
             const result = await response.json();
+            console.log(result);
+
             setData(result);
             setError("");
         } catch (err) {
@@ -80,27 +82,51 @@ const AdminHome = () => {
                                 <table className="dataTable">
                                     <thead>
                                         <tr>
-                                            <th>Account Number</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Aadhar Number</th>
-                                            <th>Phone Number</th>
-                                            <th>Address</th>
-                                            <th>Balance</th>
+                                            <th>Field</th>
+                                            <th>Description</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.userDetails.map((user) => (
-                                            <tr key={user.id}>
-                                                <td>{accountNumber}</td>
-                                                <td>{user.name}</td>
-                                                <td>{user.email}</td>
-                                                <td>{user.aadhaar}</td>
-                                                <td>{user.phone}</td>
-                                                <td>{user.address}</td>
-                                                <td>{user.balance}</td>
-                                            </tr>
-                                        ))}
+                                        <tr>
+                                            <td>Ac. No</td>
+                                            <td>{accountNumber}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>{data.userDetails[0].name}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>email</td>
+                                            <td>{data.userDetails[0].email}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Aadhaar</td>
+                                            <td>{data.userDetails[0].aadhaar}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Phone</td>
+                                            <td>{data.userDetails[0].phone}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>dob</td>
+                                            <td>{data.userDetails[0].dob}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Type</td>
+                                            <td>{data.userDetails[0].account_type}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Address</td>
+                                            <td>{data.userDetails[0].address}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Created At</td>
+                                            <td>{new Date(data.userDetails[0].created_at).toLocaleString()}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Balance</td>
+                                            <td>{data.userDetails[0].balance}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                                 <button
@@ -121,19 +147,23 @@ const AdminHome = () => {
                             <table className="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>Date</th>
+
+                                        <th>Account Number</th>
                                         <th>Amount</th>
                                         <th>Description</th>
                                         <th>Type</th>
+                                        <th>Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {data.transactions.map((txn) => (
                                         <tr key={txn.id}>
-                                            <td>{new Date(txn.timestamp).toLocaleString()}</td>
+
+                                            <td>{txn.account_number}</td>
                                             <td>{txn.amount}</td>
                                             <td>{txn.details}</td>
                                             <td>{txn.type}</td>
+                                            <td>{new Date(txn.timestamp).toLocaleString()}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -149,19 +179,25 @@ const AdminHome = () => {
                             <table className="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>Date</th>
+
                                         <th>Sender</th>
+                                        <th>Sender Name</th>
                                         <th>Receiver</th>
+                                        <th>Recevier Name</th>
                                         <th>Amount</th>
+                                        <th>Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {data.moneyTransfers.map((transfer) => (
                                         <tr key={transfer.id}>
-                                            <td>{new Date(transfer.timestamp).toLocaleString()}</td>
+
                                             <td>{transfer.sender_account}</td>
+                                            <td>{transfer.sender_name}</td>
                                             <td>{transfer.receiver_account}</td>
+                                            <td>{transfer.receiver_name}</td>
                                             <td>{transfer.amount}</td>
+                                            <td>{new Date(transfer.timestamp).toLocaleString()}</td>
                                         </tr>
                                     ))}
                                 </tbody>
