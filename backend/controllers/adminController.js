@@ -1,9 +1,11 @@
 const db = require('../models/db');
 const sendEmail = require('../utils/emailService');
+const jwt = require('jsonwebtoken');
 
-const { adminAccountCreationTemplate } = require('../utils/emailtemplates')
-const { depositTemplate } = require('../utils/emailtemplates')
-const { withdrawalTemplate } = require('../utils/emailtemplates');
+const { adminAccountCreationTemplate, depositTemplate, withdrawalTemplate, moneyTransferReceiverTemplate, moneyTransferSenderTemplate } = require('../utils/emailtemplates')
+
+
+
 
 
 
@@ -227,6 +229,76 @@ const withdraw = async (req, res) => {
 
 
 
+// const money_transfer = async (req, res) => {
+//   const { sender_account, receiver_account, amount } = req.body;
+
+//   if (!sender_account || !receiver_account || !amount) {
+//     return res.status(400).json({ error: "All fields are required" });
+//   }
+
+//   try {
+//     const [sender] = await db.query("SELECT name, email, balance FROM users WHERE account_number = ?", [sender_account]);
+//     const [receiver] = await db.query("SELECT name, email FROM users WHERE account_number = ?", [receiver_account]);
+
+//     if (sender.length === 0 || receiver.length === 0) {
+//       return res.status(404).json({ error: "Account not found" });
+//     }
+
+//     const senderBalance = parseFloat(sender[0].balance);
+//     const transferAmount = parseFloat(amount);
+
+//     if (senderBalance <= 0) {
+//       return res.status(400).json({ error: "Sender account has insufficient balance for any transaction" });
+//     }
+
+//     if (senderBalance < transferAmount) {
+//       return res.status(400).json({ error: "Insufficient balance" });
+//     }
+
+//     const senderType = 'debit';
+//     const receiverType = 'credit';
+
+//     const senderTransferQuery = "INSERT INTO money_transfers (sender_account, receiver_account, amount, type, timestamp) VALUES (?, ?, ?, ?, NOW())";
+//     await db.query(senderTransferQuery, [sender_account, receiver_account, transferAmount, senderType]);
+
+//     const receiverTransferQuery = "INSERT INTO money_transfers (sender_account, receiver_account, amount, type, timestamp) VALUES (?, ?, ?, ?, NOW())";
+//     await db.query(receiverTransferQuery, [sender_account, receiver_account, transferAmount, receiverType]);
+
+//     const senderQuery = "UPDATE users SET balance = balance - ? WHERE account_number = ?";
+//     await db.query(senderQuery, [transferAmount, sender_account]);
+
+//     const receiverQuery = "UPDATE users SET balance = balance + ? WHERE account_number = ?";
+//     await db.query(receiverQuery, [transferAmount, receiver_account]);
+
+
+
+//     if (!sender[0]?.email || !receiver[0]?.email) {
+//       console.error("Error: Missing email for sender or receiver.");
+//       return res.status(500).json({ error: "Transaction completed, but email notification failed due to missing recipient email." });
+//     }
+
+//     const senderMessage = `Hello ${sender[0].name},\n\nYou have successfully transferred ₹${amount} to ${receiver[0].name} (Account No: ${receiver_account}).\n\nThank you for using our service.`;
+//     const receiverMessage = `Hello ${receiver[0].name},\n\nYou have received ₹${amount} from ${sender[0].name} (Account No: ${sender_account}).\n\nThank you for using our service.`;
+
+//     await sendEmail(sender[0].email, "Transaction Successful", senderMessage);
+//     await sendEmail(receiver[0].email, "Transaction Received", receiverMessage);
+
+//     return res.json({
+//       message: "Transfer successful",
+//       sender_account,
+//       senderDetails: sender[0],
+//       receiver_account,
+//       receiverDetails: receiver[0],
+//       transferAmount,
+//       timestamp: new Date(),
+//       type: "money_transfer",
+//     });
+//   } catch (error) {
+//     console.error("Error transferring amount:", error);
+//     return res.status(500).json({ error: "Failed to transfer amount" });
+//   }
+// };
+
 const money_transfer = async (req, res) => {
   const { sender_account, receiver_account, amount } = req.body;
 
@@ -253,33 +325,39 @@ const money_transfer = async (req, res) => {
       return res.status(400).json({ error: "Insufficient balance" });
     }
 
-    const senderType = 'debit';
-    const receiverType = 'credit';
+    await db.query("UPDATE users SET balance = balance - ? WHERE account_number = ?", [transferAmount, sender_account]);
+    await db.query("UPDATE users SET balance = balance + ? WHERE account_number = ?", [transferAmount, receiver_account]);
 
-    const senderTransferQuery = "INSERT INTO money_transfers (sender_account, receiver_account, amount, type, timestamp) VALUES (?, ?, ?, ?, NOW())";
-    await db.query(senderTransferQuery, [sender_account, receiver_account, transferAmount, senderType]);
+    await db.query("INSERT INTO money_transfers (sender_account, receiver_account, amount, type, timestamp) VALUES (?, ?, ?, ?, NOW())",
+      [sender_account, receiver_account, transferAmount, "debit"]);
 
-    const receiverTransferQuery = "INSERT INTO money_transfers (sender_account, receiver_account, amount, type, timestamp) VALUES (?, ?, ?, ?, NOW())";
-    await db.query(receiverTransferQuery, [sender_account, receiver_account, transferAmount, receiverType]);
+    await db.query("INSERT INTO money_transfers (sender_account, receiver_account, amount, type, timestamp) VALUES (?, ?, ?, ?, NOW())",
+      [sender_account, receiver_account, transferAmount, "credit"]);
 
-    const senderQuery = "UPDATE users SET balance = balance - ? WHERE account_number = ?";
-    await db.query(senderQuery, [transferAmount, sender_account]);
+    const [newSenderBalance] = await db.query("SELECT balance FROM users WHERE account_number = ?", [sender_account]);
+    const [newReceiverBalance] = await db.query("SELECT balance FROM users WHERE account_number = ?", [receiver_account]);
 
-    const receiverQuery = "UPDATE users SET balance = balance + ? WHERE account_number = ?";
-    await db.query(receiverQuery, [transferAmount, receiver_account]);
-
-
-
-    if (!sender[0]?.email || !receiver[0]?.email) {
-      console.error("Error: Missing email for sender or receiver.");
-      return res.status(500).json({ error: "Transaction completed, but email notification failed due to missing recipient email." });
+    if (sender[0].email) {
+      const senderEmailContent = moneyTransferSenderTemplate({
+        sender_name: sender[0].name,
+        receiver_name: receiver[0].name,
+        receiver_account,
+        amount: transferAmount,
+        newBalance: newSenderBalance[0].balance,
+      });
+      await sendEmail(sender[0].email, senderEmailContent.subject, senderEmailContent.text);
     }
 
-    const senderMessage = `Hello ${sender[0].name},\n\nYou have successfully transferred ₹${amount} to ${receiver[0].name} (Account No: ${receiver_account}).\n\nThank you for using our service.`;
-    const receiverMessage = `Hello ${receiver[0].name},\n\nYou have received ₹${amount} from ${sender[0].name} (Account No: ${sender_account}).\n\nThank you for using our service.`;
-
-    await sendEmail(sender[0].email, "Transaction Successful", senderMessage);
-    await sendEmail(receiver[0].email, "Transaction Received", receiverMessage);
+    if (receiver[0].email) {
+      const receiverEmailContent = moneyTransferReceiverTemplate({
+        receiver_name: receiver[0].name,
+        sender_name: sender[0].name,
+        sender_account,
+        amount: transferAmount,
+        newBalance: newReceiverBalance[0].balance,
+      });
+      await sendEmail(receiver[0].email, receiverEmailContent.subject, receiverEmailContent.text);
+    }
 
     return res.json({
       message: "Transfer successful",
@@ -291,6 +369,7 @@ const money_transfer = async (req, res) => {
       timestamp: new Date(),
       type: "money_transfer",
     });
+
   } catch (error) {
     console.error("Error transferring amount:", error);
     return res.status(500).json({ error: "Failed to transfer amount" });
@@ -298,8 +377,6 @@ const money_transfer = async (req, res) => {
 };
 
 
-
-const jwt = require('jsonwebtoken');
 
 const login = async (req, res) => {
   const { email, password } = req.body;

@@ -1,4 +1,6 @@
 const db = require('../models/db');
+const { moneyTransferSenderTemplate, moneyTransferReceiverTemplate } = require('../utils/emailtemplates')
+const sendEmail = require('../utils/emailService');
 
 const userSignup = async (req, res) => {
   const { name, email, password } = req.body;
@@ -59,6 +61,9 @@ const login = async (req, res) => {
     if (user.password !== password) {
       return res.status(401).json({ success: false, message: "Invalid password" });
     }
+
+    const emailContent = `Hello ${user.name},\n\nYou have successfully logged into your account.\n\nIf you did not initiate this login, please contact support to bank1234magadha@gmail.com immediately.\n\nThank you.`;
+    await sendEmail(user.email, "Login Successful", emailContent);
 
     const token = jwt.sign(
       { id: user.id, email: user.email },
@@ -142,9 +147,9 @@ const getUserDetailsAndTransactions = async (req, res) => {
   }
 };
 
+
 const money_transfer = async (req, res) => {
   const { sender_account, receiver_account, amount } = req.body;
-
 
   if (!sender_account || !receiver_account || !amount) {
     return res.status(400).json({ error: "All fields are required" });
@@ -155,33 +160,23 @@ const money_transfer = async (req, res) => {
   }
 
   try {
-
     const [senderDetails] = await db.query("SELECT * FROM users WHERE account_number = ?", [sender_account]);
     const [receiverDetails] = await db.query("SELECT * FROM users WHERE account_number = ?", [receiver_account]);
 
-
     if (senderDetails.length === 0 || receiverDetails.length === 0) {
-      return res.status(404).json({ error: "receiver account is not valid or not found" });
+      return res.status(404).json({ error: "Receiver account not found" });
     }
 
-
     const senderBalance = parseFloat(senderDetails[0].balance);
-
-
     const transferAmount = parseFloat(amount);
 
     if (senderBalance <= 0) {
       return res.status(400).json({ error: "Sender account has insufficient balance for any transaction" });
     }
 
-
-
-
-
     if (senderBalance < transferAmount) {
       return res.status(400).json({ error: "Insufficient balance" });
     }
-
 
     const [resultSender] = await db.query("UPDATE users SET balance = balance - ? WHERE account_number = ?", [transferAmount, sender_account]);
     const [resultReceiver] = await db.query("UPDATE users SET balance = balance + ? WHERE account_number = ?", [transferAmount, receiver_account]);
@@ -189,8 +184,29 @@ const money_transfer = async (req, res) => {
     const [currentSenderBalance] = await db.query("SELECT balance FROM users WHERE account_number = ? ", [sender_account]);
 
     if (resultSender.affectedRows > 0 && resultReceiver.affectedRows > 0) {
-
       await db.query("INSERT INTO money_transfers (sender_account, receiver_account, amount, timestamp) VALUES (?, ?, ?, NOW())", [sender_account, receiver_account, transferAmount]);
+
+      if (senderDetails[0].email) {
+        const senderEmailContent = moneyTransferSenderTemplate({
+          sender_name: senderDetails[0].name,
+          receiver_name: receiverDetails[0].name,
+          receiver_account,
+          amount: transferAmount,
+          newBalance: currentSenderBalance[0].balance,
+        });
+        await sendEmail(senderDetails[0].email, senderEmailContent.subject, senderEmailContent.text);
+      }
+
+      if (receiverDetails[0].email) {
+        const receiverEmailContent = moneyTransferReceiverTemplate({
+          receiver_name: receiverDetails[0].name,
+          sender_name: senderDetails[0].name,
+          sender_account,
+          amount: transferAmount,
+          newBalance: receiverDetails[0].balance + transferAmount,
+        });
+        await sendEmail(receiverDetails[0].email, receiverEmailContent.subject, receiverEmailContent.text);
+      }
 
       return res.json({
         message: "Transfer successful",
@@ -198,7 +214,7 @@ const money_transfer = async (req, res) => {
         senderDetails: senderDetails[0],
         receiver_account,
         receiverDetails: receiverDetails[0],
-        transferAmount: transferAmount,
+        transferAmount,
         timestamp: new Date(),
         senderBalance: currentSenderBalance[0].balance,
       });
@@ -210,6 +226,9 @@ const money_transfer = async (req, res) => {
     return res.status(500).json({ error: "Failed to transfer amount" });
   }
 };
+
+
+
 
 
 

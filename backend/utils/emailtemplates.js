@@ -29,6 +29,8 @@ const depositTemplate = (details) => {
       **Account Number:** ${details.account_number}
       **New Balance:** ₹${details.new_balance}
 
+    if you are not iniate this deposit plaese contact support (bank1234magadha@gmail.com) immediately
+
       Thank you for banking with us!
 
       **Best regards,**
@@ -48,6 +50,8 @@ const withdrawalTemplate = (details) => {
       **Account Number:** ${details.account_number}
       **New Balance:** ₹${details.new_balance}
 
+       if you are not iniate this withdawl plaese contact support (bank1234magadha@gmail.com) immediately
+
       Thank you for banking with us!
 
       **Best regards,**
@@ -66,6 +70,8 @@ const moneyTransferSenderTemplate = (details) => {
 
       **Your updated balance:** ₹${details.newBalance}
 
+       if you are not iniate this money transfer plaese contact support (bank1234magadha@gmail.com) immediately
+
       Thank you for using our services!
 
       **Best regards,**
@@ -83,6 +89,8 @@ const moneyTransferReceiverTemplate = (details) => {
       You have received ₹${details.amount} from ${details.sender_name} (Account No: ${details.sender_account}).
 
       **Your updated balance:** ₹${details.newBalance}
+
+       if you are not iniate this money_trasfer plaese contact support (bank1234magadha@gmail.com) immediately
 
       Thank you for using our services!
 
