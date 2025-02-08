@@ -93,6 +93,8 @@ const fetchUserDetails = async (req, res) => {
       const receiverQuery = "SELECT name FROM users WHERE account_number = ?";
       const [receiverResult] = await db.query(receiverQuery, [transfer.receiver_account]);
       transfer.receiver_name = receiverResult.length > 0 ? receiverResult[0].name : "Unknown";
+
+      transfer.type = transfer.sender_account !== accountNumber ? "credit" : "debit";
     }
 
     return res.json({ userDetails, transactions, moneyTransfers });
@@ -195,8 +197,14 @@ const money_transfer = async (req, res) => {
       return res.status(400).json({ error: "Insufficient balance" });
     }
 
-    const transferQuery = "INSERT INTO money_transfers (sender_account, receiver_account, amount, timestamp) VALUES (?, ?, ?, NOW())";
-    await db.query(transferQuery, [sender_account, receiver_account, transferAmount]);
+    const senderType = 'debit';
+    const receiverType = 'credit';
+
+    const senderTransferQuery = "INSERT INTO money_transfers (sender_account, receiver_account, amount, type, timestamp) VALUES (?, ?, ?, ?, NOW())";
+    await db.query(senderTransferQuery, [sender_account, receiver_account, transferAmount, senderType]);
+
+    const receiverTransferQuery = "INSERT INTO money_transfers (sender_account, receiver_account, amount, type, timestamp) VALUES (?, ?, ?, ?, NOW())";
+    await db.query(receiverTransferQuery, [sender_account, receiver_account, transferAmount, receiverType]);
 
     const senderQuery = "UPDATE users SET balance = balance - ? WHERE account_number = ?";
     await db.query(senderQuery, [transferAmount, sender_account]);
@@ -219,7 +227,6 @@ const money_transfer = async (req, res) => {
     return res.status(500).json({ error: "Failed to transfer amount" });
   }
 };
-
 
 
 const jwt = require('jsonwebtoken');

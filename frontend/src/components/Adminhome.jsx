@@ -52,10 +52,7 @@ const AdminHome = () => {
         setEditModalOpen(true);
     };
 
-    // const closeEditModal = () => {
-    //     setEditModalOpen(false);
-    //     setUserToEdit(null);
-    // };
+
     const closeEditModal = async () => {
         setEditModalOpen(false);
         setUserToEdit(null);
@@ -188,6 +185,7 @@ const AdminHome = () => {
                                         <th>Sender Name</th>
                                         <th>Receiver</th>
                                         <th>Recevier Name</th>
+                                        <th>Transfer Type</th>
                                         <th>Amount</th>
                                         <th>Date</th>
                                     </tr>
@@ -200,6 +198,7 @@ const AdminHome = () => {
                                             <td>{transfer.sender_name}</td>
                                             <td>{transfer.receiver_account}</td>
                                             <td>{transfer.receiver_name}</td>
+                                            <td>{transfer.type}</td>
                                             <td>{transfer.amount}</td>
                                             <td>{new Date(transfer.timestamp).toLocaleString()}</td>
                                         </tr>
