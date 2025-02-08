@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import '../css/withdraw.css'
+import '../css/withdraw.css';
 
 const Withdraw = () => {
   const [accountNumber, setAccountNumber] = useState("");
   const [amount, setAmount] = useState("");
   const [message, setMessage] = useState("");
+  const [err, setErr] = useState({ accountNumber: "", amount: "" });
   const [isProcessing, setIsProcessing] = useState(false);
   const [accountDetails, setAccountDetails] = useState(null);
   const [withdrawalDetails, setWithdrawalDetails] = useState(null);
@@ -24,9 +25,30 @@ const Withdraw = () => {
     }
   };
 
+
+  const validateAccountNumber = (value) => {
+    if (isNaN(value) || value.length < 12) {
+      setErr((prevErr) => ({ ...prevErr, accountNumber: "Account number must be numeric and at least 12 digits long." }));
+      return false;
+    }
+    setErr((prevErr) => ({ ...prevErr, accountNumber: "" }));
+    return true;
+  };
+
+  const validateAmount = (value) => {
+    if (isNaN(value) || parseFloat(value) <= 0) {
+      setErr((prevErr) => ({ ...prevErr, amount: "Amount must be a positive number." }));
+      return false;
+    }
+    setErr((prevErr) => ({ ...prevErr, amount: "" }));
+    return true;
+  };
+
   const handleWithdraw = async (event) => {
     event.preventDefault();
-    if (!accountNumber || !amount) return setMessage("Account number and amount are required");
+
+
+    if (!validateAccountNumber(accountNumber) || !validateAmount(amount)) return;
 
     setIsProcessing(true);
     try {
@@ -45,11 +67,29 @@ const Withdraw = () => {
       if (response.ok) {
         setMessage("Withdrawal successful");
         setWithdrawalDetails(result);
+        console.log(result);
+
+
+
+        setTimeout(() => {
+          setMessage("");
+          setAccountNumber("");
+          setAccountDetails("")
+          setAmount("");
+        }, 2000);
+        setTimeout(() => {
+          setWithdrawalDetails(null)
+        }, 10000);
       } else {
         setMessage(result.error || "Failed to withdraw");
+
+
+        setTimeout(() => setMessage(""), 2000);
       }
     } catch {
       setMessage("Network error, please try again later.");
+
+      setTimeout(() => setMessage(""), 2000);
     } finally {
       setIsProcessing(false);
     }
@@ -59,6 +99,9 @@ const Withdraw = () => {
     <>
       <div className="withdrawContainer">
         <h1 className="withdrawTitle">Withdraw</h1>
+
+        {message && <p style={{ color: "green" }}>{message}</p>}
+
         <form className="withdrawForm" onSubmit={handleWithdraw}>
           <label htmlFor="">Account Number</label>
           <input
@@ -66,27 +109,36 @@ const Withdraw = () => {
             type="text"
             placeholder="Account Number"
             value={accountNumber}
-            onChange={(e) => setAccountNumber(e.target.value)}
+            onChange={(e) => {
+              setAccountNumber(e.target.value);
+              validateAccountNumber(e.target.value);
+            }}
             onBlur={() => fetchAccountDetails(accountNumber)}
             required
           />
+          {err.accountNumber && <p style={{ color: "red" }}>{err.accountNumber}</p>}
+
           {accountDetails && <p className="confirmName">Account Name: {accountDetails.name}</p>}
+
           <label htmlFor="">Amount</label>
           <input
             className="inputField"
             type="number"
             placeholder="Amount"
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            onChange={(e) => {
+              setAmount(e.target.value);
+              validateAmount(e.target.value);
+            }}
             required
           />
+          {err.amount && <p style={{ color: "red" }}>{err.amount}</p>}
+
           <button className="withdrawButton" type="submit" disabled={isProcessing}>
             {isProcessing ? "Processing..." : "Withdraw"}
           </button>
         </form>
       </div>
-
-      {message && <p>{message}</p>}
 
       {withdrawalDetails && (
         <div className="withdrawalDetails">
@@ -117,8 +169,12 @@ const Withdraw = () => {
           </table>
         </div>
       )}
+
+
+
     </>
   );
 };
 
 export default Withdraw;
+
