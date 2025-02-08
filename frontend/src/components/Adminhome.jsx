@@ -9,9 +9,20 @@ const AdminHome = () => {
     const [isEditModalOpen, setEditModalOpen] = useState(false);
     const [userToEdit, setUserToEdit] = useState(null);
 
+
     const handleSearch = async () => {
         if (!accountNumber) {
             setError("Please enter an account number.");
+            return;
+        }
+
+        if (accountNumber.length !== 12) {
+            setError("Enter a valid 12-digit account number.");
+            return;
+        }
+
+        if (isNaN(accountNumber) || accountNumber.includes('.') || accountNumber.includes(' ')) {
+            setError("Account number must contain only numbers and no spaces.");
             return;
         }
 
