@@ -1,36 +1,41 @@
-
 .container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background-color: #f9f9f9;
-  font-family: Arial, sans-serif;
-}
-
-
-.create-account-container {
-  background-color: white;
-  padding: 30px;
+  padding: 40px;
+  background-color: #f4f7fb;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 600px;
+  margin-top: 30px;
+  margin: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+
 .create-account-title {
-  text-align: center;
   font-size: 2rem;
+  font-weight: bold;
   color: #333;
   margin-bottom: 20px;
+  text-align: center;
+}
+
+
+.create-account-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 
 .create-account-label {
-  display: block;
   font-size: 1rem;
-  margin-bottom: 8px;
   color: #333;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-align: left;
 }
 
 
@@ -38,31 +43,33 @@
 .create-account-select,
 .create-account-textarea {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
+  padding: 12px;
+  border-radius: 8px;
   border: 1px solid #ccc;
-  border-radius: 5px;
   font-size: 1rem;
+  color: #333;
+  margin-bottom: 20px;
   box-sizing: border-box;
+  transition: border-color 0.3s ease;
 }
 
-.create-account-textarea {
-  resize: vertical;
-  height: 100px;
-}
 
 
 .create-account-button {
-  width: 100%;
-  padding: 14px;
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 5px;
+  padding: 14px 30px;
   font-size: 1.1rem;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+  align-self: center;
+  margin-top: 20px;
 }
+
 
 .create-account-button:hover {
   background-color: #0056b3;
@@ -70,96 +77,97 @@
 
 
 .create-account-message {
-  text-align: center;
   margin-top: 20px;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
 }
 
 .create-account-message.success {
-  color: green;
+  background-color: #d4edda;
+  color: #155724;
 }
 
 .create-account-message.error {
-  color: red;
+  background-color: #f8d7da;
+  color: #721c24;
 }
 
-.create-account-button:focus {
-  outline: none;
-}
-
-.create-account-input:focus,
-.create-account-select:focus,
-.create-account-textarea:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-p {
-  text-align: center;
-  font-size: 1rem;
-  color: #333;
-}
 
 .preview-popup {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  right: 0;
+  bottom: 0;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 1000;
 }
 
-
 .preview-content {
-  background-color: white;
-  padding: 20px;
+  background-color: #fff;
+  padding: 30px;
   border-radius: 8px;
-  width: 80%;
   max-width: 600px;
-  overflow-y: auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.preview-content h3 {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
 
 .preview-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
 }
 
 .preview-table td {
-  padding: 10px;
-  border: 1px solid #ccc;
+  padding: 12px;
+  border-bottom: 1px solid #f0f0f0;
 }
-
-.preview-table td:first-child {
-  font-weight: bold;
-  width: 30%;
-}
-
 
 .preview-buttons {
-  margin-top: 20px;
   display: flex;
-  gap: 20%;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
-.confirm-button, .cancel-button {
-  padding: 10px 20px;
-  font-size: 16px;
+.confirm-button,
+.cancel-button {
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  border-radius: 8px;
   cursor: pointer;
-  border: none;
-  background-color: #4CAF50;
+  width: 48%;
+}
+
+.confirm-button {
+  background-color: #007bff;
   color: white;
-  border-radius: 5px;
+  border: none;
+}
+
+.confirm-button:hover {
+  background-color: #0056b3;
 }
 
 .cancel-button {
   background-color: #f44336;
+  color: white;
+  border: none;
+}
+
+.cancel-button:hover {
+  background-color: #e53935;
 }
 
 

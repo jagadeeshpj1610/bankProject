@@ -64,7 +64,7 @@ const CreateAccount = () => {
 
         setTimeout(() => {
           setMessage("");
-        }, 2000);
+        }, 10000);
       } else {
         setMessage(data.message);
         setSuccess(false);
@@ -77,7 +77,7 @@ const CreateAccount = () => {
 
   return (
     <div className='container'>
-      <div className="create-account-container">
+
         <h2 className="create-account-title">Create New Account</h2>
         <form className="create-account-form" onSubmit={handleSubmit}>
           <label className="create-account-label">Name:</label>
@@ -114,7 +114,7 @@ const CreateAccount = () => {
 
         {message &&
         <p className={`create-account-message ${success ? 'success' : 'error'}`}>{message}</p>}
-      </div>
+
 
       {showPreview && (
         <div className="preview-popup">

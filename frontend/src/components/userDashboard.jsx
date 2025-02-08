@@ -35,6 +35,8 @@ const UserHome = () => {
         );
 
         const data = await response.json();
+        // console.log(data);
+
 
         if (response.ok) {
           setUserDetails(data.userDetails);
@@ -68,11 +70,31 @@ const UserHome = () => {
           <table className="detailsTable">
             <thead>
               <tr>
-                <th>Field</th>
-                <th>Details</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>DOB</th>
+                <th>Address</th>
+                <th>Account No</th>
+                <th>Ac.Type</th>
+                <th>Phone</th>
+                <th>Aadhar</th>
+                <th>Created At</th>
               </tr>
             </thead>
             <tbody>
+                <tr>
+                  <td>{userDetails.name}</td>
+                  <td>{userDetails.email}</td>
+                  <td>{new Date(userDetails.dob).toDateString()}</td>
+                  <td>{userDetails.address}</td>
+                  <td>{userDetails.account_number}</td>
+                  <td>{userDetails.account_type}</td>
+                  <td>{userDetails.phone}</td>
+                  <td>{userDetails.aadhaar}</td>
+                  <td>{new Date(userDetails.created_at).toDateString()}</td>
+                </tr>
+            </tbody>
+            {/* <tbody>
               <tr>
                 <td>Name</td>
                 <td>{userDetails.name}</td>
@@ -80,6 +102,14 @@ const UserHome = () => {
               <tr>
                 <td>Email</td>
                 <td>{userDetails.email}</td>
+              </tr>
+              <tr>
+                <td>Date of birth</td>
+                <td>{new Date(userDetails.dob).toDateString()}</td>
+              </tr>
+              <tr>
+                <td>Address</td>
+                <td>{userDetails.address}</td>
               </tr>
               <tr>
                 <td>Account Number</td>
@@ -90,6 +120,10 @@ const UserHome = () => {
                 <td>{userDetails.account_type}</td>
               </tr>
               <tr>
+                <td>Phone Number</td>
+                <td>{userDetails.phone}</td>
+              </tr>
+              <tr>
                 <td>Aadhar Number</td>
                 <td>{userDetails.aadhaar}</td>
               </tr>
@@ -97,7 +131,7 @@ const UserHome = () => {
                 <td>Created At</td>
                 <td>{new Date(userDetails.created_at).toLocaleString()}</td>
               </tr>
-            </tbody>
+            </tbody> */}
           </table>
         ) : (
           <p>Loading user details...</p>
@@ -113,7 +147,7 @@ const UserHome = () => {
                 <th>Sender Account</th>
                 <th>Sender Name</th>
                 <th>Receiver Account</th>
-                <th>Sender Name</th>
+                <th>Receiver Name</th>
                 <th>Amount</th>
                 <th>Type</th>
                 <th>Date & Time</th>

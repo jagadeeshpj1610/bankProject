@@ -113,6 +113,7 @@ const MoneyTransfer = () => {
     <div className="moneyTransfer">
       <h1 className="moneyTransferTitle">Money Transfer</h1>
       <form className="transferForm" onSubmit={handleTransfer}>
+        <label htmlFor="">Sender Account Number</label>
         <input
           className="inputField"
           type="text"
@@ -123,7 +124,7 @@ const MoneyTransfer = () => {
           required
         />
         {senderName && <p>Sender Name: {senderName}</p>}
-
+        <label htmlFor="">Recevier Account Nuber</label>
         <input
           className="inputField"
           type="text"
@@ -134,7 +135,7 @@ const MoneyTransfer = () => {
           required
         />
         {receiverName && <p>Receiver Name: {receiverName}</p>}
-
+        <label htmlFor="">Amount</label>
         <input
           className="inputField"
           type="number"

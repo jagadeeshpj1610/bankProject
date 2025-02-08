@@ -60,6 +60,7 @@ const Withdraw = () => {
       <div className="withdrawContainer">
         <h1 className="withdrawTitle">Withdraw</h1>
         <form className="withdrawForm" onSubmit={handleWithdraw}>
+          <label htmlFor="">Account Number</label>
           <input
             className="inputField"
             type="text"
@@ -69,7 +70,8 @@ const Withdraw = () => {
             onBlur={() => fetchAccountDetails(accountNumber)}
             required
           />
-          {accountDetails && <p>Account Name: {accountDetails.name}</p>}
+          {accountDetails && <p className="confirmName">Account Name: {accountDetails.name}</p>}
+          <label htmlFor="">Amount</label>
           <input
             className="inputField"
             type="number"
