@@ -34,14 +34,14 @@
 }
 
 .inputField:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  border-color: black;
+
 }
 
 
 .depositButton {
   padding: 14px;
-  background-color: #007bff;
+  background-color: black;
   color: white;
   border: none;
   border-radius: 5px;
@@ -51,9 +51,6 @@
   width: 100%;
 }
 
-.depositButton:hover {
-  background-color: #0056b3;
-}
 
 .depositButton:disabled {
   background-color: #ddd;
@@ -102,7 +99,7 @@ p {
 }
 
 .depositTable th {
-  background-color: #007bff;
+  background-color: black;
   color: white;
 }
 

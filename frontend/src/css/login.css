@@ -135,7 +135,7 @@ body {
   .signup-container button {
     width: 100%;
     padding: 10px;
-    background-color: #1e40af;
+    background-color: black;
     color: #fff;
     font-size: 16px;
     border: none;
@@ -144,9 +144,6 @@ body {
     transition: background-color 0.3s ease;
   }
 
-  .signup-container button:hover {
-    background-color: #1d4ed8;
-  }
 
 
   .signup-container h5 {
@@ -155,7 +152,7 @@ body {
   }
 
   .signup-container h5 a {
-    color: #1e40af;
+    color: black;
     text-decoration: none;
     font-weight: bold;
   }

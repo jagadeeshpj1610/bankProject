@@ -56,7 +56,7 @@
 
 
 .create-account-button {
-  background-color: #007bff;
+  background-color: black;
   color: white;
   border: none;
   padding: 14px 30px;
@@ -71,9 +71,6 @@
 }
 
 
-.create-account-button:hover {
-  background-color: #0056b3;
-}
 
 
 .create-account-message {
@@ -151,14 +148,12 @@
 }
 
 .confirm-button {
-  background-color: #007bff;
+  background-color: black;
   color: white;
   border: none;
 }
 
-.confirm-button:hover {
-  background-color: #0056b3;
-}
+
 
 .cancel-button {
   background-color: #f44336;

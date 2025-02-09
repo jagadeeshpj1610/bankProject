@@ -35,13 +35,13 @@
 }
 
 .inputField:focus {
-  border-color: #007bff;
+  border-color: black;
   outline: none;
 }
 
 
 .transferButton {
-  background-color: #007bff;
+  background-color: black;
   color: white;
   padding: 12px;
   border: none;
@@ -52,9 +52,7 @@
   transition: background-color 0.3s ease;
 }
 
-.transferButton:hover {
-  background-color: #0056b3;
-}
+
 
 .transferButton:disabled {
   background-color: #ddd;
@@ -176,7 +174,7 @@ input + p {
 }
 
 .user-transfer-input:focus {
-  border-color: #007bff;
+  border-color: black;
   background: #fff;
   outline: none;
 }
@@ -185,7 +183,7 @@ input + p {
 .user-transfer-button {
   width: 100%;
   padding: 14px;
-  background: #007bff;
+  background: black;
   color: #fff;
   font-size: 18px;
   font-weight: 600;

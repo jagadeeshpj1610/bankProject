@@ -54,16 +54,14 @@
 
 .saveButton {
   padding: 10px 15px;
-  background-color: #007bff;
+  background-color: black;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.saveButton:hover {
-  background-color: #0056b3;
-}
+
 
 
 .cancelButton {

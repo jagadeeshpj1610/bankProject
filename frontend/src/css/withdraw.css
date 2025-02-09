@@ -33,15 +33,15 @@
 }
 
 .inputField:focus {
-  outline-color: #007bff;
-  border-color: #007bff;
+  outline-color: black;
+  border-color: black;
 }
 
 
 .withdrawButton {
   padding: 10px;
   font-size: 1.1rem;
-  background-color: #007bff;
+  background-color: black;
   color: white;
   border: none;
   border-radius: 5px;
@@ -55,7 +55,7 @@
 }
 
 .withdrawButton:hover:not(:disabled) {
-  background-color: #0056b3;
+  background-color: black;
 }
 
 
@@ -92,7 +92,7 @@
 }
 
 .withdrawalTable th {
-  background-color: #007bff;
+  background-color: black;
   color: white;
 }
 
