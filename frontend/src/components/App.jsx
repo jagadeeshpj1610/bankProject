@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import AdminSidebar from "./AdminSisebar";
 import UserSidebar from "./userSidebar";
 import UserHome from "./userDashboard";
-import AdminHome from "./AdminHome";
+import AdminHome from "./Adminhome";
 import LoginPage from "./LoginPage";
 import AdminLoginPage from "./adminLoginPage";
 import MoneyTransfer from "./MoneyTransfer";
@@ -16,16 +15,10 @@ import Welcome from "./Welcome";
 import UserSignup from "./Signup";
 import Header from "./header";
 import Checkbalance from "./checkBalance";
+import Footer from "./footer";
 
 const App = () => {
-  const [role, setRole] = useState(localStorage.getItem('role') || '');
 
-  useEffect(() => {
-    const userRole = localStorage.getItem('role');
-    if (userRole) {
-      setRole(userRole);
-    }
-  }, []);
 
   return (
     <>
@@ -48,6 +41,7 @@ const App = () => {
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </Router>
+      <Footer />
     </>
   );
 };
