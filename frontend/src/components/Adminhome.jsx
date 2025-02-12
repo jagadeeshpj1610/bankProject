@@ -51,6 +51,8 @@ const AdminHome = () => {
             const result = await response.json();
 
 
+
+
             setData(result);
             setError("");
         } catch (err) {
@@ -162,6 +164,7 @@ const AdminHome = () => {
                                 <thead>
                                     <tr>
                                         <th>Account Number</th>
+                                        <th>Account holder Name</th>
                                         <th>Amount</th>
                                         <th>Description</th>
                                         <th>Type</th>
@@ -172,6 +175,7 @@ const AdminHome = () => {
                                     {data.transactions.map((txn) => (
                                         <tr key={txn.id}>
                                             <td>{txn.account_number}</td>
+                                            <td>{data.userDetails[0].name}</td>
                                             <td>{txn.amount}</td>
                                             <td>{txn.details}</td>
                                             <td>{txn.type}</td>
