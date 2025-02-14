@@ -347,8 +347,12 @@ const money_transfer = async (req, res) => {
     return res.json({
       message: "Money transfer successful.",
       sender_account,
+      sender_details: sender[0],
       receiver_account,
+      receiver_details: receiver[0],
       amount,
+      timestamp: new Date(),
+      type: "money transfer",
       senderNewBalance: updatedSender[0].balance,
       receiverNewBalance: updatedReceiver[0].balance,
     });

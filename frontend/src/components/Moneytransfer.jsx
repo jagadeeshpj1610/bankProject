@@ -56,6 +56,7 @@ const MoneyTransfer = () => {
 
       const resultData = await response.json();
 
+
       if (response.ok) {
         setResult(resultData);
         setMessage("Transfer successful");
@@ -93,7 +94,7 @@ const MoneyTransfer = () => {
               <th>Sender Name</th>
               <th>Receiver Account</th>
               <th>Receiver Name</th>
-              <th>Amount</th>
+              <th>Transfer Amount</th>
               <th>Type</th>
               <th>Date</th>
             </tr>
@@ -101,10 +102,10 @@ const MoneyTransfer = () => {
           <tbody>
             <tr>
               <td>{result.sender_account}</td>
-              <td>{result.senderDetails?.name || "Not Found"}</td>
+              <td>{result.sender_details.name || "Not Found"}</td>
               <td>{result.receiver_account}</td>
-              <td>{result.receiverDetails?.name || "Not Found"}</td>
-              <td>{result.transferAmount}</td>
+              <td>{result.receiver_details.name || "Not Found"}</td>
+              <td>{result.amount}</td>
               <td>{result.type}</td>
               <td>{new Date(result.timestamp).toLocaleString()}</td>
             </tr>
