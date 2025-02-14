@@ -67,7 +67,7 @@
 
 
 
- /* .popupContainer {
+ .popupContainer {
   position: fixed;
   top: 0;
   left: 0;
@@ -152,4 +152,4 @@
   border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
-} */
+}
