@@ -11,6 +11,7 @@ const UserSignup = () => {
   const [passwordMatchError, setPasswordMatchError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const validateEmail = (email) => email.includes('@gmail.com');
@@ -110,13 +111,21 @@ const UserSignup = () => {
         {emailError && <div className="errorMessage">{emailError}</div>}
 
         <label className="formLabel">Password:</label>
-        <input
-          type="password"
-          className="formInput"
-          value={password}
-          onChange={handlePasswordChange}
-          required
-        />
+        <div className="passwordInputContainer">
+          <input
+            type={showPassword ? "text" : "password"}
+            className="formInput"
+            value={password}
+            onChange={handlePasswordChange}
+            required
+          />
+          <span
+            className="togglePassword"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? "Hide" : "Show"}
+          </span>
+        </div>
         {passwordError && <div className="errorMessage">{passwordError}</div>}
 
         <label className="formLabel">Confirm Password:</label>

@@ -188,3 +188,25 @@ h5 a:hover {
   font-size: 16px;
   color: black;
 }
+
+.passwordInputContainer {
+  position: relative;
+  width: 100%;
+}
+
+.passwordInputContainer input {
+  width: 100%;
+  padding-right: 60px;
+}
+
+.togglePassword {
+  position: absolute;
+  top:20%;
+  right: 10px;
+  color: black;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
