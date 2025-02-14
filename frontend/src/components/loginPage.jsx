@@ -108,7 +108,7 @@ const LoginPage = () => {
               {passwordVisible ? 'Hide' : 'Show'}
             </span>
           </div>
-          {passwordError && <p className="errorMessage">{passwordError}</p>}
+          {passwordError && <p className="errorMessage"style={{padding:"15px"}}>{passwordError}</p>}
 
           <button type="submit" className="loginButton" disabled = {!email || !password || emailError || passwordError}>Login</button>
           <h5 className="signupLink">If you are new to the application? <Link to="/usersignup">Sign Up</Link></h5>

@@ -29,7 +29,7 @@ const depositTemplate = (details) => {
       **Account Number:** ${details.account_number}
       **New Balance:** ₹${details.new_balance}
 
-    if you are not iniate this deposit plaese contact support (bank1234magadha@gmail.com) immediately
+      if you are not iniate this deposit plaese contact support (bank1234magadha@gmail.com) immediately
 
       Thank you for banking with us!
 
@@ -50,7 +50,7 @@ const withdrawalTemplate = (details) => {
       **Account Number:** ${details.account_number}
       **New Balance:** ₹${details.new_balance}
 
-       if you are not iniate this withdawl plaese contact support (bank1234magadha@gmail.com) immediately
+      if you are not iniate this withdawl plaese contact support (bank1234magadha@gmail.com) immediately
 
       Thank you for banking with us!
 
@@ -70,7 +70,7 @@ const moneyTransferSenderTemplate = (details) => {
 
       **Your updated balance:** ₹${details.newBalance}
 
-       if you are not iniate this money transfer plaese contact support (bank1234magadha@gmail.com) immediately
+      if you are not iniate this money transfer plaese contact support (bank1234magadha@gmail.com) immediately
 
       Thank you for using our services!
 
@@ -90,7 +90,7 @@ const moneyTransferReceiverTemplate = (details) => {
 
       **Your updated balance:** ₹${details.newBalance}
 
-       if you are not iniate this money_trasfer plaese contact support (bank1234magadha@gmail.com) immediately
+      if you are not iniate this money_trasfer plaese contact support (bank1234magadha@gmail.com) immediately
 
       Thank you for using our services!
 

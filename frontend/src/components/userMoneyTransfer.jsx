@@ -336,7 +336,7 @@ const UserMoneyTransfer = () => {
               onChange={(e) => setReceiverAccount(e.target.value)}
               className="user-transfer-input"
             />
-            {accountDetails && <p className="user-transfer-receiver-details">Receiver Name: {accountDetails.name}</p>}
+            {accountDetails && <p className="user-transfer-receiver-details" style={{color:"green"}}>Receiver Name: {accountDetails.name}</p>}
           </div>
           <div className="user-transfer-group">
             <label className="user-transfer-label">Amount:</label>
