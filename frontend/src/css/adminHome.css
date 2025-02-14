@@ -58,11 +58,13 @@
   margin-bottom: 30px;
 }
 
-h2 {
-  font-size: 1rem;
-  color: #333;
-  margin-bottom: 10px;
+.moneyTransfersSection h2{
+  font-size: 22px;
+  color: black;
+  margin-bottom: 15px;
 }
+
+
 
 
 .dataTable {

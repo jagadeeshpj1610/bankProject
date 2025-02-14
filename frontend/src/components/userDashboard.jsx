@@ -35,7 +35,7 @@ const UserHome = () => {
         );
 
         const data = await response.json();
-        // console.log(data);
+
 
 
         if (response.ok) {
@@ -94,44 +94,6 @@ const UserHome = () => {
                   <td>{new Date(userDetails.created_at).toDateString()}</td>
                 </tr>
             </tbody>
-            {/* <tbody>
-              <tr>
-                <td>Name</td>
-                <td>{userDetails.name}</td>
-              </tr>
-              <tr>
-                <td>Email</td>
-                <td>{userDetails.email}</td>
-              </tr>
-              <tr>
-                <td>Date of birth</td>
-                <td>{new Date(userDetails.dob).toDateString()}</td>
-              </tr>
-              <tr>
-                <td>Address</td>
-                <td>{userDetails.address}</td>
-              </tr>
-              <tr>
-                <td>Account Number</td>
-                <td>{userDetails.account_number}</td>
-              </tr>
-              <tr>
-                <td>Account Type</td>
-                <td>{userDetails.account_type}</td>
-              </tr>
-              <tr>
-                <td>Phone Number</td>
-                <td>{userDetails.phone}</td>
-              </tr>
-              <tr>
-                <td>Aadhar Number</td>
-                <td>{userDetails.aadhaar}</td>
-              </tr>
-              <tr>
-                <td>Created At</td>
-                <td>{new Date(userDetails.created_at).toLocaleString()}</td>
-              </tr>
-            </tbody> */}
           </table>
         ) : (
           <p>Loading user details...</p>
