@@ -1,4 +1,3 @@
-
 .loginPage {
   display: flex;
   justify-content: center;
@@ -12,9 +11,11 @@
 .userLoginForm label {
   display: block;
   text-align: left;
-  margin: 10px 40px 5px;
+  padding: 5px;
   font-size: 14px;
   color: black;
+  margin: 3px;
+  font-size: 1rem;
 }
 
 .loginContainer {
@@ -130,8 +131,9 @@
   margin: 15px;
 }
 
-.formGroup1{
-  margin-top: 15px;;
+.formGroup1 {
+  margin-top: 15px;
+  ;
 }
 
 
@@ -168,12 +170,36 @@
 
 
 
-.signupContainer h5{
+.signupContainer h5 {
   text-align: center;
   text-decoration: none;
 }
 
-.signupContainer Link{
+.signupContainer Link {
   text-decoration: none;
+  color: black;
+}
+
+
+.passwordInputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.loginInput {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.togglePasswordText {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  font-size: 16px;
   color: black;
 }

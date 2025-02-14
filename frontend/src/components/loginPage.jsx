@@ -8,6 +8,7 @@ const LoginPage = () => {
   const [msg, setMsg] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const navigate = useNavigate();
 
   const validateEmail = (email) => {
@@ -91,7 +92,7 @@ const LoginPage = () => {
           />
           {emailError && <p className="errorMessage">{emailError}</p>}
 
-          <label htmlFor="passwordInput">Password:</label>
+          {/* <label htmlFor="passwordInput">Password:</label>
           <input
             type="password"
             className="loginInput"
@@ -99,7 +100,24 @@ const LoginPage = () => {
             onChange={handlePasswordChange}
             placeholder="Password"
             required
-          />
+          /> */}
+          <label htmlFor="passwordInput">Password:</label>
+          <div className="passwordInputContainer">
+            <input
+              type={passwordVisible ? 'text' : 'password'}
+              className="loginInput"
+              value={password}
+              onChange={handlePasswordChange}
+              placeholder="Password"
+              required
+            />
+            <span
+              className="togglePasswordText"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+            >
+              {passwordVisible ? 'Hide' : 'Show'}
+            </span>
+          </div>
           {passwordError && <p className="errorMessage">{passwordError}</p>}
 
           <button type="submit" className="loginButton" disabled = {!email || !password || emailError || passwordError}>Login</button>
