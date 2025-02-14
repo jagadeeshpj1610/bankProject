@@ -1,7 +1,5 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import '../css/login.css';
 
 const AdminLoginPage = () => {
@@ -10,6 +8,7 @@ const AdminLoginPage = () => {
   const [errMessage, setErrMessage] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
@@ -23,7 +22,6 @@ const AdminLoginPage = () => {
       setEmailError("");
     }
   };
-
 
   const handlePasswordChange = (e) => {
     const value = e.target.value;
@@ -80,13 +78,21 @@ const AdminLoginPage = () => {
         {emailError && <p style={{ color: "red", fontSize: "14px" }}>{emailError}</p>}
 
         <label>Password:</label>
-        <input
-          type="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={handlePasswordChange}
-        />
-        {passwordError && <p style={{ color: "red", fontSize: "14px"}}>{passwordError}</p>}
+        <div className="passwordContainer">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Enter your password"
+            value={password}
+            onChange={handlePasswordChange}
+          />
+          <span
+            className="passwordToggle"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? "Hide" : "Show"}
+          </span>
+        </div>
+        {passwordError && <p style={{ color: "red", fontSize: "14px" }}>{passwordError}</p>}
 
         <button
           type="button"
@@ -95,11 +101,10 @@ const AdminLoginPage = () => {
         >
           Login
         </button>
-          {/* <h5>Don't have an account? <Link to="/adminsignup">Sign Up</Link></h5>  */}
+        {/* <h5>Don't have an account? <Link to="/adminsignup">Sign Up</Link></h5>  */}
       </form>
     </div>
   );
 };
 
 export default AdminLoginPage;
-

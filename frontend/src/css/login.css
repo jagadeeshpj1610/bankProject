@@ -177,4 +177,20 @@ body {
   }
 
 
+.passwordContainer {
+  position: relative;
+}
 
+.passwordToggle {
+  position: absolute;
+  right: 55px;
+  top: 25%;
+  cursor: pointer;
+  color: black;
+  font-size: 14px;
+  user-select: none;
+}
+
+.passwordToggle:hover {
+  text-decoration: underline;
+}
