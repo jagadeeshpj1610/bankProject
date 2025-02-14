@@ -194,13 +194,12 @@ input + p {
 }
 
 .user-transfer-button:disabled {
-  background: #b0c4de;
+  background-color: #ddd;
+  color: black;
   cursor: not-allowed;
 }
 
-.user-transfer-button:hover:enabled {
-  background: #0056b3;
-}
+
 
 
 .user-transfer-message {
