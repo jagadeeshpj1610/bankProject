@@ -132,7 +132,7 @@ const MoneyTransfer = () => {
             onBlur={() => fetchAccountDetails(senderAccount, setSenderName)}
             required
           />
-          {senderName && <p>Sender Name: {senderName}</p>}
+          {senderName && <p style={{textAlign:"left", paddingTop:"10px", color:"green"}}>Sender Name: {senderName}</p>}
           <label htmlFor="">Receiver Account Number</label>
           <input
             className="inputField"
@@ -143,7 +143,7 @@ const MoneyTransfer = () => {
             onBlur={() => fetchAccountDetails(receiverAccount, setReceiverName)}
             required
           />
-          {receiverName && <p>Receiver Name: {receiverName}</p>}
+          {receiverName && <p  style={{textAlign:"left", paddingTop:"10px", color:"green"}}>Receiver Name: {receiverName}</p>}
           <label htmlFor="">Amount</label>
           <input
             className="inputField"
