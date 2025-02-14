@@ -62,24 +62,6 @@
 
 
 
-.loginButton:hover {
-  background-color: #333;
-}
-
-.loginButton:disabled {
-  background-color: #ddd;
-  cursor: not-allowed;
-}
-
-.loginButton:disabled:hover {
-  background-color: #ddd;
-}
-
-.loginButtonContainer {
-  display: flex;
-  justify-content: center;
-}
-
 
 
 .signupContainer {
