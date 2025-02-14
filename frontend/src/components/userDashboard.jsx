@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../css/userHome.css'
 
-
 const UserHome = () => {
   const email = localStorage.getItem('email');
   const token = localStorage.getItem('token');
@@ -36,13 +35,9 @@ const UserHome = () => {
 
         const data = await response.json();
 
-
-
         if (response.ok) {
           setUserDetails(data.userDetails);
-          setTransactions(data.transactions);
-
-
+          setTransactions(data.transactions || []);
         } else {
           setError(data.error || 'Failed to fetch data');
         }
@@ -82,17 +77,17 @@ const UserHome = () => {
               </tr>
             </thead>
             <tbody>
-                <tr>
-                  <td>{userDetails.name}</td>
-                  <td>{userDetails.email}</td>
-                  <td>{new Date(userDetails.dob).toDateString()}</td>
-                  <td>{userDetails.address}</td>
-                  <td>{userDetails.account_number}</td>
-                  <td>{userDetails.account_type}</td>
-                  <td>{userDetails.phone}</td>
-                  <td>{userDetails.aadhaar}</td>
-                  <td>{new Date(userDetails.created_at).toDateString()}</td>
-                </tr>
+              <tr>
+                <td>{userDetails.name}</td>
+                <td>{userDetails.email}</td>
+                <td>{new Date(userDetails.dob).toDateString()}</td>
+                <td>{userDetails.address}</td>
+                <td>{userDetails.account_number}</td>
+                <td>{userDetails.account_type}</td>
+                <td>{userDetails.phone}</td>
+                <td>{userDetails.aadhaar}</td>
+                <td>{new Date(userDetails.created_at).toDateString()}</td>
+              </tr>
             </tbody>
           </table>
         ) : (
@@ -128,10 +123,9 @@ const UserHome = () => {
                 </tr>
               ))}
             </tbody>
-
           </table>
         ) : (
-          <p>No transactions found</p>
+          <p style={{color:"black", textAlign:"left", padding:"5px", margin:"2px"}}>No transactions found</p>
         )}
       </section>
     </div>
