@@ -13,11 +13,6 @@ const UserSidebar = () => {
             </NavLink>
           </li>
           <li className="navItem">
-            <NavLink to="/checkbalance" className="navLink" activeClassName="activeNavLink">
-              Check balance
-            </NavLink>
-          </li>
-          <li className="navItem">
             <NavLink to="/moneytransfer" className="navLink" activeClassName="activeNavLink">
               Money Transfer
             </NavLink>

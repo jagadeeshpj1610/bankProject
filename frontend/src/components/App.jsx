@@ -5,7 +5,7 @@ import UserHome from "./userDashboard";
 import AdminHome from "./Adminhome";
 import LoginPage from "./LoginPage";
 import AdminLoginPage from "./adminLoginPage";
-import MoneyTransfer from "./MoneyTransfer";
+import MoneyTransfer from "./Moneytransfer";
 import CreateAccount from "./CreateAccount";
 import UserMoneyTransfer from "../components/userMoneyTransfer";
 import Deposit from "./Deposit";
@@ -14,7 +14,7 @@ import Logout from "./Logout";
 import Welcome from "./Welcome";
 import UserSignup from "./Signup";
 import Header from "./header";
-import Checkbalance from "./checkBalance";
+// import Checkbalance from "./checkBalance";
 import Footer from "./footer";
 
 const App = () => {
@@ -31,7 +31,7 @@ const App = () => {
           <Route path="/adminlogin" element={<AdminLoginPage />} />
           <Route path="/userhome" element={<><UserSidebar /><div className="mainContent"><UserHome /></div></>} />
           <Route path="/moneytransfer" element={<><UserSidebar /><div className="mainContent"><UserMoneyTransfer /></div></>} />
-          <Route path="/checkbalance" element={<><UserSidebar /><div className="mainContent"><Checkbalance /></div></>} />
+          {/* <Route path="/checkbalance" element={<><UserSidebar /><div className="mainContent"><Checkbalance /></div></>} /> */}
           <Route path="/logout" element={<Logout />} />
           <Route path="/home/adminhome" element={<><AdminSidebar /><div className="mainContent"><AdminHome /></div></>} />
           <Route path="/home/createaccount" element={<><AdminSidebar /><div className="mainContent"><CreateAccount /></div></>} />

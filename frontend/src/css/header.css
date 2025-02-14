@@ -23,43 +23,8 @@
   font-size: 16px;
 }
 
-.checkBalanceContainer {
-  padding: 20px;
-  background-color: #f7f7f7;
-  border-radius: 8px;
-  max-width: 400px;
-  margin: 20px auto;
-  text-align: center;
-}
 
-.checkBalanceHeading {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 20px;
-  font-weight: bold;
-}
 
-.balanceDetails {
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-}
-
-.balanceText {
-  font-size: 18px;
-  color: #4CAF50;
-  font-weight: bold;
-}
-
-.errorMessage {
-  color: #f44336;
-  font-size: 16px;
-  background-color: #ffe6e6;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
 
 footer div{
   display: flex;
