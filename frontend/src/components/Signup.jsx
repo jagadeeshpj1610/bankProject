@@ -3,23 +3,18 @@ import { useNavigate, Link } from 'react-router-dom';
 import '../css/index.css';
 
 const UserSignup = () => {
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
   const [passwordMatchError, setPasswordMatchError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const navigate = useNavigate();
 
-  const validateEmail = (email) => {
-    return email.includes('@gmail.com');
-  };
-
-  const validatePassword = (password) => {
-    return password.length >= 6;
-  };
+  const validateEmail = (email) => email.includes('@gmail.com');
+  const validatePassword = (password) => password.length >= 6;
 
   const handleEmailChange = (e) => {
     const value = e.target.value;
@@ -92,53 +87,56 @@ const UserSignup = () => {
 
   return (
     <div className="signupContainer">
-      <form onSubmit={handleSignup} className="signupForm">
-        <div className="formGroup">
-          <h2 className="signupHeading">User SignUp</h2>
-          {error && <p className="errorMessage">{error}</p>}
-          <label className="formLabel">Name:</label>
-          <input
-            type='text'
-            className="formInput"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <label className="formLabel">Email:</label>
-          <input
-            type="email"
-            className="formInput"
-            value={email}
-            onChange={handleEmailChange}
-            required
-          />
-          {emailError && <div className="errorMessage">{emailError}</div>}
-        </div>
-        <div className="formGroup">
-          <label className="formLabel">Password:</label>
-          <input
-            type="password"
-            className="formInput"
-            value={password}
-            onChange={handlePasswordChange}
-            required
-          />
-          {passwordError && <div className="errorMessage">{passwordError}</div>}
-        </div>
-        <div className="formGroup">
-          <label className="formLabel">Confirm Password:</label>
-          <input
-            type="password"
-            className="formInput"
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-            required
-          />
-          {passwordMatchError && <div className="errorMessage" style={{ textAlign: "left" }}>{passwordMatchError}</div>}
-        </div>
+      <h2>User SignUp</h2>
+      {error && <p className="errorMessage">{error}</p>}
+      <form onSubmit={handleSignup}>
+        <label className="formLabel">Name:</label>
+        <input
+          type="text"
+          className="formInput"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+
+        <label className="formLabel">Email:</label>
+        <input
+          type="email"
+          className="formInput"
+          value={email}
+          onChange={handleEmailChange}
+          required
+        />
+        {emailError && <div className="errorMessage">{emailError}</div>}
+
+        <label className="formLabel">Password:</label>
+        <input
+          type="password"
+          className="formInput"
+          value={password}
+          onChange={handlePasswordChange}
+          required
+        />
+        {passwordError && <div className="errorMessage">{passwordError}</div>}
+
+        <label className="formLabel">Confirm Password:</label>
+        <input
+          type="password"
+          className="formInput"
+          value={confirmPassword}
+          onChange={handleConfirmPasswordChange}
+          required
+        />
+        {passwordMatchError && (
+          <div className="errorMessage" style={{ textAlign: 'left' }}>
+            {passwordMatchError}
+          </div>
+        )}
+
         <button type="submit" className="signupButton">Sign Up</button>
-        <h5>Already have an account? <Link to="/adminlogin">Login</Link></h5>
       </form>
+
+      <h5>Already have an account? <Link to="/login">Login</Link></h5>
     </div>
   );
 };

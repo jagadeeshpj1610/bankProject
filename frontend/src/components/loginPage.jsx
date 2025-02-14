@@ -91,16 +91,6 @@ const LoginPage = () => {
             required
           />
           {emailError && <p className="errorMessage">{emailError}</p>}
-
-          {/* <label htmlFor="passwordInput">Password:</label>
-          <input
-            type="password"
-            className="loginInput"
-            value={password}
-            onChange={handlePasswordChange}
-            placeholder="Password"
-            required
-          /> */}
           <label htmlFor="passwordInput">Password:</label>
           <div className="passwordInputContainer">
             <input
