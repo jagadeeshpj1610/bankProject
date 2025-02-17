@@ -232,68 +232,8 @@ const money_transfer = async (req, res) => {
 };
 
 
-const sendOTP = async (req, res) => {
-  const { email } = req.body;
-
-  if (!email) {
-    return res.status(400).json({ error: "Email is required" });
-  }
-
-  try {
-    const [user] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
-
-    if (user.length === 0) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    const otp = Math.floor(100000 + Math.random() * 900000);
-
-    await db.query("UPDATE users SET otp = ? WHERE email = ?", [otp, email]);
-
-    const emailContent = `Hello ${user[0].name},\n\nYour OTP for password reset is ${otp}.\n\nIf you did not request this OTP, please contact support at bank`;
-
-    (async () => {
-      try {
-        await sendEmail(email, "Password Reset OTP", emailContent);
-      } catch (emailError) {
-        console.error("Error sending OTP email:", emailError);
-      }
-    }
-    )();
-
-    return res.json({ message: "OTP sent successfully" });
-
-  }
-  catch (error) {
-    console.error("Error sending OTP:", error);
-    return res.status(500).json({ error: "Failed to send OTP" });
-  }
-}
-
-const updatePassword = async (req, res) => {
-  const { email, password, otp } = req.body;
-
-  if (!email || !password || !otp) {
-    return res.status(400).json({ error: "Email, password and OTP are required" });
-  }
-
-  try {
-    const [user] = await db.query("SELECT * FROM users WHERE email = ? AND otp = ?", [email, otp]);
-
-    if (user.length === 0) {
-      return res.status(404).json({ error: "User not found or invalid OTP" });
-    }
-
-    await db.query("UPDATE users SET password = ?, otp = NULL WHERE email = ?", [password, email]);
-
-    return res.json({ message: "Password updated successfully" });
-  } catch (error) {
-    console.error("Error updating password:", error);
-    return res.status(500).json({ error: "Failed to update password" });
-  }
-};
 
 
 
 
-module.exports = { userSignup, login, getUserDetailsAndTransactions,  money_transfer, sendOTP, updatePassword };
+module.exports = { userSignup, login, getUserDetailsAndTransactions,  money_transfer };
