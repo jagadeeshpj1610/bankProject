@@ -1,6 +1,7 @@
-const db = require('../config/db');
+const db = require('../models/db');
 const jwt = require('jsonwebtoken');
 const sendEmail = require('../utils/emailService');
+
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -54,4 +55,44 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { login };
+
+const userSignup = async (req, res) => {
+  const { name, email, password } = req.body;
+
+  if (!name || !email || !password) {
+    return res.status(400).json({ error: "Email and password are required" });
+  }
+
+  try {
+    const [existingUser] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
+
+    if (existingUser.length === 0) {
+      return res.status(404).json({ error: "User does not exist in the bank system. Please contact admin." });
+    }
+
+    const [existingSignup] = await db.query("SELECT * FROM admins WHERE email = ?", [email]);
+
+    if (existingSignup.length > 0) {
+      return res.status(400).json({ error: "You have already signed up. Please log in." });
+    }
+
+    await db.query("INSERT INTO admins (name, email, password) VALUES (?, ?, ?)", [name, email, password]);
+
+    const emailContent = `Hello ${name},\n\nYour account has been successfully created in Magadha bank.\n\nYou can now log in using your credentials.\n\nThank you for choosing our services.`;
+
+
+    (async () => {
+      try {
+        await sendEmail(email, "Account Created Successfully", emailContent);
+      } catch (emailError) {
+        console.error("Error sending signup email:", emailError);
+      }
+    })();
+
+    return res.json({ message: "Signup successful. You can now log in with your credentials." });
+  } catch (error) {
+    return res.status(500).json({ error: "Failed to sign up" });
+  }
+};
+
+module.exports = { login, userSignup };

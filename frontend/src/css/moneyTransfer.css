@@ -4,7 +4,7 @@
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #fff;
+  background-color: #f4f7fb;
   margin-top: 30px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -130,7 +130,7 @@ input + p {
   max-width: 570px;
   margin: 0 auto;
   padding: 37px;
-  background-color: #fff;
+  background-color: #f4f7fb;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-family: Arial, sans-serif;

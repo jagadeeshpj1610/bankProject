@@ -21,7 +21,7 @@
 .loginContainer {
   max-width: 400px;
   width: 90%;
-  background-color: #ffffff;
+  background-color: #f4f7fb;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -72,7 +72,7 @@
   max-width: 400px;
   margin:auto;
   padding: 24px;
-  background-color: #ffffff;
+  background-color: #f4f7fb;
   border-radius: 5px;
 
 }

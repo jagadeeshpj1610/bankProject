@@ -1,20 +1,19 @@
-// import React from 'react';
-// import { Navigate } from 'react-router-dom';
+import React from "react";
+import { Navigate } from "react-router-dom";
 
-// const PrivateRoute = ({ element, requiredRole }) => {
-//   const userRole = localStorage.getItem('role');
+const ProtectedRoute = ({ children, role }) => {
+  const token = localStorage.getItem("token");
+  const userRole = localStorage.getItem("role");
 
-//   if (!userRole) {
-//     return <Navigate to="/login" />;
-//   }
+  if (!token) {
+    return <Navigate to="/" replace />;
+  }
 
-//   if (userRole !== requiredRole) {
-//     return <Navigate to="/userhome" />;
-//   }
+  if (role && userRole !== role) {
+    return <Navigate to="/" replace />;
+  }
 
-//   return element;
-// };
+  return children;
+};
 
-// export default PrivateRoute;
-
-
+export default ProtectedRoute;

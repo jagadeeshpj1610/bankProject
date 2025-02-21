@@ -104,31 +104,31 @@ const AdminHome = () => {
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Ac. No</td>
+                                            <td>Account Number</td>
                                             <td>{accountNumber}</td>
                                         </tr>
                                         <tr>
-                                            <td>Name</td>
+                                            <td>Account-Holder Name</td>
                                             <td>{data.userDetails[0].name}</td>
                                         </tr>
                                         <tr>
-                                            <td>email</td>
+                                            <td>Email</td>
                                             <td>{data.userDetails[0].email}</td>
                                         </tr>
                                         <tr>
-                                            <td>Aadhaar</td>
+                                            <td>Aadhaar Number</td>
                                             <td>{data.userDetails[0].aadhaar}</td>
                                         </tr>
                                         <tr>
-                                            <td>Phone</td>
+                                            <td>Phone Number</td>
                                             <td>{data.userDetails[0].phone}</td>
                                         </tr>
                                         <tr>
-                                            <td>dob</td>
+                                            <td>Date of Birth</td>
                                             <td>{new Date(data.userDetails[0].dob).toDateString()}</td>
                                         </tr>
                                         <tr>
-                                            <td>Type</td>
+                                            <td>Account Type</td>
                                             <td>{data.userDetails[0].account_type}</td>
                                         </tr>
                                         <tr>
@@ -140,7 +140,7 @@ const AdminHome = () => {
                                             <td>{new Date(data.userDetails[0].created_at).toLocaleString()}</td>
                                         </tr>
                                         <tr>
-                                            <td>Balance</td>
+                                            <td>Current Balance</td>
                                             <td>{data.userDetails[0].balance}</td>
                                         </tr>
                                     </tbody>

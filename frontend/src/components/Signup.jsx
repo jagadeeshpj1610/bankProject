@@ -65,7 +65,7 @@ const UserSignup = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/api/signup', {
+      const response = await fetch('http://localhost:8000/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ const UserSignup = () => {
 
   return (
     <div className="signupContainer">
-      <h2>User SignUp</h2>
+      <h2>SignUp</h2>
       {error && <p className="errorMessage">{error}</p>}
       <form onSubmit={handleSignup}>
         <label className="formLabel">Name:</label>
