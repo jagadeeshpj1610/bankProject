@@ -31,6 +31,8 @@ const editUser = async (req, res) => {
       [name, email, phone, address, aadhaar, account_number]
     );
 
+    await db.execute('UPDATE admins SET email = ? ',  [email])
+
     if (result.affectedRows > 0) {
       const emailContent = `
         Hello ${currentUser[0].name},

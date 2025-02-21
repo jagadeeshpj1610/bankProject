@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import '../css/deposit.css';
 
 const Deposit = () => {
+  const navigate = useNavigate();
   const [accountNumber, setAccountNumber] = useState("");
   const [amount, setAmount] = useState("");
   const [message, setMessage] = useState("");
@@ -92,7 +94,8 @@ const Deposit = () => {
 
         setTimeout(() => {
           setDepositDetails(null);
-        }, 10000);
+          navigate('/home/adminhome');
+        }, 8000);
       } else {
         setMessage(result.error || "Failed to deposit");
       }

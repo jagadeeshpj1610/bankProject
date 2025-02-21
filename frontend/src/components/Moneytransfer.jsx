@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../css/MoneyTransfer.css";
 
 const MoneyTransfer = () => {
+  const navigate = useNavigate();
   const [senderAccount, setSenderAccount] = useState("");
   const [receiverAccount, setReceiverAccount] = useState("");
   const [amount, setAmount] = useState("");
@@ -69,7 +71,8 @@ const MoneyTransfer = () => {
         setTimeout(() => {
           setMessage("");
           setResult(null);
-        }, 10000);
+          navigate('/home/adminhome')
+        }, 8000);
       } else {
         setMessage(resultData.error || "Transfer failed");
         setResult(null);

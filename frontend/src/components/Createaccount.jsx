@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/createAccount.css';
 
 const CreateAccount = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     dob: '',
@@ -147,7 +149,8 @@ const CreateAccount = () => {
 
         setTimeout(() => {
           setMessage("");
-        }, 10000);
+          navigate('/home/adminhome')
+        }, 7000);
       } else {
         setMessage(data.message);
         setSuccess(false);

@@ -3,7 +3,7 @@ import AdminSidebar from "./AdminSisebar";
 import UserSidebar from "./userSidebar";
 import UserHome from "./userDashboard";
 import AdminHome from "./Adminhome";
-import LoginPage from "./LoginPage";
+import LoginPage from "./loginPage";
 import AdminLoginPage from "./adminLoginPage";
 import MoneyTransfer from "./Moneytransfer";
 import CreateAccount from "./CreateAccount";
