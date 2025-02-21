@@ -417,46 +417,49 @@ const money_transfer = async (req, res) => {
 
 
 
-const login = async (req, res) => {
-  const { email, password } = req.body;
+// const login = async (req, res) => {
+//   const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ error: "Email and password are required" });
-  }
+//   if (!email || !password) {
+//     return res.status(400).json({ error: "Email and password are required" });
+//   }
 
-  try {
-    const [rows] = await db.execute("SELECT * FROM admins WHERE email = ? AND password = ?", [email, password]);
+//   try {
+//     const [rows] = await db.execute("SELECT * FROM admins WHERE email = ? AND password = ?", [email, password]);
 
-    if (rows.length > 0) {
-      const token = jwt.sign(
-        { id: rows[0].id, email: rows[0].email, role: "admin" },
-        process.env.JWT_SECRET,
-        { expiresIn: '10h' }
-      );
-
-
-
-      return res.json({
-        success: true,
-        token,
-        user: {
-          email: rows[0].email,
-          name: rows[0].name,
-          role: "admin",
-        },
-      });
-    } else {
-      return res.status(401).json({ success: false, message: 'Invalid admin login details' });
-    }
-  } catch (err) {
-    console.error('Database query error: ', err);
-    return res.status(500).json({ success: false, message: 'Database error' });
-  }
-};
+//     if (rows.length > 0) {
+//       const token = jwt.sign(
+//         { id: rows[0].id, email: rows[0].email, role: "admin" },
+//         process.env.JWT_SECRET,
+//         { expiresIn: '10h' }
+//       );
 
 
+
+//       return res.json({
+//         success: true,
+//         token,
+//         user: {
+//           email: rows[0].email,
+//           name: rows[0].name,
+//           role: "admin",
+//         },
+//       });
+//     } else {
+//       return res.status(401).json({ success: false, message: 'Invalid admin login details' });
+//     }
+//   } catch (err) {
+//     console.error('Database query error: ', err);
+//     return res.status(500).json({ success: false, message: 'Database error' });
+//   }
+// };
 
 
 
 
-module.exports = { editUser, login, createAccount,  fetchUserDetails, deposit, withdraw, money_transfer };
+
+
+
+
+
+module.exports = { editUser,  createAccount,  fetchUserDetails, deposit, withdraw, money_transfer };
