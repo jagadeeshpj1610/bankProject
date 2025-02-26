@@ -11,7 +11,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const validateEmail = (email) => {
-    return email.includes("gmail.com");
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
   const handleEmailChange = (e) => {
@@ -20,7 +20,7 @@ const LoginPage = () => {
     if (!value) {
       setEmailError("Email is required.");
     } else if (!validateEmail(value)) {
-      setEmailError("Enter a valid email...");
+      setEmailError("Enter a valid email address.");
     } else {
       setEmailError("");
     }
@@ -38,6 +38,10 @@ const LoginPage = () => {
     }
   };
 
+  const handlePasswordToggle = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -53,16 +57,14 @@ const LoginPage = () => {
       });
 
       const data = await response.json();
+
+
       if (response.ok) {
         localStorage.setItem("token", data.token);
-        localStorage.setItem("role", data.user.role);
+        localStorage.setItem("role", data.user.isAdmin ? "admin" : "user");
         localStorage.setItem("email", email);
 
-        if (data.user.role === "admin") {
-          navigate("/home/adminhome");
-        } else {
-          navigate("/userhome");
-        }
+        (data.user.isAdmin) ? navigate("/home/adminhome") : navigate("/userhome");
       } else {
         setMsg(data.message || "Invalid credentials. Please try again.");
       }
@@ -78,6 +80,7 @@ const LoginPage = () => {
 
         <form onSubmit={handleLogin} className="userLoginForm">
           {msg && <p className="errorMessage">{msg}</p>}
+
           <label htmlFor="loginInput">Email:</label>
           <input
             type="email"
@@ -99,15 +102,14 @@ const LoginPage = () => {
               placeholder="Password"
               required
             />
-            <span
-              className="togglePasswordText"
-              onClick={() => setPasswordVisible(!passwordVisible)}
-            >
+            <span className="togglePasswordText" onClick={handlePasswordToggle}>
               {passwordVisible ? "Hide" : "Show"}
             </span>
           </div>
           {passwordError && (
-            <p className="errorMessage" style={{ padding: "15px" }}>{passwordError}</p>
+            <p className="errorMessage" style={{ padding: "15px" }}>
+              {passwordError}
+            </p>
           )}
 
           <button
@@ -127,4 +129,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
