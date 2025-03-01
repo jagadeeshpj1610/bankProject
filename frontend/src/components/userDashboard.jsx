@@ -80,7 +80,6 @@ const UserHome = () => {
       </h1>
 
       <section className="userDetailsSection">
-        <h2>User Details</h2>
         {userDetails ? (
           <table className="detailsTable">
             <thead>

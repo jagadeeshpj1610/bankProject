@@ -26,12 +26,12 @@ const App = () => {
         <Route path="/usersignup" element={<UserSignup />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/userhome" element={<ProtectedRoute role="user"><div className="mainContent"><UserSidebar /><UserHome /></div></ProtectedRoute>} />
-        <Route path="/moneytransfer" element={<ProtectedRoute role="user"><div className="mainContent"><UserSidebar /><UserMoneyTransfer /></div></ProtectedRoute>} />
+        <Route path="/usermoneytransfer" element={<ProtectedRoute role="user"><div className="mainContent"><UserSidebar /><UserMoneyTransfer /></div></ProtectedRoute>} />
         <Route path="/home/adminhome" element={<ProtectedRoute role="admin"><div className="mainContent"><AdminSidebar /><AdminHome /></div></ProtectedRoute>} />
         <Route path="/createaccount" element={<ProtectedRoute role="admin"><div className="mainContent"><AdminSidebar /><CreateAccount /></div></ProtectedRoute>} />
         <Route path="/deposit" element={<ProtectedRoute role="admin"><div className="mainContent"><AdminSidebar /><Deposit /></div></ProtectedRoute>} />
         <Route path="/withdraw" element={<ProtectedRoute role="admin"><div className="mainContent"><AdminSidebar /><Withdraw /></div></ProtectedRoute>} />
-        <Route path="/moneytransfer-admin" element={<ProtectedRoute role="admin"><div className="mainContent"><AdminSidebar /><MoneyTransfer /></div></ProtectedRoute>} />
+        <Route path="/moneytransfer" element={<ProtectedRoute role="admin"><div className="mainContent"><AdminSidebar /><MoneyTransfer /></div></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
       <Footer />

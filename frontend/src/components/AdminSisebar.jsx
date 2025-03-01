@@ -14,22 +14,22 @@ const AdminSidebar = () => {
             </NavLink>
           </li>
           <li className="navItem">
-            <NavLink to="/home/createaccount" className="navLink" activeClassName="activeNavLink">
+            <NavLink to="/createaccount" className="navLink" activeClassName="activeNavLink">
               Create Account
             </NavLink>
           </li>
           <li className="navItem">
-            <NavLink to="/home/deposit" className="navLink" activeClassName="activeNavLink">
+            <NavLink to="/deposit" className="navLink" activeClassName="activeNavLink">
               Deposit
             </NavLink>
           </li>
           <li className="navItem">
-            <NavLink to="/home/withdraw" className="navLink" activeClassName="activeNavLink">
+            <NavLink to="/withdraw" className="navLink" activeClassName="activeNavLink">
               Withdraw
             </NavLink>
           </li>
           <li className="navItem">
-            <NavLink to="/home/moneytransfer" className="navLink" activeClassName="activeNavLink">
+            <NavLink to="/moneytransfer" className="navLink" activeClassName="activeNavLink">
               Money Transfer
             </NavLink>
           </li>
