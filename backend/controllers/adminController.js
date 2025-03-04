@@ -6,72 +6,6 @@ const { adminAccountCreationTemplate, depositTemplate, withdrawalTemplate, money
 
 
 
-// const editUser = async (req, res) => {
-//   const { account_number } = req.params;
-//   const { name, email, phone, address, aadhaar } = req.body;
-
-//   try {
-//     const [existingPhone] = await db.execute(
-//       'SELECT * FROM users WHERE phone = ? AND account_number != ?',
-//       [phone, account_number]
-//     );
-
-//     if (existingPhone.length > 0) {
-//       return res.status(400).json({ error: "Phone number already exists." });
-//     }
-
-//     const [currentUser] = await db.execute('SELECT * FROM users WHERE account_number = ?', [account_number]);
-//     const [currentuser1] = await db.execute('SELECT * FROM admins WHERE email = ?', [email]);
-
-//     console.log(currentuser1);
-
-
-//     if (currentUser.length === 0) {
-//       return res.status(404).json({ error: "User not found" });
-//     }
-
-//     const [result] = await db.execute(
-//       'UPDATE users SET name = ?, email = ?, phone = ?, address = ?, aadhaar = ? WHERE account_number = ?',
-//       [name, email, phone, address, aadhaar, account_number]
-//     );
-
-
-
-//     if (result.affectedRows > 0) {
-//       const emailContent = `
-//         Hello ${currentUser[0].name},
-
-//         Your account profile has been updated by the admin based on your request.
-
-//         ${name ? `Your name has been updated to: ${name}` : ""}
-//         ${email ? `Your email has been updated to: ${email}` : ""}
-//         ${phone ? `Your phone has been updated to: ${phone}` : ""}
-//         ${address ? `Your address has been updated to: ${address}` : ""}
-//         ${aadhaar ? `Your Aadhaar has been updated to: ${aadhaar}` : ""}
-
-//         If you did not authorize this change, please contact support immediately.
-
-//         Thank you for using our service.
-//       `;
-
-//       (async () => {
-//         try {
-//           await sendEmail(currentUser[0].email, "Profile Updated", emailContent);
-//         } catch (error) {
-//           console.error("Failed to send email:", error);
-//         }
-//       })();
-
-//       return res.json({ message: 'User details updated successfully!' });
-//     } else {
-//       return res.status(400).json({ error: 'Failed to update user details.' });
-//     }
-//   } catch (err) {
-//     console.error('Error updating user:', err);
-//     res.status(500).json({ error: 'Failed to update user details.' });
-//   }
-// };
-
 
 const editUser = async (req, res) => {
   const { account_number } = req.params;
@@ -158,6 +92,38 @@ const createAccount = async (req, res) => {
     res.status(500).json({ message: 'Internal server error.' });
   }
 };
+
+
+const deleteUser = async (req, res) => {
+  const { account_number } = req.body;
+
+  try {
+    const [user] = await db.execute('SELECT * FROM users WHERE account_number = ?', [account_number]);
+
+    if (user.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    await db.execute('DELETE FROM users WHERE account_number = ?', [account_number]);
+    await db.execute('DELETE FROM logins WHERE email = ?', [user[0].email]);
+    await db.execute('DELETE FROM transactions WHERE account_number = ?', [account_number]);
+    await db.execute('DELETE FROM money_transfers WHERE sender_account = ? OR receiver_account = ?', [account_number, account_number]);
+
+    (async () => {
+      try {
+        await sendEmail(user[0].email, 'Account Deletion', `Your account with account number ${account_number} has been deleted.`);
+      } catch (error) {
+        console.error("Failed to send email:", error);
+      }
+    })();
+
+    return res.json({ message: 'User deleted successfully!' });
+  } catch (err) {
+    console.error('Error deleting user:', err);
+    res.status(500).json({ error: 'Failed to delete user.' });
+  }
+};
+
 
 
 
@@ -417,4 +383,4 @@ const money_transfer = async (req, res) => {
 
 
 
-module.exports = { editUser,  createAccount,  fetchUserDetails, deposit, withdraw, money_transfer };
+module.exports = { deleteUser, editUser,  createAccount,  fetchUserDetails, deposit, withdraw, money_transfer };
