@@ -94,35 +94,24 @@ const createAccount = async (req, res) => {
 };
 
 
+
+
 const deleteUser = async (req, res) => {
-  const { account_number } = req.body;
-
-  try {
-    const [user] = await db.execute('SELECT * FROM users WHERE account_number = ?', [account_number]);
-
-    if (user.length === 0) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    await db.execute('DELETE FROM users WHERE account_number = ?', [account_number]);
-    await db.execute('DELETE FROM logins WHERE email = ?', [user[0].email]);
-    await db.execute('DELETE FROM transactions WHERE account_number = ?', [account_number]);
-    await db.execute('DELETE FROM money_transfers WHERE sender_account = ? OR receiver_account = ?', [account_number, account_number]);
-
-    (async () => {
-      try {
-        await sendEmail(user[0].email, 'Account Deletion', `Your account with account number ${account_number} has been deleted.`);
-      } catch (error) {
-        console.error("Failed to send email:", error);
-      }
-    })();
-
-    return res.json({ message: 'User deleted successfully!' });
-  } catch (err) {
-    console.error('Error deleting user:', err);
-    res.status(500).json({ error: 'Failed to delete user.' });
-  }
+  const id = req.params.id;
+  conn.query('UPDATE logins SET is_deleted = 1 WHERE id = ?', [id], (err) => {
+    if (err) return res.status(500).json({ message: 'Server Error' });
+    res.status(200).json({ message: 'User Deleted Successfully' });
+  });
 };
+
+const restoreUser = async (req, res) => {
+  const id = req.params.id;
+  conn.query('UPDATE logins SET is_deleted = 0 WHERE id = ?', [id], (err) => {
+    if (err) return res.status(500).json({ message: 'Server Error' });
+    res.status(200).json({ message: 'User Restored Successfully' });
+  });
+};
+
 
 
 
@@ -383,4 +372,4 @@ const money_transfer = async (req, res) => {
 
 
 
-module.exports = { deleteUser, editUser,  createAccount,  fetchUserDetails, deposit, withdraw, money_transfer };
+module.exports = { deleteUser, restoreUser, editUser,  createAccount,  fetchUserDetails, deposit, withdraw, money_transfer };
