@@ -38,7 +38,7 @@ const editUser = async (req, res) => {
     );
 
     if (adminUser.length > 0) {
-      await db.execute( 'UPDATE admins SET email = ? WHERE email = ?', [email, currentUser[0].email] );
+      await db.execute('UPDATE admins SET email = ? WHERE email = ?', [email, currentUser[0].email]);
     } else {
       console.log("No matching user found in admins table.");
     }
@@ -94,23 +94,36 @@ const createAccount = async (req, res) => {
 };
 
 
+// const deleteUser = (req, res) => {
+//   const { email } = req.body;
+//   if (!email) return res.status(400).json({ message: "Email is required" });
+
+//   db.query("UPDATE logins SET is_deleted = 1 WHERE email = ?", [email], (err) => {
+//     if (err) {
+//       console.error(err);
+//       return res.status(500).json({ message: "Server Error" });
+//     }
+//     res.status(200).json({ message: "User Deleted Successfully" });
+//   });
+// };
+
+// const restoreUser = (req, res) => {
+//   const { email } = req.body;
+//   if (!email) return res.status(400).json({ message: "Email is required" });
+
+//   db.query("UPDATE logins SET is_deleted = 0 WHERE email = ?", [email], (err) => {
+//     if (err) {
+//       console.error(err);
+//       return res.status(500).json({ message: "Server Error" });
+//     }
+//     res.status(200).json({ message: "User Restored Successfully" });
+//   });
+// };
 
 
-const deleteUser = async (req, res) => {
-  const id = req.params.id;
-  conn.query('UPDATE logins SET is_deleted = 1 WHERE id = ?', [id], (err) => {
-    if (err) return res.status(500).json({ message: 'Server Error' });
-    res.status(200).json({ message: 'User Deleted Successfully' });
-  });
-};
 
-const restoreUser = async (req, res) => {
-  const id = req.params.id;
-  conn.query('UPDATE logins SET is_deleted = 0 WHERE id = ?', [id], (err) => {
-    if (err) return res.status(500).json({ message: 'Server Error' });
-    res.status(200).json({ message: 'User Restored Successfully' });
-  });
-};
+
+
 
 
 
@@ -138,6 +151,7 @@ const fetchUserDetails = async (req, res) => {
     const transferQuery = "SELECT * FROM money_transfers WHERE sender_account = ? OR receiver_account = ?";
     const [moneyTransfers] = await db.query(transferQuery, [accountNumber, accountNumber]);
 
+    //const loginDetails = await db.query("SELECT is_deleted FROM logins WHERE email = ?", [userDetails[0].email]);
 
     for (let transfer of moneyTransfers) {
 
@@ -152,7 +166,10 @@ const fetchUserDetails = async (req, res) => {
       transfer.type = transfer.sender_account !== accountNumber ? "credit" : "debit";
     }
 
-    return res.json({ userDetails, transactions, moneyTransfers });
+    return res.json({
+      userDetails, transactions, moneyTransfers,
+      //is_deleted: loginDetails[0][0].is_deleted
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Failed to fetch account details" });
@@ -372,4 +389,7 @@ const money_transfer = async (req, res) => {
 
 
 
-module.exports = { deleteUser, restoreUser, editUser,  createAccount,  fetchUserDetails, deposit, withdraw, money_transfer };
+module.exports = {
+  //deleteUser, restoreUser,
+  editUser, createAccount, fetchUserDetails, deposit, withdraw, money_transfer
+};

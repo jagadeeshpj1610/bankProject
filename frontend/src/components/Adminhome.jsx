@@ -1,6 +1,7 @@
-import  { useState } from "react";
+import { useState } from "react";
 import EditUser from "./editUse";
 import "../css/AdminHome.css";
+// import DeleteRestoreUser from "./deleteRestoreUser";
 
 const AdminHome = () => {
     const [accountNumber, setAccountNumber] = useState("");
@@ -151,6 +152,11 @@ const AdminHome = () => {
                                 >
                                     Edit User profile
                                 </button>
+                                {/* <DeleteRestoreUser
+                                    userEmail={data.userDetails[0].email}
+                                    is_deleted={data.is_deleted}
+                                    onActionCompleted={handleSearch}
+                                /> */}
                             </div>
                         ) : (
                             <p>No user details found.</p>
