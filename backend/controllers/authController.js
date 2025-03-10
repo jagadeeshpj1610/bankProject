@@ -95,4 +95,68 @@ const userSignup = async (req, res) => {
   }
 };
 
-module.exports = { login, userSignup };
+const sendOtp = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+      const [existingUser] = await db.query("SELECT * FROM logins WHERE email = ?", [email]);
+      if (existingUser.length === 0) {
+          return res.status(404).json({ error: "User does not exist. Please sign up first." });
+      }
+
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      const expires_at = new Date(Date.now() + 2 * 60000);
+
+      await db.query("DELETE FROM password_reset WHERE email = ?", [email]);
+      await db.query("INSERT INTO password_reset (email, otp, expires_at) VALUES (?, ?, ?)", [email, otp, expires_at]);
+
+      const emailContent = `Hello,\n\nYou have requested to reset your password. Please use the following OTP to reset your password: ${otp}\n\nThis OTP will expire in 2 minutes.\n\nThank you.`;
+      (async () => {
+        try {
+          await sendEmail(email, "Password Reset", emailContent);
+        } catch (emailError) {
+          console.error("Error sending reset password email:", emailError);
+        }
+      })();
+
+      res.json({ message: "OTP sent successfully." });
+  } catch (error) {
+      console.error("Send OTP error:", error);
+      res.status(500).json({ error: "Failed to send OTP" });
+  }
+};
+
+
+const verifyOtp = async (req, res) => {
+  const { email, otp } = req.body;
+
+  try {
+      const [results] = await db.query("SELECT * FROM password_reset WHERE email = ? AND otp = ? AND expires_at > NOW()", [email, otp]);
+      if (results.length === 0) {
+          return res.status(400).json({ error: "Invalid or expired OTP." });
+      }
+
+      res.json({ message: "OTP verified. You can reset your password now." });
+  } catch (error) {
+      console.error("Verify OTP error:", error);
+      res.status(500).json({ error: "OTP verification failed" });
+  }
+};
+
+
+const resetPassword = async (req, res) => {
+  const { email, newPassword } = req.body;
+
+  try {
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      await db.query("UPDATE logins SET password = ? WHERE email = ?", [hashedPassword, email]);
+      await db.query("DELETE FROM password_reset WHERE email = ?", [email]);
+
+      res.json({ message: "Password reset successful. You can now log in." });
+  } catch (error) {
+      console.error("Reset Password error:", error);
+      res.status(500).json({ error: "Failed to reset password" });
+  }
+};
+
+module.exports = { login, userSignup, sendOtp, verifyOtp, resetPassword };

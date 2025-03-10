@@ -112,6 +112,10 @@ const LoginPage = () => {
             </p>
           )}
 
+          <h5 className="forgotPasswordLink">
+            <Link to="/forgot-password">Forgot Password?</Link>
+          </h5>
+
           <button
             type="submit"
             className="loginButton"

@@ -4,6 +4,7 @@ import UserSidebar from "./userSidebar";
 import UserHome from "./userDashboard";
 import AdminHome from "./Adminhome";
 import LoginPage from "./loginPage";
+import ForgotPassword from "./ForgotPassword";
 import MoneyTransfer from "./Moneytransfer";
 import CreateAccount from "./CreateAccount";
 import UserMoneyTransfer from "../components/userMoneyTransfer";
@@ -23,6 +24,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Welcome />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/usersignup" element={<UserSignup />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/userhome" element={<ProtectedRoute role="user"><div className="mainContent"><UserSidebar /><UserHome /></div></ProtectedRoute>} />
