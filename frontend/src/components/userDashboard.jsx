@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../css/userHome.css';
+import '../css/UserHome.css';
 
 const UserHome = () => {
   const email = localStorage.getItem('email');

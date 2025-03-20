@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import '../css/deposit.css';
+import '../css/Deposit.css';
 
 const Deposit = () => {
   const navigate = useNavigate();

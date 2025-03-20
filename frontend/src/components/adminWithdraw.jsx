@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import '../css/withdraw.css';
+import '../css/Withdraw.css';
 import { useNavigate } from "react-router-dom";
 
 const Withdraw = () => {

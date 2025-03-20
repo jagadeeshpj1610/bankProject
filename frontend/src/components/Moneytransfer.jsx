@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/MoneyTransfer.css";
+import "../css/moneyTransfer.css";
 
 const MoneyTransfer = () => {
   const navigate = useNavigate();

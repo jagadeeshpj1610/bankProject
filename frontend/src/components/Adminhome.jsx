@@ -1,6 +1,6 @@
 import { useState } from "react";
 import EditUser from "./editUse";
-import "../css/AdminHome.css";
+import "../css/adminHome.css";
 // import DeleteRestoreUser from "./deleteRestoreUser";
 
 const AdminHome = () => {
