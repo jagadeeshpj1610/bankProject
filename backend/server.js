@@ -33,19 +33,20 @@ const app = express();
 const corsOptions = {
   origin: ['http://localhost:5173', 'https://magadha.onrender.com'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 };
 
 app.use(cors(corsOptions));
-
+app.options('*', cors(corsOptions));
 
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api/user', userRoutes);
+app.use('/api', userRoutes);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
-  console.log(`Server running at port ${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });
