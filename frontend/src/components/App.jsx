@@ -10,7 +10,7 @@ import CreateAccount from "./AccountCreation";
 
 import UserMoneyTransfer from "../components/userMoneyTransfer";
 import Deposit from "./Deposit";
-import Withdraw from "./Withdraw";
+import Withdraw from "./adminWithdraw";
 
 import Logout from "./Logout";
 import Welcome from "./Welcome";
