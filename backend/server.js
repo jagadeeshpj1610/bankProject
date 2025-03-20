@@ -30,11 +30,14 @@ const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
-app.use(cors({
-  origin: ['http://localhost:5173', 'https://yourfrontend.onrender.com'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-}));
+const corsOptions = {
+  origin: ['http://localhost:5173', 'https://magadha.onrender.com'],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 
 app.use(express.json());
 
