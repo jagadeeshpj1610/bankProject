@@ -18,7 +18,9 @@ const UserMoneyTransfer = () => {
 
     if (token) {
       const fetchUserDetails = async () => {
-        const response = await fetch(`http://localhost:8000/api/userDetails?email=${email}`, {
+
+        //fetch(`http://localhost:8000/api/userDetails?email=${email}`
+        const response = await fetch(`https://magadhabackend.onrender.com/api/userDetails?email=${email}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -61,7 +63,8 @@ const UserMoneyTransfer = () => {
       const token = localStorage.getItem("token");
       const transferAmount = parseFloat(amount);
 
-      const response = await fetch("http://localhost:8000/api/money_transfer", {
+      //fetch("http://localhost:8000/api/money_transfer"
+      const response = await fetch("https://magadhabackend.onrender.com/api/money_transfer", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -107,7 +110,8 @@ const UserMoneyTransfer = () => {
       const fetchAccountDetails = async () => {
         const token = localStorage.getItem("token");
 
-        const response = await fetch(`http://localhost:8000/api/admin/search?accountNumber=${receiverAccount}`, {
+        //fetch(`http://localhost:8000/api/admin/search?accountNumber=${receiverAccount}`
+        const response = await fetch(`https://magadhabackend.onrender.com/api/admin/search?accountNumber=${receiverAccount}`, {
           method: "GET",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         });

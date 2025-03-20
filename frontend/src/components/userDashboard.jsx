@@ -26,7 +26,8 @@ const UserHome = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:8000/api/userDetails?email=${email}`,
+          //`http://localhost:8000/api/userDetails?email=${email}`,
+          `https://magadhabackend.onrender.com/api/userDetails?email=${email}`,
           {
             method: 'GET',
             headers: {

@@ -21,7 +21,9 @@ const Deposit = () => {
         return;
       }
 
-      const response = await fetch(`http://localhost:8000/api/admin/search?accountNumber=${accountNumber}`, {
+
+      //fetch(`http://localhost:8000/api/admin/search?accountNumber=${accountNumber}
+      const response = await fetch(`https://magadhabackend.onrender.com/api/admin/search?accountNumber=${accountNumber}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -64,7 +66,9 @@ const Deposit = () => {
     setIsProcessing(true);
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:8000/api/admin/deposit", {
+
+      //fetch("http://localhost:8000/api/admin/deposit"
+      const response = await fetch("https://magadhabackend.onrender.com/api/admin/deposit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

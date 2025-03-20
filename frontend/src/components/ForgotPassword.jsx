@@ -19,7 +19,9 @@ const ForgotPassword = () => {
         }
 
         try {
-            const response = await fetch("http://localhost:8000/api/auth/send-otp", {
+
+            //fetch("http://localhost:8000/api/auth/send-otp"
+            const response = await fetch("https://magadhabackend.onrender.com/api/auth/send-otp", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email }),
@@ -45,7 +47,9 @@ const ForgotPassword = () => {
         }
 
         try {
-            const response = await fetch("http://localhost:8000/api/auth/verify-otp", {
+
+            //fetch("http://localhost:8000/api/auth/verify-otp"
+            const response = await fetch("https://magadhabackend.onrender.com/api/auth/verify-otp", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, otp }),
@@ -76,7 +80,9 @@ const ForgotPassword = () => {
         }
 
         try {
-            const response = await fetch("http://localhost:8000/api/auth/reset-password", {
+
+            //fetch("http://localhost:8000/api/auth/reset-password"
+            const response = await fetch("https://magadhabackend.onrender.com/api/auth/reset-password", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, newPassword }),

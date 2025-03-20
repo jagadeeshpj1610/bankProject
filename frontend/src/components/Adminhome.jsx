@@ -36,7 +36,8 @@ const AdminHome = () => {
 
         try {
             const response = await fetch(
-                `http://localhost:8000/api/admin/search?accountNumber=${accountNumber}`,
+               // `http://localhost:8000/api/admin/search?accountNumber=${accountNumber}`,
+               `https://magadhabackend.onrender.com/api/admin/search?accountNumber=${accountNumber}`,
                 {
                     method: "GET",
                     headers: {

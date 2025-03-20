@@ -122,7 +122,8 @@ const CreateAccount = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/api/admin/account/create', {
+      //fetch('http://localhost:8000/api/admin/account/create'
+      const response = await fetch('https://magadhabackend.onrender.com/api/admin/account/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${token}` },
         body: JSON.stringify(formData),

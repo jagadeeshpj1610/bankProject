@@ -30,7 +30,9 @@ const EditUser = ({ userData, onClose }) => {
         }
 
         try {
-            const response = await fetch(`http://localhost:8000/api/admin/edituserprofile/${userData.account_number}`, {
+
+            //fetch(`http://localhost:8000/api/admin/edituserprofile/${userData.account_number}
+            const response = await fetch(`https://magadhabackend.onrender.com/api/admin/edituserprofile/${userData.account_number}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
