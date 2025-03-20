@@ -10,7 +10,8 @@ import CreateAccount from "./CreateAccount.jsx";
 
 import UserMoneyTransfer from "../components/userMoneyTransfer";
 import Deposit from "./Deposit";
-import Withdraw from "./Withdraw";
+import Withdraw from "./Withdraw.jsx";
+
 import Logout from "./Logout";
 import Welcome from "./Welcome";
 import UserSignup from "./Signup";
