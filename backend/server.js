@@ -15,8 +15,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api', userRoutes);
 
-app.listen(8000, () => {
-  console.log('Server running at http://localhost:8000');
+const PORT = 8000 || 8001;
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
 });
+
 
 
