@@ -6,7 +6,8 @@ import AdminHome from "./Adminhome";
 import LoginPage from "./loginPage";
 import ForgotPassword from "./ForgotPassword";
 import MoneyTransfer from "./Moneytransfer";
-import CreateAccount from "./CreateAccount";
+import CreateAccount from "./CreateAccount.jsx";
+
 import UserMoneyTransfer from "../components/userMoneyTransfer";
 import Deposit from "./Deposit";
 import Withdraw from "./Withdraw";
