@@ -1,24 +1,48 @@
+// const express = require('express');
+// const cors = require('cors');
+
+// const authRoutes = require('./routes/authRoutes');
+// const adminRoutes = require('./routes/adminRoutes');
+
+// const userRoutes = require('./routes/userRoutes');
+
+// const app = express();
+// app.use(cors());
+// app.use(express.json());
+
+// app.use('/api/auth', authRoutes);
+
+// app.use('/api/admin', adminRoutes);
+// app.use('/api', userRoutes);
+
+// const PORT = 8000 || 8001;
+// app.listen(PORT, () => {
+//   console.log(`Server running at http://localhost:${PORT}`);
+// });
+
+
 const express = require('express');
 const cors = require('cors');
 
 const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
-
 const userRoutes = require('./routes/userRoutes');
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: ['http://localhost:5173', 'https://yourfrontend.onrender.com'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
-
 app.use('/api/admin', adminRoutes);
-app.use('/api', userRoutes);
+app.use('/api/user', userRoutes);
 
-const PORT = 8000 || 8001;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server running at port ${PORT}`);
 });
-
-
-
