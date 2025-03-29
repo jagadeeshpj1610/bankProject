@@ -33,14 +33,14 @@ const editUser = async (req, res) => {
     );
 
     const [adminUser] = await db.execute(
-      'SELECT * FROM admins WHERE email = ?',
+      'SELECT * FROM logins WHERE email = ?',
       [currentUser[0].email]
     );
 
     if (adminUser.length > 0) {
       await db.execute('UPDATE logins SET email = ? WHERE email = ?', [email, currentUser[0].email]);
     } else {
-      console.log("No matching user found in admins table.");
+      console.log("No matching user found in logins table.");
     }
 
     if (result.affectedRows > 0) {
