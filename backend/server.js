@@ -44,12 +44,6 @@ app.options('*', cors(corsOptions));
 
 app.use(express.json());
 
-// const frontendPath = path.join(__dirname, "../frontend/dist");
-// app.use(express.static(frontendPath));
-
-// app.get("*", (req, res) => {
-//    res.sendFile(path.resolve(__dirname, "../frontend/dist", "index.html"));
-// });
 
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
