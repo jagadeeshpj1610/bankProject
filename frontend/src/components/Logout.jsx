@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/logout.css";
+import "../css/logout.css"
 const Logout = () => {
   const [showPopup, setShowPopup] = useState(true);
   const navigate = useNavigate();
