@@ -29,17 +29,7 @@ const CreateAccount = () => {
     return formData.name !== '';
   };
 
-  const validateDob = () => {
-    let dob = new Date(formData.dob);
-    let today = new Date();
-    let age = today.getFullYear() - dob.getFullYear();
-    let monthDifference = today.getMonth() - dob.getMonth();
-    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
-      age--;
-    }
 
-    return age >= 18;
-  };
 
 
   const validateBalance = () => {
@@ -69,11 +59,7 @@ const CreateAccount = () => {
       setSuccess(false);
       return false;
     }
-    if (!validateDob()) {
-      setMessage("You must atlest 18 years old  only");
-      setSuccess(false);
-      return false;
-    }
+
     if (!validateBalance()) {
       setMessage("Balance must be a valid number greater than 0.");
       setSuccess(false);
@@ -123,6 +109,7 @@ const CreateAccount = () => {
 
     try {
       //fetch('http://localhost:8000/api/admin/account/create'
+      //fetch('https://magadhabackend.onrender.com/api/admin/account/create'
       const response = await fetch('https://magadhabackend.onrender.com/api/admin/account/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${token}` },
@@ -176,7 +163,7 @@ const CreateAccount = () => {
         <input className="create-account-input" type="text" name="name" value={formData.name} onChange={handleChange} required />
 
         <label className="create-account-label">Date of Birth:</label>
-        <input className="create-account-input" type="date" name="dob" value={formData.dob} onChange={handleChange} required />
+        <input className="create-account-input" type="date" name="dob" value={formData.dob}  required />
 
         <label className="create-account-label">Initial Balance:</label>
         <input className="create-account-input" type="number" name="balance" value={formData.balance} onChange={handleChange} required />

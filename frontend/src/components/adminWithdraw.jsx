@@ -17,6 +17,7 @@ const Withdraw = () => {
     const token = localStorage.getItem("token");
 
     try {
+      //fetch(`https://magadhabackend.onrender.com/api/admin/search?accountNumber=${accountNumber}`
       //fetch(`http://localhost:8000/api/admin/search?accountNumber=${accountNumber}`
       const response = await fetch(`https://magadhabackend.onrender.com/api/admin/search?accountNumber=${accountNumber}`, {
         method: "GET",
@@ -59,6 +60,7 @@ const Withdraw = () => {
       const token = localStorage.getItem("token");
 
       //fetch("http://localhost:8000/api/admin/withdraw"
+      //fetch("https://magadhabackend.onrender.com/api/admin/withdraw"
       const response = await fetch("https://magadhabackend.onrender.com/api/admin/withdraw", {
         method: "POST",
         headers: {

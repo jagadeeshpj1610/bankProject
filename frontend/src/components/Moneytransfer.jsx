@@ -18,6 +18,7 @@ const MoneyTransfer = () => {
 
     try {
 
+      //fetch(`https://magadhabackend.onrender.com/api/admin/search?accountNumber=${accountNumber}`
       //fetch(`http://localhost:8000/api/admin/search?accountNumber=${accountNumber}`
       const response = await fetch(`https://magadhabackend.onrender.com/api/admin/search?accountNumber=${accountNumber}`, {
         method: "GET",
@@ -49,6 +50,7 @@ const MoneyTransfer = () => {
     try {
       const token = localStorage.getItem("token");
 
+        //fetch("https://magadhabackend.onrender.com/api/admin/moneyTransfer"
       //fetch("http://localhost:8000/api/admin/moneyTransfer"
       const response = await fetch("https://magadhabackend.onrender.com/api/admin/moneyTransfer", {
         method: "POST",

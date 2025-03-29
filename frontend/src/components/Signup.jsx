@@ -14,7 +14,7 @@ const UserSignup = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
 
-  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validateEmail = (email) => email.includes('gmail');
   const validatePassword = (password) => password.length >= 6;
 
   const handleEmailChange = (e) => {
@@ -50,6 +50,7 @@ const UserSignup = () => {
 
     try {
 
+      //fetch("https://magadhabackend.onrender.com/api/auth/signup"
       //fetch("http://localhost:8000/api/auth/signup"
       const response = await fetch("https://magadhabackend.onrender.com/api/auth/signup", {
         method: "POST",

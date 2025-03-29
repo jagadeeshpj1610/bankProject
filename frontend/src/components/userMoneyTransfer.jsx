@@ -19,6 +19,7 @@ const UserMoneyTransfer = () => {
     if (token) {
       const fetchUserDetails = async () => {
 
+        //fetch(`https://magadhabackend.onrender.com/api/userDetails?email=${email}`
         //fetch(`http://localhost:8000/api/userDetails?email=${email}`
         const response = await fetch(`https://magadhabackend.onrender.com/api/userDetails?email=${email}`, {
           method: "GET",
@@ -63,6 +64,7 @@ const UserMoneyTransfer = () => {
       const token = localStorage.getItem("token");
       const transferAmount = parseFloat(amount);
 
+      //fetch("https://magadhabackend.onrender.com/api/money_transfer"
       //fetch("http://localhost:8000/api/money_transfer"
       const response = await fetch("https://magadhabackend.onrender.com/api/money_transfer", {
         method: "POST",
@@ -110,6 +112,7 @@ const UserMoneyTransfer = () => {
       const fetchAccountDetails = async () => {
         const token = localStorage.getItem("token");
 
+        //fetch(`https://magadhabackend.onrender.com/api/admin/search?accountNumber=${receiverAccount}`
         //fetch(`http://localhost:8000/api/admin/search?accountNumber=${receiverAccount}`
         const response = await fetch(`https://magadhabackend.onrender.com/api/admin/search?accountNumber=${receiverAccount}`, {
           method: "GET",

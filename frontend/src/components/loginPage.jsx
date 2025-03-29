@@ -51,6 +51,7 @@ const LoginPage = () => {
 
     try {
 
+      //fetch("https://magadhabackend.onrender.com/api/auth/login"
       //fetch("http://localhost:8000/api/auth/login"
       const response = await fetch("https://magadhabackend.onrender.com/api/auth/login", {
         method: "POST",

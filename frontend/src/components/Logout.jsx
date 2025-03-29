@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 const Logout = () => {
   const [showPopup, setShowPopup] = useState(true);
   const navigate = useNavigate();

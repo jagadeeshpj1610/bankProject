@@ -20,6 +20,7 @@ const ForgotPassword = () => {
 
         try {
 
+            //fetch("https://magadhabackend.onrender.com/api/auth/send-otp"
             //fetch("http://localhost:8000/api/auth/send-otp"
             const response = await fetch("https://magadhabackend.onrender.com/api/auth/send-otp", {
                 method: "POST",
@@ -48,6 +49,7 @@ const ForgotPassword = () => {
 
         try {
 
+            //fetch("https://magadhabackend.onrender.com/api/auth/verify-otp"
             //fetch("http://localhost:8000/api/auth/verify-otp"
             const response = await fetch("https://magadhabackend.onrender.com/api/auth/verify-otp", {
                 method: "POST",
@@ -82,6 +84,7 @@ const ForgotPassword = () => {
         try {
 
             //fetch("http://localhost:8000/api/auth/reset-password"
+            //fetch("https://magadhabackend.onrender.com/api/auth/reset-password"
             const response = await fetch("https://magadhabackend.onrender.com/api/auth/reset-password", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
