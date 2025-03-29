@@ -24,7 +24,7 @@
 
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
+// const path = require('path');
 
 const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
@@ -44,11 +44,12 @@ app.options('*', cors(corsOptions));
 
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
+// const frontendPath = path.join(__dirname, "../frontend/dist");
+// app.use(express.static(frontendPath));
 
-app.get("*", (req, res) => {
-   res.sendFile(path.resolve(__dirname, "../frontend/dist", "index.html"));
-});
+// app.get("*", (req, res) => {
+//    res.sendFile(path.resolve(__dirname, "../frontend/dist", "index.html"));
+// });
 
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
