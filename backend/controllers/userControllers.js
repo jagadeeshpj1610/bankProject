@@ -4,6 +4,63 @@ const { moneyTransferSenderTemplate, moneyTransferReceiverTemplate } = require('
 const sendEmail = require('../utils/emailService');
 
 
+// const getUserDetailsAndTransactions = async (req, res) => {
+//   const { email } = req.query;
+
+//   if (!email) {
+//     return res.status(400).json({ error: "Email is required" });
+//   }
+
+//   try {
+//     const [user] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
+
+//     if (user.length === 0) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
+
+//     const userDetails = user[0];
+
+//     const [transactions] = await db.query(
+//       "SELECT * FROM money_transfers WHERE sender_account = ? OR receiver_account = ?",
+//       [userDetails.account_number, userDetails.account_number]
+//     );
+
+//     if (transactions.length === 0) {
+//       return res.json({ userDetails });
+//     }
+
+//     const accountNumbers = transactions.map((t) => t.receiver_account);
+//     const [receivers] = await db.query(
+//       "SELECT account_number, name FROM users WHERE account_number IN (?)",
+//       [accountNumbers]
+//     );
+
+//     const receiverNameMap = {};
+//     for (const receiver of receivers) {
+//       receiverNameMap[receiver.account_number] = receiver.name;
+//     }
+
+//     const transactionsWithDetails = [];
+//     for (const transaction of transactions) {
+//       const updatedTransaction = {
+//         id: transaction.id,
+//         sender_account: transaction.sender_account,
+//         receiver_account: transaction.receiver_account,
+//         amount: transaction.amount,
+//         timestamp: transaction.timestamp,
+//         type: transaction.sender_account === userDetails.account_number ? "Debited" : "Credited",
+//         receiver_name: receiverNameMap[transaction.receiver_account] || "Unknown"
+//       };
+//       transactionsWithDetails.push(updatedTransaction);
+//     }
+
+//     return res.json({ userDetails, transactions: transactionsWithDetails });
+//   } catch (error) {
+//     console.error("Error fetching user details or transactions:", error);
+//     return res.status(500).json({ error: "Failed to retrieve data" });
+//   }
+// };
+
 const getUserDetailsAndTransactions = async (req, res) => {
   const { email } = req.query;
 
@@ -29,15 +86,18 @@ const getUserDetailsAndTransactions = async (req, res) => {
       return res.json({ userDetails });
     }
 
-    const accountNumbers = transactions.map((t) => t.receiver_account);
-    const [receivers] = await db.query(
+    const receiverAccounts = transactions.map((t) => t.receiver_account);
+    const senderAccounts = transactions.map((t) => t.sender_account);
+    const allAccounts = [...new Set([...receiverAccounts, ...senderAccounts])];
+
+    const [usersInvolved] = await db.query(
       "SELECT account_number, name FROM users WHERE account_number IN (?)",
-      [accountNumbers]
+      [allAccounts]
     );
 
-    const receiverNameMap = {};
-    for (const receiver of receivers) {
-      receiverNameMap[receiver.account_number] = receiver.name;
+    const accountNameMap = {};
+    for (const user of usersInvolved) {
+      accountNameMap[user.account_number] = user.name;
     }
 
     const transactionsWithDetails = [];
@@ -49,7 +109,8 @@ const getUserDetailsAndTransactions = async (req, res) => {
         amount: transaction.amount,
         timestamp: transaction.timestamp,
         type: transaction.sender_account === userDetails.account_number ? "Debited" : "Credited",
-        receiver_name: receiverNameMap[transaction.receiver_account] || "Unknown"
+        receiver_name: accountNameMap[transaction.receiver_account] || "Unknown",
+        sender_name: accountNameMap[transaction.sender_account] || "Unknown"
       };
       transactionsWithDetails.push(updatedTransaction);
     }
@@ -60,6 +121,7 @@ const getUserDetailsAndTransactions = async (req, res) => {
     return res.status(500).json({ error: "Failed to retrieve data" });
   }
 };
+
 
 
 
