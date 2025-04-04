@@ -161,7 +161,7 @@ const UserHome = () => {
               {transactions.map((transaction, index) => (
                 <tr key={index}>
                   <td>{transaction.sender_account}</td>
-                  <td>{userDetails.name}</td>
+                  <td>{transaction.sender_name}</td>
                   <td>{transaction.receiver_account}</td>
                   <td>{transaction.receiver_name}</td>
                   <td>{transaction.amount}</td>
