@@ -30,6 +30,17 @@ const CreateAccount = () => {
   };
 
 
+  const validateDob = () => {
+    let dob = new Date(formData.dob);
+    let today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    let monthDifference = today.getMonth() - dob.getMonth();
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
+      age--;
+    }
+
+    return age >= 18;
+  };
 
 
   const validateBalance = () => {
@@ -85,6 +96,13 @@ const CreateAccount = () => {
       setSuccess(false);
       return false;
     }
+
+    if (!validateDob()) {
+      setMessage("You must atlest 18 years old  only");
+      setSuccess(false);
+      return false;
+    }
+
     return true;
   };
 
@@ -163,7 +181,7 @@ const CreateAccount = () => {
         <input className="create-account-input" type="text" name="name" value={formData.name} onChange={handleChange} required />
 
         <label className="create-account-label">Date of Birth:</label>
-        <input className="create-account-input" type="date" name="dob" value={formData.dob}  required />
+        <input className="create-account-input" type="date" name="dob" value={formData.dob} onChange={handleChange} required />
 
         <label className="create-account-label">Initial Balance:</label>
         <input className="create-account-input" type="number" name="balance" value={formData.balance} onChange={handleChange} required />
